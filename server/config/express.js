@@ -78,8 +78,8 @@ module.exports = function(app) {
         // It is also recommended to put static middleware first: http://stackoverflow.com/a/28143812/2726725 
         // Have this pb. only when I try to serve another jade page as homepage
         app.use(express.static(path.join(config.root, 'client'),{index: '_'})); 
-        console.log(123);
-        app.use(express.static(config.root)); // to serve node_modules
+
+        app.use('/node_modules', express.static(path.join(config.root, 'node_modules'))); // to serve node_modules
         //app.use(express.static(path.join(__dirname, '/aaa'))); 
         app.set('appPath', path.join(config.root, 'client'));
 
