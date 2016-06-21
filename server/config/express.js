@@ -77,10 +77,9 @@ module.exports = function(app) {
         // without last argument express serves index.html even when my routing is to a different file: //http://stackoverflow.com/a/25167332/2726725
         // It is also recommended to put static middleware first: http://stackoverflow.com/a/28143812/2726725 
         // Have this pb. only when I try to serve another jade page as homepage
-        app.use(express.static(path.join(config.root, 'client'),{index: '_'})); 
-
+        app.use('/', express.static(path.join(config.root, 'client'),{index: '_'})); 
         app.use('/node_modules', express.static(path.join(config.root, 'node_modules'))); // to serve node_modules
-        //app.use(express.static(path.join(__dirname, '/aaa'))); 
+
         app.set('appPath', path.join(config.root, 'client'));
 
         //app.use(morgan('dev', { stream: logger.stream })); 
