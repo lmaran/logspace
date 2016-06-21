@@ -24,7 +24,7 @@ var gulp = require('gulp'), // task runner
     //rev = require('gulp-rev'), // add a unique id at the end of app.js (ex: app-f4446a9c.js) to prevent browser caching
     //filter = require('gulp-filter'), // filter files in a stream  
       
-    //gutil = require('gulp-util'), // colorful logs and ather stuff
+    gutil = require('gulp-util'), // colorful logs and ather stuff
     path = require('path'); // handling file path
     
     //var mocha = require('gulp-mocha');
@@ -45,35 +45,60 @@ var gulp = require('gulp'), // task runner
     "gulp prod" - build for prod
 */
 
-gulp.task('default',['dev']);
+gulp.task('default',['dev:watch']);
+
+gulp.task('dev:watch', function(cb) {
+    runSequence(
+        'dev',
+        //'watch-server',
+        ['watch-client', 'watch-server'],
+    cb);
+});
 
 gulp.task('dev', function(cb) {
     runSequence(
-        //'tsc',        
-        'watch-server',
+        // 'clean-css',
+        // ['less', 'less-srv'],
+
+        'tslint',
+        'tsc',
+        // 'jshint',        
+        // 'build-dev-html',
     cb);
 });
 
 gulp.task('watch-server', function() {
     livereload.listen({port:35729}); // listen for changes
 	nodemon({ // nodemon config - http://jpsierens.com/tutorial-livereload-nodemon-gulp/
-    		script: 'server/app.js', // the script to run the app
+    		script: './server/app.js', // the script to run the app
             //verbose: true,
     		ext: 'js hbs html',
             ignore: ['node_modules/', 'client', 'gulpfile.js']
             //stdout: false
         })
 	   .on('restart', function(){                 
-            gulp.src('server/app.js', {read:false})
+            gulp.src('./server/app.js', {read:false})
                 .pipe(livereload({port:35729}));
         });
 });
 
-
+gulp.task('watch', function() { // using the native "gulp.watch" plugin
+    gulp.watch('client/app/main.ts', function(event) {
+        gulp.run('tslint');
+    })
+});
 
 
 // 1. development task definitions ============================================================
 
+gulp.task('tslint', function() { 
+    return gulp.src('./client/app/**/*.ts')
+        .pipe(tslint())
+        .pipe(tslint.report("prose")) // defines how errors are displayed         
+        .on('error', function(error){
+            this.emit('end'); // end the current task so no other annoying msg are displayed
+        });
+});
 
 gulp.task("tsc", function () {
     return gulp.src([

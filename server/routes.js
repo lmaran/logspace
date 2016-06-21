@@ -95,7 +95,7 @@ module.exports = function(app) {
     app.get('/admin', function(req, res) {res.sendFile(path.resolve(app.get('appPath') + '/index.html'));});    
     app.get('/admin|/admin/*', function(req, res) {res.sendFile(path.resolve(app.get('appPath') + '/index.html'));});
 
-  
+   
     // All undefined asset or api routes should return a 404
     //app.get('/:url(api|auth|components|app|bower_components|assets)/*', errors[404]);       
 };
