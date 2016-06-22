@@ -28,12 +28,11 @@ var gulp = require('gulp'), // task runner
     path = require('path'); // handling file path
     
     //var mocha = require('gulp-mocha');
-    //var through = require('through2');
+    var through = require('through2');
     //var ghPages = require('gulp-gh-pages');
     //var gnf = require('gulp-npm-files'); // copy only node_modules used in production (not "dev_dependencies")
     //var file = require('gulp-file'); // create a file from string
     var ts = require('gulp-typescript');
-    var tsProject = ts.createProject('tsconfig.json');
     var tslint = require('gulp-tslint');
     
     var Builder = require('systemjs-builder');
@@ -60,8 +59,8 @@ gulp.task('dev', function(cb) {
         // 'clean-css',
         // ['less', 'less-srv'],
 
-        'tslint',
-        'tsc',
+        ['tslint-client', 'tslint-server'],
+        ['tsc-client', 'tsc-server'],
         // 'jshint',        
         // 'build-dev-html',
     cb);
@@ -69,12 +68,24 @@ gulp.task('dev', function(cb) {
 
 gulp.task('watch-server', function() {
     livereload.listen({port:35729}); // listen for changes
+
+    gulp.watch('server/**/*.ts').on('change', function(file) { // no "./" in front of glob
+        var fileName = path.basename(file.path); // ex: test.css    
+
+        gutil.log(gutil.colors.cyan('watch-all'), 'saw',  gutil.colors.magenta(fileName), 'was ' + file.type);            
+
+        if(file.type === 'changed'){
+            doTslint(file.path, 'server');
+            doTsc([file.path, "typings/**/**.d.ts"], path.parse(file.path).dir, 'server');                                               
+        };   
+    });
+
 	nodemon({ // nodemon config - http://jpsierens.com/tutorial-livereload-nodemon-gulp/
     		script: './server/app.js', // the script to run the app
             //verbose: true,
+            //tasks: ['backendSrc', 'serverAssets'], // run this tasks prior to restarting the application
     		ext: 'js hbs html',
             ignore: ['node_modules/', 'client', 'gulpfile.js']
-            //stdout: false
         })
 	   .on('restart', function(){                 
             gulp.src('./server/app.js', {read:false})
@@ -82,31 +93,40 @@ gulp.task('watch-server', function() {
         });
 });
 
-gulp.task('watch', function() { // using the native "gulp.watch" plugin
-    gulp.watch('client/app/main.ts', function(event) {
-        gulp.run('tslint');
-    })
+gulp.task('watch-client', function() { // using the native "gulp.watch" plugin
+
+    gulp.watch('client/app/**/*.ts').on('change', function(file) { // no "./" in front of glob
+        var fileName = path.basename(file.path); // ex: test.css    
+
+        gutil.log(gutil.colors.cyan('watch-all'), 'saw',  gutil.colors.magenta(fileName), 'was ' + file.type);            
+
+        if(file.type === 'changed'){
+            doTslint(file.path, 'client');
+            doTsc([file.path, "typings/**/**.d.ts"], path.parse(file.path).dir, 'client');                                               
+        };   
+    });
+
 });
+
+
 
 
 // 1. development task definitions ============================================================
 
-gulp.task('tslint', function() { 
-    return gulp.src('./client/app/**/*.ts')
-        .pipe(tslint())
-        .pipe(tslint.report("prose")) // defines how errors are displayed         
-        .on('error', function(error){
-            this.emit('end'); // end the current task so no other annoying msg are displayed
-        });
+gulp.task('tslint-client', function() { 
+    return doTslint('client/app/**/*.ts', 'client');             
 });
 
-gulp.task("tsc", function () {
-    return gulp.src([
-            "client/**/**.ts",
-            "typings/**/**.d.ts"
-        ])
-        .pipe(ts(tsProject))
-        .js.pipe(gulp.dest("client"));
+gulp.task('tslint-server', function() { 
+    return doTslint('server/**/*.ts', 'server');             
+});
+
+gulp.task("tsc-client", function () {
+    return doTsc(["client/app**/*.ts", "typings/**/**.d.ts"], "client", "client");
+});
+
+gulp.task("tsc-server", function () {
+    return doTsc(["server/**/*.ts", "typings/**/**.d.ts"], "server", "server");
 });
 
 
@@ -168,3 +188,38 @@ gulp.task('bundle', function() {
             console.log(err);
         });
 });
+
+function doTslint(src, clientOrServer){
+    var err = false;
+    return gulp.src([src])
+        .pipe(tslint())
+        .pipe(tslint.report("prose"))                  
+        .on('error', function(error){
+            err = true;
+            gutil.log(gutil.colors.red('TSLINT-' + clientOrServer + ' failed!'));
+            this.emit('end'); // end the current task
+        })                                   
+        .on('end', function(){
+            if(!err)
+                gutil.log(gutil.colors.green('TSLINT-' + clientOrServer + ' passed!'));
+        }); 
+}
+
+function doTsc(src, dest, clientOrServer){
+    var err = false;
+    // tsProject should be here because a project cannot be used in 2 compilations at the same time
+    // https://github.com/ivogabe/gulp-typescript/issues/322
+    var tsProject = ts.createProject('tsconfig.json');
+    return gulp.src(src)
+        .pipe(ts(tsProject))
+        .js.pipe(gulp.dest(dest))
+        .on('error', function(error){
+            err = true;
+            gutil.log(gutil.colors.red('TSC-' + clientOrServer + ' failed!'));
+            this.emit('end'); // end the current task
+        })                                   
+        .on('end', function(){
+            if(!err)
+                gutil.log(gutil.colors.green('TSC-' + clientOrServer + ' passed!'));
+        });         
+}
