@@ -1,5 +1,6 @@
-"use strict";
-var settings = {
+import {IConfig} from './';
+
+const settings = <IConfig>{
     port: process.env.PORT,
     mongo: {
         uri: process.env.MONGO_URI
@@ -7,4 +8,5 @@ var settings = {
     gaCode: 'UA-72165579-3',
     externalUrl: 'https://celebrate-taste.ro'
 };
-exports.settings = settings;
+
+export { settings };

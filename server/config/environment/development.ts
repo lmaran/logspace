@@ -1,8 +1,10 @@
-"use strict";
-var settings = {
+import {IConfig} from './';
+
+const settings = <IConfig> {
     port: 1410,
     mongo: {
         uri: 'mongodb://localhost/celebrate-taste-dev'
     }
 };
-exports.settings = settings;
+
+export { settings };
