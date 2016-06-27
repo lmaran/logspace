@@ -2,7 +2,7 @@
 var settings = {
     port: 1410,
     mongo: {
-        uri: 'mongodb://localhost/celebrate-taste-dev'
+        uri: 'mongodb://localhost/logspace-dev'
     }
 };
 exports.settings = settings;

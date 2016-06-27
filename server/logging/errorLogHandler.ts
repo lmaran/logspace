@@ -1,10 +1,12 @@
-const config = require('../config/environment');
+import {config} from './../config/environment';
+const logger = require('./logger');
+const reqHelper = require('./reqHelper');
 
 function errorLogHandler() {
 
-    return function errorHandler(err, req, res, next){
+    return function errorHandler(err, req, res, next) {
         let newReq = reqHelper.getShortReq(req);
-        let meta = {req: newReq, err: err};
+        let meta = { req: newReq, err: err };
 
         logger.error('error logger', meta);
 
@@ -18,3 +20,4 @@ function errorLogHandler() {
 }
 
 module.exports = errorLogHandler;
+

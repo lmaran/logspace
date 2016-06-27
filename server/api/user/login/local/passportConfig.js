@@ -1,16 +1,15 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var userService = require('../../userService');
-
-passport.use(new LocalStrategy(
-    {
-        usernameField: 'email', // the name of fields that we send at login
+(function () {
+    var LocalStrategy = require('passport-local').Strategy;
+    var userService = require('../../userService');
+    var passport = require('passport');
+    passport.use(new LocalStrategy({
+        usernameField: 'email',
         passwordField: 'password'
-    },
-    function (email, password, done) {
+    }, function (email, password, done) {
         userService.getByEmail(email, function (err, user) {
-            if (err) return done(err);
-
+            if (err) {
+                return done(err);
+            }
             if (!user) {
                 return done(null, false, { message: 'Acest email nu este inregistrat.' });
             }
@@ -19,5 +18,5 @@ passport.use(new LocalStrategy(
             }
             return done(null, user);
         });
-    }
-));
+    }));
+})();

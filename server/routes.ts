@@ -10,9 +10,6 @@ module.exports = function(app) {
     app.get('/api/users/checkEmail/:email',  require('./api/user/userController').checkEmail);
     app.use('/api/users', require('./api/user/userRoutes'));
 
-    app.get('/api/customerEmployees/checkEmail/:email',  require('./api/customerEmployee/customerEmployeeController').checkEmail);
-    app.use('/api/customerEmployees', auth.hasRole('admin'), require('./api/customerEmployee/customerEmployeeRoutes'));
-
     // RPC routes
     app.post('/login/', require('./api/user/login/local/loginLocalController').authenticate);
     app.get('/logout', auth.isAuthenticated(), require('./api/user/logout/logoutController').logout);
