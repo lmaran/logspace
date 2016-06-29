@@ -3,9 +3,9 @@
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-// const express = require('express');
 import * as express from 'express';
 import config from './config/environment';
+import router from './routes';
 
 const logger = require('./logging/logger');
 const errorLogHandler = require('./logging/errorLogHandler');
@@ -13,7 +13,11 @@ const app: express.Application = express();
 
 require('./config/express')(app);
 
-require('./routes')(app);
+// require('./routes')(app);
+app.use('/', router);
+
+// catch 404 and 500
+// see here: https://github.com/koroandr/generator-express-typescript/blob/master/generators/app/templates/app.ts
 
 // Handle error has to be last: http://expressjs.com/en/guide/error-handling.html
 app.use(errorLogHandler());
