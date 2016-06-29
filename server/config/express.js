@@ -41,7 +41,6 @@ module.exports = function (app) {
     if (env === 'production' || env === 'staging') {
         app.use(favicon(path.join(environment_1.default.root, 'client', 'favicon.ico')));
         app.use(express.static(path.join(environment_1.default.root, 'client'), { index: '_' }));
-        app.set('appPath', path.join(environment_1.default.root, 'client'));
     }
     else {
         app.use(favicon(path.join(environment_1.default.root, 'client', 'favicon.ico')));
@@ -57,7 +56,6 @@ module.exports = function (app) {
         // Have this pb. only when I try to serve another jade page as homepage
         app.use('/', express.static(path.join(environment_1.default.root, 'client'), { index: '_' }));
         app.use('/node_modules', express.static(path.join(environment_1.default.root, 'node_modules'))); // to serve node_modules
-        app.set('appPath', path.join(environment_1.default.root, 'client'));
     }
     // log all http requests (like morgan)
     app.use(httpLogHandler());

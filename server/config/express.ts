@@ -52,7 +52,6 @@ module.exports = function(app) {
         app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
 
         app.use(express.static(path.join(config.root, 'client'), { index: '_' }));
-        app.set('appPath', path.join(config.root, 'client'));
 
         // app.use(morgan('tiny', { // like 'dev' but no colors
         //     //skip: function(req, res) { return res.statusCode < 400 },
@@ -74,8 +73,6 @@ module.exports = function(app) {
         // Have this pb. only when I try to serve another jade page as homepage
         app.use('/', express.static(path.join(config.root, 'client'), { index: '_'} ));
         app.use('/node_modules', express.static(path.join(config.root, 'node_modules'))); // to serve node_modules
-
-        app.set('appPath', path.join(config.root, 'client'));
 
         // app.use(morgan('dev', { stream: logger.stream })); 
         // app.use(morgan('dev'));

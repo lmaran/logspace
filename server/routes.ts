@@ -1,7 +1,8 @@
 import { Router } from 'express';
+import config from './config/environment';
 
 const errors = require('./components/errors');
-// const path = require('path');
+const path = require('path'); // do not expose ES6 module
 const auth = require('./api/user/login/loginService');
 
 let router = Router();
@@ -32,8 +33,8 @@ let router = Router();
 
     // client-side views
 
-    // router.get('/admin', function(req, res) {res.sendFile(path.resolve(routerXXXXXXXXXXXX.get('appPath') + '/index.html')); });
-    // router.get('/admin|/admin/*', function(req, res) {res.sendFile(path.resolve(routerXXXXXXXXXXXX.get('appPath') + '/index.html')); });
+    router.get('/admin', function(req, res) {res.sendFile(path.resolve(path.join(config.root, 'client/index.html'))); });
+    router.get('/admin|/admin/*', function(req, res) {res.sendFile(path.resolve(path.join(config.root, 'client/index.html'))); });
 
     // All undefined asset or api routes should return a 404
     router.get('/:url(api|auth|components|app|bower_components|assets)/*', errors[404]);
