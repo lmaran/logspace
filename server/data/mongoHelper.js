@@ -7,7 +7,7 @@ var environment_1 = require('./../config/environment');
     mongoHelper.getDb = function (next) {
         if (!theDb) {
             // connect to the db
-            mongodb.MongoClient.connect(environment_1.config.mongo.uri, environment_1.config.mongo.options, function (err, db) {
+            mongodb.MongoClient.connect(environment_1.default.mongo.uri, environment_1.default.mongo.options, function (err, db) {
                 if (err) {
                     next(err, null);
                 }

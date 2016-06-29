@@ -46,7 +46,5 @@ const config = _.merge(
     common,
     envs.settings || {});
 
-// console.log(all);
-
-export { config };
 export { IConfig };
+export default config;

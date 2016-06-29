@@ -5,7 +5,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // const express = require('express');
 import * as express from 'express';
-import {config} from './config/environment';
+import config from './config/environment';
 
 const logger = require('./logging/logger');
 const errorLogHandler = require('./logging/errorLogHandler');

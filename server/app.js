@@ -13,8 +13,8 @@ require('./routes')(app);
 // Handle error has to be last: http://expressjs.com/en/guide/error-handling.html
 app.use(errorLogHandler());
 // Start server
-app.listen(environment_1.config.port, function () {
-    logger.warn('Express server listening on %d in %s mode', environment_1.config.port, environment_1.config.env);
+app.listen(environment_1.default.port, function () {
+    logger.warn('Express server listening on %d in %s mode', environment_1.default.port, environment_1.default.env);
 });
 // Expose app
 // exports = module.exports = app;

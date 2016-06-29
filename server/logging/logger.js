@@ -8,12 +8,12 @@ var logger = new winston.Logger();
 var scrubFields = ['password', 'oldPassword', 'newPassword', 'hashedPassword', 'salt'];
 // Winston && Rollbar: debug > info > warning > error
 // E.g. 'info' level catches also 'warning' or 'error' but not 'debug'
-if (environment_1.config.env === 'production' || environment_1.config.env === 'staging') {
+if (environment_1.default.env === 'production' || environment_1.default.env === 'staging') {
     logger.add(winston.transports.RollbarLogger, {
         level: 'warn',
-        rollbarAccessToken: environment_1.config.rollbarToken,
+        rollbarAccessToken: environment_1.default.rollbarToken,
         rollbarConfig: {
-            environment: environment_1.config.env,
+            environment: environment_1.default.env,
             scrubFields: scrubFields
         }
     });

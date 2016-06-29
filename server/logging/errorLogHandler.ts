@@ -1,4 +1,4 @@
-import {config} from './../config/environment';
+import config from './../config/environment';
 const logger = require('./logger');
 const reqHelper = require('./reqHelper');
 

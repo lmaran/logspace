@@ -1,4 +1,4 @@
-import {config} from '../../../config/environment';
+import config from '../../../config/environment';
 
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt'); // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware

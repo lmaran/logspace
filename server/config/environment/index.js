@@ -18,5 +18,5 @@ var common = {
 };
 var envs = require('./development');
 var config = _.merge(common, envs.settings || {});
-exports.config = config;
-// console.log(all);
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = config;

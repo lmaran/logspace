@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt'); // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware
 var compose = require('composable-middleware'); // Treat a sequence of middleware as middleware.
 var userService = require('../userService');
-var validateJwt = expressJwt({ secret: environment_1.config.secrets.session });
+var validateJwt = expressJwt({ secret: environment_1.default.secrets.session });
 var cookie = require('cookie');
 /**
  * Attaches the user object to the request if authenticated
@@ -69,7 +69,7 @@ function hasRole(roleRequired) {
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-        if (environment_1.config.userRoles.indexOf(req.user.role) >= environment_1.config.userRoles.indexOf(roleRequired)) {
+        if (environment_1.default.userRoles.indexOf(req.user.role) >= environment_1.default.userRoles.indexOf(roleRequired)) {
             next();
         }
         else {
@@ -81,7 +81,7 @@ function hasRole(roleRequired) {
  * Returns a jwt token signed by the app secret
  */
 function signToken(id) {
-    return jwt.sign({ _id: id }, environment_1.config.secrets.session, { expiresIn: 60 * 60 * 24 * 365 }); // in seconds
+    return jwt.sign({ _id: id }, environment_1.default.secrets.session, { expiresIn: 60 * 60 * 24 * 365 }); // in seconds
 }
 // /**
 //  * Set token cookie directly for oAuth strategies; used by Social login controllers

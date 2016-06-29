@@ -7,7 +7,7 @@ function errorLogHandler() {
         var newReq = reqHelper.getShortReq(req);
         var meta = { req: newReq, err: err };
         logger.error('error logger', meta);
-        if (environment_1.config.env === 'development') {
+        if (environment_1.default.env === 'development') {
             next(err); // retuns errors (and stack trace) in the browser
         }
         else {

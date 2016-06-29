@@ -1,4 +1,4 @@
-import {config} from './environment';
+import config from './environment';
 const express = require('express');
 const favicon = require('serve-favicon');
 
