@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import config from './config/environment';
 
 const errors = require('./components/errors');
@@ -21,20 +21,20 @@ let router = Router();
     router.post('/me/changepassword', auth.isAuthenticated(), require('./api/user/userController').changePassword);
 
     // server-side views
-    router.get('/', function(req, res) { res.render('home/home', { user: req.user }); });
-    router.get('/contact', function(req, res) { res.render('contact/contact', { user: req.user }); });
-    router.get('/login', function(req, res) { res.render('user/login'); });
-    router.get('/register', function(req, res) { res.render('user/register', { email: req.query.email }); });
+    router.get('/', function(req: Request, res: Response) { res.render('home/home', { user: req.user }); });
+    router.get('/contact', function(req: Request, res: Response) { res.render('contact/contact', { user: req.user }); });
+    router.get('/login', function(req: Request, res: Response) { res.render('user/login'); });
+    router.get('/register', function(req: Request, res: Response) { res.render('user/register', { email: req.query.email }); });
 
     router.get('/activate/:id', require('./api/user/userController').activateUser);
     router.post('/activate/:id', require('./api/user/userController').saveActivationData);
 
-    router.get('/changePassword', auth.isAuthenticated(), function(req, res){res.render('user/changePassword', {user: req.user}); });
+    router.get('/changePassword', auth.isAuthenticated(), function(req: Request, res: Response){res.render('user/changePassword', {user: req.user}); });
 
     // client-side views
 
-    router.get('/admin', function(req, res) {res.sendFile(path.resolve(path.join(config.root, 'client/index.html'))); });
-    router.get('/admin|/admin/*', function(req, res) {res.sendFile(path.resolve(path.join(config.root, 'client/index.html'))); });
+    router.get('/admin', function(req: Request, res: Response) {res.sendFile(path.resolve(path.join(config.root, 'client/index.html'))); });
+    router.get('/admin|/admin/*', function(req: Request, res: Response) {res.sendFile(path.resolve(path.join(config.root, 'client/index.html'))); });
 
     // All undefined asset or api routes should return a 404
     router.get('/:url(api|auth|components|app|bower_components|assets)/*', errors[404]);

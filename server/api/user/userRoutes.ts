@@ -1,9 +1,14 @@
-(function () {
+// (function () {
+    import { UserController }  from './userController2';
     const express = require('express');
     const controller = require('./userController');
     const auth = require('./login/loginService');
 
     const router = express.Router();
+
+    const c = new UserController();
+
+    router.get('/', c.getAll);
 
     router.post('/', controller.create);
     router.post('/createpublicuser', controller.createPublicUser);
@@ -16,4 +21,4 @@
     router.delete('/:id', auth.hasRole('admin'), controller.remove);
 
     module.exports = router;
-})();
+// })();
