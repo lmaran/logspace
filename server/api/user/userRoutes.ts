@@ -1,24 +1,19 @@
-// (function () {
-    import { UserController }  from './userController2';
-    const express = require('express');
-    const controller = require('./userController');
-    const auth = require('./login/loginService');
+import controller from './userController';
 
-    const router = express.Router();
+const express = require('express');
+const auth = require('./login/loginService');
 
-    const c = new UserController();
+const router = express.Router();
 
-    router.get('/', c.getAll);
+router.get('/', controller.getAll);
+router.post('/', controller.create);
+router.post('/createpublicuser', controller.createPublicUser);
+router.get('/', auth.hasRole('admin'), controller.getAll);
+router.get('/\\$count', controller.getAll);
+router.get('/:id', auth.hasRole('admin'), controller.getById);
+router.get('/me', auth.isAuthenticated(), controller.me);
+router.put('/me/changepassword', auth.isAuthenticated(), controller.changePassword);
+router.put('/', auth.isAuthenticated(), controller.update);
+router.delete('/:id', auth.hasRole('admin'), controller.remove);
 
-    router.post('/', controller.create);
-    router.post('/createpublicuser', controller.createPublicUser);
-    router.get('/', auth.hasRole('admin'), controller.getAll);
-    router.get('/\\$count', controller.getAll);
-    router.get('/:id', auth.hasRole('admin'), controller.getById);
-    router.get('/me', auth.isAuthenticated(), controller.me);
-    router.put('/me/changepassword', auth.isAuthenticated(), controller.changePassword);
-    router.put('/', auth.isAuthenticated(), controller.update);
-    router.delete('/:id', auth.hasRole('admin'), controller.remove);
-
-    module.exports = router;
-// })();
+export default router;

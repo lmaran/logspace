@@ -1,12 +1,12 @@
 "use strict";
-var userService2_1 = require('./userService2');
+var userService_1 = require('./userService');
 var UserController = (function () {
     function UserController() {
     }
     UserController.prototype.getAll = function (req, res) {
         var odataQuery = req.query;
         odataQuery.hasCountSegment = req.url.indexOf('/$count') !== -1; // check for $count as a url segment
-        userService2_1.userService2.getAll(odataQuery, function (err, users) {
+        userService_1.default.getAll(odataQuery, function (err, users) {
             var that = this;
             if (err) {
                 return that._handleError(res, err);

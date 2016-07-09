@@ -1,11 +1,12 @@
 /* tslint:disable */
+"use strict";
 /*!
  * Copyright(c) 2014 Jan Blaha (pofider)
  *
  * Parse query string OData params and transform into mongo/nedb type of query
  */
 // https://github.com/pofider/node-simple-odata-server/blob/master/lib/queryTransform.js
-module.exports = function (query) {
+var queryTransform = function (query) {
     if (query.$filter) {
         query.$filter = new Node2(query.$filter.type, query.$filter.left, query.$filter.right, query.$filter.func, query.$filter.args).transform();
     }
@@ -99,8 +100,5 @@ function substringof(node, result) {
         result[newProp.name] = new RegExp(lit.value, "i");
     }
 }
-// function endswith(node, result) {
-//     var prop = node.args[0].type === "property" ? node.args[0] : node.args[1];
-//     var lit = node.args[0].type === "literal" ? node.args[0] : node.args[1];
-//     result[prop.name] = new RegExp(lit.value + '$');
-// }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = queryTransform;

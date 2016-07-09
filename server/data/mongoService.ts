@@ -1,12 +1,11 @@
-(function (mongoService: any) {
+import mongoHelper from './mongoHelper';
+import * as querystring from 'querystring';
+import queryTransform from './queryTransform';
 
-    // let seedData = require("./seedData");
-    const mongoHelper = require('./mongoHelper');
-    const parser = require('odata-parser');
-    const queryTransform = require('./queryTransform.js');
-    const querystring = require('querystring'); // internal node module 
+const parser = require('odata-parser');
 
-    mongoService.getQuery = function (odataQuery: any) {
+const mongoService = {
+    getQuery: function (odataQuery: any) {
         let queryOptions: any = { $filter: {} };
 
         // lm: extract only odata parameters
@@ -47,9 +46,9 @@
         // console.log(queryOptions.$filter);
 
         return queryOptions;
-    };
+    },
 
-    mongoService.getAll = function (collection, query, next) {
+    getAll: function (collection, query, next) {
         // https://github.com/pofider/node-simple-odata-server/blob/master/lib/mongoAdapter.js
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
@@ -90,9 +89,9 @@
             });
 
         });
-    };
+    },
 
-    mongoService.getByValue = function (collection, field, value, id, next) {
+    getByValue: function (collection, field, value, id, next) {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
 
@@ -112,52 +111,53 @@
 
             db.collection(collection).findOne(query, next);
         });
-    };
+    },
 
     // create
-    mongoService.create = function (collection, obj, next) {
+    create: function (collection, obj, next) {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
             db.collection(collection).insertOne(obj, next);
         });
-    };
+    },
 
     // read
-    mongoService.getById = function (collection, id, next) {
+    getById: function (collection, id, next) {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
             id = mongoHelper.normalizedId(id);
             db.collection(collection).findOne({ _id: id }, next);
         });
-    };
+    },
 
     // update
-    mongoService.update = function (collection, obj, next) {
+    update: function (collection, obj, next) {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
             obj._id = mongoHelper.normalizedId(obj._id);
             // returnOriginal: (default:true) Set to false if you want to return the modified object rather than the original
             db.collection(collection).findOneAndUpdate({ _id: obj._id }, obj, next);
         });
-    };
+    },
 
     // updatePartial (use $set to update only specific fields)
-    mongoService.updatePartial = function (collection, obj, next) {
+    updatePartial: function (collection, obj, next) {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
             obj._id = mongoHelper.normalizedId(obj._id);
             // returnOriginal: (default:true) Set to false if you want to return the modified object rather than the original
             db.collection(collection).findOneAndUpdate({ _id: obj._id }, { $set: obj }, next);
         });
-    };
+    },
 
     // delete
-    mongoService.remove = function (collection, id, next) {
+    remove: function (collection, id, next) {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
             id = mongoHelper.normalizedId(id);
             db.collection(collection).findOneAndDelete({ _id: id }, next);
         });
-    };
+    }
+};
 
-})(module.exports);
+export default mongoService;

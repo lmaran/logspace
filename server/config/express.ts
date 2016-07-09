@@ -1,10 +1,10 @@
 import config from './environment';
+import * as path from 'path';
 const express = require('express');
 const favicon = require('serve-favicon');
 
 const bodyParser = require('body-parser');
 
-const path = require('path');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const auth = require('../api/user/login/loginService');

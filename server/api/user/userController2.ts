@@ -1,7 +1,7 @@
 // https://github.com/moizKachwala/Angular2-Typescript-MongoDb-ExpressJs-NodeJs/blob/master/server/src/controllers/HeroController.ts
 // const userService = require('./userService');
 import { Request, Response }  from 'express';
-import { userService2 }  from './userService2';
+import userService2  from './userService';
 
 class UserController {
 

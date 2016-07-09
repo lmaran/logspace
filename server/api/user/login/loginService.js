@@ -3,7 +3,8 @@ var environment_1 = require('../../../config/environment');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt'); // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware
 var compose = require('composable-middleware'); // Treat a sequence of middleware as middleware.
-var userService = require('../userService');
+// const userService = require('../userService');
+var userService_1 = require('../userService');
 var validateJwt = expressJwt({ secret: environment_1.default.secrets.session });
 var cookie = require('cookie');
 /**
@@ -38,7 +39,7 @@ function addUserIfExist() {
     })
         .use(function (req, res, next) {
         if (req.user) {
-            userService.getByIdWithoutPsw(req.user._id, function (err, user) {
+            userService_1.default.getByIdWithoutPsw(req.user._id, function (err, user) {
                 if (err) {
                     return next(err);
                 }

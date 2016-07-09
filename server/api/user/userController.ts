@@ -1,21 +1,15 @@
-(function () {
-    const userService = require('./userService');
-    const userValidator = require('./userValidator');
 
-    const uuid = require('node-uuid');
-    const auth = require('./login/loginService');
-    // let emailService = require('../../data/emailService');
+import { Request, Response }  from 'express';
+import userService  from './userService';
 
-    let validationError = function (res, err) {
-        return res.status(422).json(err);
-    };
+const userValidator = require('./userValidator');
+
+const uuid = require('node-uuid');
+const auth = require('./login/loginService');
 
 
-    /**
-     * Get list of users
-     * restriction: 'admin'
-     */
-    exports.getAll = function (req, res) {
+const userController = {
+    getAll: function (req: Request, res) {
         let odataQuery = req.query;
         odataQuery.hasCountSegment = req.url.indexOf('/$count') !== -1; // check for $count as a url segment
 
@@ -23,12 +17,9 @@
             if (err) { return handleError(res, err); }
             res.status(200).json(users);
         });
-    };
+    },
 
-    /**
-     * Creates a new user
-     */
-    exports.create = function (req, res, next) {
+    create: function (req: Request, res: Response, next) {
         userValidator.all(req, res, function (errors) {
             if (errors) {
                 res.status(400).send({ errors: errors }); // 400 - bad request
@@ -65,15 +56,15 @@
                     //         //res.status(201).json(response.ops[0]);
                     //     }, function (err) {
                     //         console.log(err);
-                    //         //handleError(res, err)
+                    //         //handleError(res: Response, err)
                     //     });
                 });
 
             }
         });
-    };
+    },
 
-    exports.createPublicUser = function (req, res, next) {
+    createPublicUser: function (req: Request, res: Response, next) {
         let data = req.body;
         let user: any = {};
         user.name = 'aaa';
@@ -106,12 +97,9 @@
             res.redirect('/');
 
         });
-    };
+    },
 
-    /**
-     * Get a single user
-     */
-    exports.getById = function (req, res, next) {
+    getById: function (req: Request, res: Response, next) {
         let userId = req.params.id;
 
         userService.getByIdWithoutPsw(userId, function (err, user) {
@@ -119,9 +107,9 @@
             if (!user) { return res.status(401).send('Unauthorized'); }
             res.json(user);
         });
-    };
+    },
 
-    exports.update = function (req, res) {
+    update: function (req: Request, res) {
         let user = req.body;
 
         user.modifiedBy = req.user.name;
@@ -135,24 +123,17 @@
                 res.sendStatus(200);
             }
         });
-    };
+    },
 
-    /**
-     * Deletes a user
-     * restriction: 'admin'
-     */
-    exports.remove = function (req, res) {
+    remove: function (req: Request, res) {
         let id = req.params.id;
         userService.remove(id, function (err, response) {
             if (err) { return handleError(res, err); }
             res.sendStatus(204);
         });
-    };
+    },
 
-    /**
-     * Change a users password
-     */
-    exports.changePassword = function (req, res, next) {
+    changePassword: function (req: Request, res: Response, next) {
         let userId = String(req.user._id); // without 'String' the result is an Object
         let oldPass = String(req.body.oldPassword);
         let newPass = String(req.body.newPassword);
@@ -177,29 +158,23 @@
                 res.status(403).send('Forbidden');
             }
         });
-    };
+    },
 
 
-    /**
-     * Get my info
-     */
-    exports.me = function (req, res, next) {
+    me: function (req: Request, res: Response, next) {
         let userId = req.user._id.toString();
         userService.getByIdWithoutPsw(userId, function (err, user) { // don't ever give out the password or salt
             if (err) { return next(err); }
             if (!user) { return res.status(401).send('Unauthorized'); }
             res.json(user);
         });
-    };
+    },
 
-    /**
-     * Authentication callback
-     */
-    exports.authCallback = function (req, res, next) {
+    authCallback: function (req: Request, res: Response, next) {
         res.redirect('/');
-    };
+    },
 
-    exports.saveActivationData = function (req, res, next) {
+    saveActivationData: function (req: Request, res: Response, next) {
         let userId = req.params.id;
         let psw = req.body.password;
 
@@ -228,9 +203,9 @@
                 res.redirect('/');
             });
         });
-    };
+    },
 
-    exports.activateUser = function (req, res, next) {
+    activateUser: function (req: Request, res: Response, next) {
         let userId = req.params.id;
         let activationToken = req.query.activationToken;
 
@@ -244,9 +219,9 @@
             };
             res.render('user/activate', context);
         });
-    };
+    },
 
-    exports.checkEmail = function (req, res) {
+    checkEmail: function (req: Request, res) {
         let email = req.params.email;
 
         userService.getByValue('email', email, null, function (err, user) {
@@ -257,9 +232,15 @@
                 res.send(false);
             }
         });
-    };
+    }
+};
 
-    function handleError(res, err) {
-        return res.status(500).send(err);
-    };
-})();
+function validationError(res: Response, err) {
+    return res.status(422).json(err);
+};
+
+function handleError(res: Response, err) {
+    return res.status(500).send(err);
+};
+
+export default userController;

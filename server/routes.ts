@@ -1,8 +1,10 @@
 import { Router, Request, Response } from 'express';
 import config from './config/environment';
+import userController from './api/user/userController';
+import * as path from 'path';
+import userRoutes from './api/user/userRoutes';
 
 const errors = require('./components/errors');
-const path = require('path'); // do not expose ES6 module
 const auth = require('./api/user/login/loginService');
 
 let router = Router();
@@ -11,14 +13,14 @@ let router = Router();
 
 
     // API routes
-    router.get('/api/users/checkEmail/:email',  require('./api/user/userController').checkEmail);
-    router.use('/api/users', require('./api/user/userRoutes'));
+    router.get('/api/users/checkEmail/:email',  userController.checkEmail);
+    router.use('/api/users', userRoutes);
 
     // RPC routes
     router.post('/login/', require('./api/user/login/local/loginLocalController').authenticate);
     router.get('/logout', auth.isAuthenticated(), require('./api/user/logout/logoutController').logout);
     // router.get('/me', auth.isAuthenticated(), require('./api/user/userController').me);
-    router.post('/me/changepassword', auth.isAuthenticated(), require('./api/user/userController').changePassword);
+    router.post('/me/changepassword', auth.isAuthenticated(), userController.changePassword);
 
     // server-side views
     router.get('/', function(req: Request, res: Response) { res.render('home/home', { user: req.user }); });
@@ -26,8 +28,8 @@ let router = Router();
     router.get('/login', function(req: Request, res: Response) { res.render('user/login'); });
     router.get('/register', function(req: Request, res: Response) { res.render('user/register', { email: req.query.email }); });
 
-    router.get('/activate/:id', require('./api/user/userController').activateUser);
-    router.post('/activate/:id', require('./api/user/userController').saveActivationData);
+    router.get('/activate/:id', userController.activateUser);
+    router.post('/activate/:id', userController.saveActivationData);
 
     router.get('/changePassword', auth.isAuthenticated(), function(req: Request, res: Response){res.render('user/changePassword', {user: req.user}); });
 

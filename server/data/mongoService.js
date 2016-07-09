@@ -1,10 +1,10 @@
-(function (mongoService) {
-    // let seedData = require("./seedData");
-    var mongoHelper = require('./mongoHelper');
-    var parser = require('odata-parser');
-    var queryTransform = require('./queryTransform.js');
-    var querystring = require('querystring'); // internal node module 
-    mongoService.getQuery = function (odataQuery) {
+"use strict";
+var mongoHelper_1 = require('./mongoHelper');
+var querystring = require('querystring');
+var queryTransform_1 = require('./queryTransform');
+var parser = require('odata-parser');
+var mongoService = {
+    getQuery: function (odataQuery) {
         var queryOptions = { $filter: {} };
         // lm: extract only odata parameters
         var fixedQS = {};
@@ -38,7 +38,7 @@
         if (Object.keys(fixedQS).length > 0) {
             var encodedQS = decodeURIComponent(querystring.stringify(fixedQS));
             if (encodedQS) {
-                queryOptions = queryTransform(parser.parse(encodedQS));
+                queryOptions = queryTransform_1.default(parser.parse(encodedQS));
             }
         }
         // count inline with '...&$inlinecount=allvalues' (odata V2) or '...&$count=true (odata V4)
@@ -62,10 +62,10 @@
         // console.log('-----------------------------------------------------------------Transformed');
         // console.log(queryOptions.$filter);
         return queryOptions;
-    };
-    mongoService.getAll = function (collection, query, next) {
+    },
+    getAll: function (collection, query, next) {
         // https://github.com/pofider/node-simple-odata-server/blob/master/lib/mongoAdapter.js
-        mongoHelper.getDb(function (err, db) {
+        mongoHelper_1.default.getDb(function (err, db) {
             if (err) {
                 return next(err, null);
             }
@@ -103,9 +103,9 @@
                 });
             });
         });
-    };
-    mongoService.getByValue = function (collection, field, value, id, next) {
-        mongoHelper.getDb(function (err, db) {
+    },
+    getByValue: function (collection, field, value, id, next) {
+        mongoHelper_1.default.getDb(function (err, db) {
             if (err) {
                 return next(err, null);
             }
@@ -119,60 +119,62 @@
             query[field] = new RegExp('^' + value + '$', 'i');
             // for update we have to exclude the existing document
             if (id) {
-                query._id = { $ne: mongoHelper.normalizedId(id) };
+                query._id = { $ne: mongoHelper_1.default.normalizedId(id) };
             } // {name: /^John$/i, _id: {$ne:'93874502347652345'}}  
             db.collection(collection).findOne(query, next);
         });
-    };
+    },
     // create
-    mongoService.create = function (collection, obj, next) {
-        mongoHelper.getDb(function (err, db) {
+    create: function (collection, obj, next) {
+        mongoHelper_1.default.getDb(function (err, db) {
             if (err) {
                 return next(err, null);
             }
             db.collection(collection).insertOne(obj, next);
         });
-    };
+    },
     // read
-    mongoService.getById = function (collection, id, next) {
-        mongoHelper.getDb(function (err, db) {
+    getById: function (collection, id, next) {
+        mongoHelper_1.default.getDb(function (err, db) {
             if (err) {
                 return next(err, null);
             }
-            id = mongoHelper.normalizedId(id);
+            id = mongoHelper_1.default.normalizedId(id);
             db.collection(collection).findOne({ _id: id }, next);
         });
-    };
+    },
     // update
-    mongoService.update = function (collection, obj, next) {
-        mongoHelper.getDb(function (err, db) {
+    update: function (collection, obj, next) {
+        mongoHelper_1.default.getDb(function (err, db) {
             if (err) {
                 return next(err, null);
             }
-            obj._id = mongoHelper.normalizedId(obj._id);
+            obj._id = mongoHelper_1.default.normalizedId(obj._id);
             // returnOriginal: (default:true) Set to false if you want to return the modified object rather than the original
             db.collection(collection).findOneAndUpdate({ _id: obj._id }, obj, next);
         });
-    };
+    },
     // updatePartial (use $set to update only specific fields)
-    mongoService.updatePartial = function (collection, obj, next) {
-        mongoHelper.getDb(function (err, db) {
+    updatePartial: function (collection, obj, next) {
+        mongoHelper_1.default.getDb(function (err, db) {
             if (err) {
                 return next(err, null);
             }
-            obj._id = mongoHelper.normalizedId(obj._id);
+            obj._id = mongoHelper_1.default.normalizedId(obj._id);
             // returnOriginal: (default:true) Set to false if you want to return the modified object rather than the original
             db.collection(collection).findOneAndUpdate({ _id: obj._id }, { $set: obj }, next);
         });
-    };
+    },
     // delete
-    mongoService.remove = function (collection, id, next) {
-        mongoHelper.getDb(function (err, db) {
+    remove: function (collection, id, next) {
+        mongoHelper_1.default.getDb(function (err, db) {
             if (err) {
                 return next(err, null);
             }
-            id = mongoHelper.normalizedId(id);
+            id = mongoHelper_1.default.normalizedId(id);
             db.collection(collection).findOneAndDelete({ _id: id }, next);
         });
-    };
-})(module.exports);
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = mongoService;

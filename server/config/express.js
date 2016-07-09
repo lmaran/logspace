@@ -1,9 +1,9 @@
 "use strict";
 var environment_1 = require('./environment');
+var path = require('path');
 var express = require('express');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
-var path = require('path');
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var auth = require('../api/user/login/loginService');

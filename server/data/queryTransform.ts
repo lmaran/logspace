@@ -1,4 +1,5 @@
 /* tslint:disable */
+
 /*!
  * Copyright(c) 2014 Jan Blaha (pofider)
  *
@@ -6,7 +7,7 @@
  */
 
 // https://github.com/pofider/node-simple-odata-server/blob/master/lib/queryTransform.js
-module.exports = function (query) {
+const queryTransform = function (query) {
 
     if (query.$filter) {
         query.$filter = new Node2(query.$filter.type, query.$filter.left, query.$filter.right, query.$filter.func, query.$filter.args).transform();
@@ -120,12 +121,6 @@ function substringof(node, result) {
     }
 }
 
-// function endswith(node, result) {
-//     var prop = node.args[0].type === "property" ? node.args[0] : node.args[1];
-//     var lit = node.args[0].type === "literal" ? node.args[0] : node.args[1];
-
-//     result[prop.name] = new RegExp(lit.value + '$');
-// }
-
+export default queryTransform;
 
 

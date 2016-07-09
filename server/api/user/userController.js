@@ -1,30 +1,20 @@
-(function () {
-    var userService = require('./userService');
-    var userValidator = require('./userValidator');
-    var uuid = require('node-uuid');
-    var auth = require('./login/loginService');
-    // let emailService = require('../../data/emailService');
-    var validationError = function (res, err) {
-        return res.status(422).json(err);
-    };
-    /**
-     * Get list of users
-     * restriction: 'admin'
-     */
-    exports.getAll = function (req, res) {
+"use strict";
+var userService_1 = require('./userService');
+var userValidator = require('./userValidator');
+var uuid = require('node-uuid');
+var auth = require('./login/loginService');
+var userController = {
+    getAll: function (req, res) {
         var odataQuery = req.query;
         odataQuery.hasCountSegment = req.url.indexOf('/$count') !== -1; // check for $count as a url segment
-        userService.getAll(odataQuery, function (err, users) {
+        userService_1.default.getAll(odataQuery, function (err, users) {
             if (err) {
                 return handleError(res, err);
             }
             res.status(200).json(users);
         });
-    };
-    /**
-     * Creates a new user
-     */
-    exports.create = function (req, res, next) {
+    },
+    create: function (req, res, next) {
         userValidator.all(req, res, function (errors) {
             if (errors) {
                 res.status(400).send({ errors: errors }); // 400 - bad request
@@ -38,7 +28,7 @@
                 user.createdOn = new Date();
                 user.activationToken = uuid.v4();
                 // user.status = 'waitingToBeActivated';
-                userService.create(user, function (err, response) {
+                userService_1.default.create(user, function (err, response) {
                     if (err) {
                         return handleError(res, err);
                     }
@@ -58,25 +48,25 @@
                     //         //res.status(201).json(response.ops[0]);
                     //     }, function (err) {
                     //         console.log(err);
-                    //         //handleError(res, err)
+                    //         //handleError(res: Response, err)
                     //     });
                 });
             }
         });
-    };
-    exports.createPublicUser = function (req, res, next) {
+    },
+    createPublicUser: function (req, res, next) {
         var data = req.body;
         var user = {};
         user.name = 'aaa';
         user.email = data.email;
-        user.salt = userService.makeSalt();
-        user.hashedPassword = userService.encryptPassword(data.password, user.salt);
+        user.salt = userService_1.default.makeSalt();
+        user.hashedPassword = userService_1.default.encryptPassword(data.password, user.salt);
         user.provider = 'local';
         user.role = 'user';
         user.isActive = true;
         user.createdBy = 'External user';
         user.createdOn = new Date();
-        userService.create(user, function (err2, response) {
+        userService_1.default.create(user, function (err2, response) {
             if (err2) {
                 return handleError(res, err2);
             }
@@ -90,13 +80,10 @@
             auth.setCookies(req, res, token, userProfile);
             res.redirect('/');
         });
-    };
-    /**
-     * Get a single user
-     */
-    exports.getById = function (req, res, next) {
+    },
+    getById: function (req, res, next) {
         var userId = req.params.id;
-        userService.getByIdWithoutPsw(userId, function (err, user) {
+        userService_1.default.getByIdWithoutPsw(userId, function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -105,12 +92,12 @@
             }
             res.json(user);
         });
-    };
-    exports.update = function (req, res) {
+    },
+    update: function (req, res) {
         var user = req.body;
         user.modifiedBy = req.user.name;
         user.modifiedOn = new Date();
-        userService.updatePartial(user, function (err, response) {
+        userService_1.default.updatePartial(user, function (err, response) {
             if (err) {
                 return handleError(res, err);
             }
@@ -121,33 +108,26 @@
                 res.sendStatus(200);
             }
         });
-    };
-    /**
-     * Deletes a user
-     * restriction: 'admin'
-     */
-    exports.remove = function (req, res) {
+    },
+    remove: function (req, res) {
         var id = req.params.id;
-        userService.remove(id, function (err, response) {
+        userService_1.default.remove(id, function (err, response) {
             if (err) {
                 return handleError(res, err);
             }
             res.sendStatus(204);
         });
-    };
-    /**
-     * Change a users password
-     */
-    exports.changePassword = function (req, res, next) {
+    },
+    changePassword: function (req, res, next) {
         var userId = String(req.user._id); // without 'String' the result is an Object
         var oldPass = String(req.body.oldPassword);
         var newPass = String(req.body.newPassword);
-        userService.getById(userId, function (err, user) {
-            if (userService.authenticate(oldPass, user.hashedPassword, user.salt)) {
-                user.salt = userService.makeSalt();
-                user.hashedPassword = userService.encryptPassword(newPass, user.salt);
+        userService_1.default.getById(userId, function (err, user) {
+            if (userService_1.default.authenticate(oldPass, user.hashedPassword, user.salt)) {
+                user.salt = userService_1.default.makeSalt();
+                user.hashedPassword = userService_1.default.encryptPassword(newPass, user.salt);
                 delete user.password;
-                userService.update(user, function (err2, response) {
+                userService_1.default.update(user, function (err2, response) {
                     if (err2) {
                         return validationError(res, err2);
                     }
@@ -164,13 +144,10 @@
                 res.status(403).send('Forbidden');
             }
         });
-    };
-    /**
-     * Get my info
-     */
-    exports.me = function (req, res, next) {
+    },
+    me: function (req, res, next) {
         var userId = req.user._id.toString();
-        userService.getByIdWithoutPsw(userId, function (err, user) {
+        userService_1.default.getByIdWithoutPsw(userId, function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -179,23 +156,20 @@
             }
             res.json(user);
         });
-    };
-    /**
-     * Authentication callback
-     */
-    exports.authCallback = function (req, res, next) {
+    },
+    authCallback: function (req, res, next) {
         res.redirect('/');
-    };
-    exports.saveActivationData = function (req, res, next) {
+    },
+    saveActivationData: function (req, res, next) {
         var userId = req.params.id;
         var psw = req.body.password;
-        userService.getById(userId, function (err, user) {
-            user.salt = userService.makeSalt();
-            user.hashedPassword = userService.encryptPassword(psw, user.salt);
+        userService_1.default.getById(userId, function (err, user) {
+            user.salt = userService_1.default.makeSalt();
+            user.hashedPassword = userService_1.default.encryptPassword(psw, user.salt);
             delete user.activationToken;
             user.modifiedBy = user.name;
             user.modifiedOn = new Date();
-            userService.update(user, function (err2, response) {
+            userService_1.default.update(user, function (err2, response) {
                 if (err2) {
                     return validationError(res, err2);
                 }
@@ -210,11 +184,11 @@
                 res.redirect('/');
             });
         });
-    };
-    exports.activateUser = function (req, res, next) {
+    },
+    activateUser: function (req, res, next) {
         var userId = req.params.id;
         var activationToken = req.query.activationToken;
-        userService.getByIdWithoutPsw(userId, function (err, user) {
+        userService_1.default.getByIdWithoutPsw(userId, function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -229,10 +203,10 @@
             };
             res.render('user/activate', context);
         });
-    };
-    exports.checkEmail = function (req, res) {
+    },
+    checkEmail: function (req, res) {
         var email = req.params.email;
-        userService.getByValue('email', email, null, function (err, user) {
+        userService_1.default.getByValue('email', email, null, function (err, user) {
             if (err) {
                 return handleError(res, err);
             }
@@ -243,9 +217,15 @@
                 res.send(false);
             }
         });
-    };
-    function handleError(res, err) {
-        return res.status(500).send(err);
     }
-    ;
-})();
+};
+function validationError(res, err) {
+    return res.status(422).json(err);
+}
+;
+function handleError(res, err) {
+    return res.status(500).send(err);
+}
+;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = userController;
