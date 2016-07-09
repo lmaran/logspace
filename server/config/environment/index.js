@@ -20,3 +20,5 @@ var envs = require('./development');
 var config = _.merge(common, envs.settings || {});
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = config;
+
+//# sourceMappingURL=index.js.map

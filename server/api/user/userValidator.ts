@@ -1,17 +1,15 @@
-'use strict';
 
-(function (userValidator) {
+import userService  from './userService';
+import * as _ from 'lodash';
+import * as async from 'async';
 
-    const userService = require('./userService');
-    const async = require('async');
-    const validator = require('validator');
-    const _ = require('lodash');
+const validator = require('validator');
 
-    // requiredAndUnique
-    userValidator.name = function (req, res, cbResult) {
+const userValidator = {
+    name: function (req, res, cbResult) {
         let fieldVal = req.body.name;
         async.series([
-            function (cb) {
+            function (cb: any) {
                 if (fieldVal === undefined || fieldVal === '') {
                     cb('Acest camp este obligatoriu.');
                 }
@@ -20,7 +18,7 @@
                 }
                 else { cb(null, 'checkNext'); }
             },
-            function (cb) {
+            function (cb: any) {
                 userService.getByValue('name', fieldVal, req.body._id, function (err, user) {
                     if (err) { return handleError(res, err); }
                     if (user) {
@@ -37,13 +35,13 @@
                     cbResult(null, { field: 'name', msg: err });
                 }
             });
-    };
+    },
 
     // optionalAndUniqueEmail
-    userValidator.email = function (req, res, cbResult) {
+    email: function (req, res, cbResult) {
         let fieldVal = req.body.email;
         async.series([
-            function (cb) {
+            function (cb: any) {
                 if (fieldVal === undefined || fieldVal === '') {
                     cb('Acest camp este obligatoriu.');
                 }
@@ -55,7 +53,7 @@
                 }
                 else { cb(null, 'checkNext'); }
             },
-            function (cb) {
+            function (cb: any) {
                 if (fieldVal) {
                     userService.getByValue('email', fieldVal, req.body._id, function (err, user) {
                         if (err) { return handleError(res, err); }
@@ -75,10 +73,10 @@
                     cbResult(null, { field: 'email', msg: err });
                 }
             });
-    };
+    },
 
     // all validations
-    userValidator.all = function (req, res, cbResult) {
+    all: function (req, res, cbResult) {
         async.parallel([
             function (cb) {
                 userValidator.name(req, res, cb);
@@ -92,11 +90,11 @@
                 if (results.length === 0) { results = null; } // return null if no errors
                 cbResult(results);
             });
-    };
+    }
+};
 
+function handleError(res, err) {
+    return res.status(500).send(err);
+};
 
-    function handleError(res, err) {
-        return res.status(500).send(err);
-    };
-
-})(module.exports);
+export default userValidator;

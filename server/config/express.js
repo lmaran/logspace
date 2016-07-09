@@ -1,12 +1,13 @@
 "use strict";
 var environment_1 = require('./environment');
 var path = require('path');
+var loginService_1 = require('../api/user/login/loginService');
 var express = require('express');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
-var auth = require('../api/user/login/loginService');
+// const auth = require('../api/user/login/loginService');
 var httpLogHandler = require('../logging/httpLogHandler'); // custom error handler
 var exphbs = require('express-handlebars');
 module.exports = function (app) {
@@ -64,5 +65,7 @@ module.exports = function (app) {
     app.use('/public', express.static(path.join(environment_1.default.root, 'server/public')));
     // for js files used by some views
     app.use('/views', express.static(path.join(environment_1.default.root, 'server/views')));
-    app.use(auth.addUserIfExist());
+    app.use(loginService_1.default.addUserIfExist());
 };
+
+//# sourceMappingURL=express.js.map

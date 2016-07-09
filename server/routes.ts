@@ -1,11 +1,13 @@
 import { Router, Request, Response } from 'express';
 import config from './config/environment';
 import userController from './api/user/userController';
+import logoutController from './api/user/logout/logoutController';
 import * as path from 'path';
 import userRoutes from './api/user/userRoutes';
+import auth from './api/user/login/loginService';
 
 const errors = require('./components/errors');
-const auth = require('./api/user/login/loginService');
+// const auth = require('./api/user/login/loginService');
 
 let router = Router();
 // router.get('/', userCtrl.getAll);
@@ -18,7 +20,7 @@ let router = Router();
 
     // RPC routes
     router.post('/login/', require('./api/user/login/local/loginLocalController').authenticate);
-    router.get('/logout', auth.isAuthenticated(), require('./api/user/logout/logoutController').logout);
+    router.get('/logout', auth.isAuthenticated(), logoutController.logout);
     // router.get('/me', auth.isAuthenticated(), require('./api/user/userController').me);
     router.post('/me/changepassword', auth.isAuthenticated(), userController.changePassword);
 

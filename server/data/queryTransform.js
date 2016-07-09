@@ -102,3 +102,5 @@ function substringof(node, result) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = queryTransform;
+
+//# sourceMappingURL=queryTransform.js.map

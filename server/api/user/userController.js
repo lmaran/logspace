@@ -1,6 +1,7 @@
 "use strict";
 var userService_1 = require('./userService');
-var userValidator = require('./userValidator');
+var userValidator_1 = require('./userValidator');
+// import * as uuid from 'node-uuid';
 var uuid = require('node-uuid');
 var auth = require('./login/loginService');
 var userController = {
@@ -15,7 +16,7 @@ var userController = {
         });
     },
     create: function (req, res, next) {
-        userValidator.all(req, res, function (errors) {
+        userValidator_1.default.all(req, res, function (errors) {
             if (errors) {
                 res.status(400).send({ errors: errors }); // 400 - bad request
             }
@@ -229,3 +230,5 @@ function handleError(res, err) {
 ;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = userController;
+
+//# sourceMappingURL=userController.js.map

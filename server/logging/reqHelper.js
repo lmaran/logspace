@@ -40,3 +40,5 @@ function getIp(req) {
     }
 }
 module.exports.getShortReq = getShortReq;
+
+//# sourceMappingURL=reqHelper.js.map

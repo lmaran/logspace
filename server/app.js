@@ -21,3 +21,5 @@ app.listen(environment_1.default.port, function () {
 });
 // Expose app
 // exports = module.exports = app;
+
+//# sourceMappingURL=app.js.map

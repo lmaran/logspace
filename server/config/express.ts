@@ -1,5 +1,7 @@
 import config from './environment';
 import * as path from 'path';
+import auth from '../api/user/login/loginService';
+
 const express = require('express');
 const favicon = require('serve-favicon');
 
@@ -7,7 +9,7 @@ const bodyParser = require('body-parser');
 
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
-const auth = require('../api/user/login/loginService');
+// const auth = require('../api/user/login/loginService');
 const httpLogHandler = require('../logging/httpLogHandler'); // custom error handler
 const exphbs = require('express-handlebars');
 

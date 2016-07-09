@@ -36,3 +36,5 @@ RollbarLogger.prototype.log = function (level, msg, meta, callback) {
     }
     callback(null, true);
 };
+
+//# sourceMappingURL=rollbarTransport.js.map

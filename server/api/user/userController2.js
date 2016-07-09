@@ -22,3 +22,5 @@ var UserController = (function () {
     return UserController;
 }());
 exports.UserController = UserController;
+
+//# sourceMappingURL=userController2.js.map

@@ -64,3 +64,5 @@ function getColorStatus(status) {
     return chalk[statusColor](status);
 }
 module.exports = logger;
+
+//# sourceMappingURL=logger.js.map

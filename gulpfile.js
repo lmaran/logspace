@@ -36,6 +36,7 @@ var gulp = require('gulp'), // task runner
     var tslint = require('gulp-tslint');
     
     var Builder = require('systemjs-builder');
+    var sourcemaps = require('gulp-sourcemaps');
 /*  usage:
     
     "gulp" - an alias for "gulp dev:watch"
@@ -211,8 +212,11 @@ function doTsc(src, dest, clientOrServer){
     // https://github.com/ivogabe/gulp-typescript/issues/322
     var tsProject = ts.createProject('tsconfig.json');
     return gulp.src(src)
-        .pipe(ts(tsProject))
-        .js.pipe(gulp.dest(dest))
+        .pipe(sourcemaps.init()) // This means sourcemaps will be generated 
+        .pipe(ts(tsProject))        
+        .js
+        .pipe(sourcemaps.write('.', {includeContent: false})) // Now the sourcemaps are added to the .js file
+        .pipe(gulp.dest(dest))
         .on('error', function(error){
             err = true;
             gutil.log(gutil.colors.red('TSC-' + clientOrServer + ' failed!'));

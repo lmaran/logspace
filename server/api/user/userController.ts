@@ -1,9 +1,8 @@
 
 import { Request, Response }  from 'express';
 import userService  from './userService';
-
-const userValidator = require('./userValidator');
-
+import userValidator from './userValidator';
+// import * as uuid from 'node-uuid';
 const uuid = require('node-uuid');
 const auth = require('./login/loginService');
 

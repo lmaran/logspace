@@ -8,3 +8,5 @@ var settings = {
     externalUrl: 'https://logspace.net'
 };
 exports.settings = settings;
+
+//# sourceMappingURL=production.js.map

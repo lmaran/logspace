@@ -16,3 +16,5 @@ function errorLogHandler() {
     };
 }
 module.exports = errorLogHandler;
+
+//# sourceMappingURL=errorLogHandler.js.map

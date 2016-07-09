@@ -1,11 +1,12 @@
 ﻿import * as _ from 'lodash'; // or import { extend } from 'lodash';
 import mongoHelper from '../../data/mongoHelper';
 import mongoService from '../../data/mongoService';
+import * as crypto from 'crypto';
 
-const crypto = require('crypto');
 const collection = 'users';
 
 const userService = {
+
     // ---------- OData ----------
     getAll: function(odataQuery, next) {
         let query = mongoService.getQuery(odataQuery);

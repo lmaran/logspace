@@ -1,11 +1,10 @@
-'use strict';
-(function (userValidator) {
-    var userService = require('./userService');
-    var async = require('async');
-    var validator = require('validator');
-    var _ = require('lodash');
-    // requiredAndUnique
-    userValidator.name = function (req, res, cbResult) {
+"use strict";
+var userService_1 = require('./userService');
+var _ = require('lodash');
+var async = require('async');
+var validator = require('validator');
+var userValidator = {
+    name: function (req, res, cbResult) {
         var fieldVal = req.body.name;
         async.series([
             function (cb) {
@@ -20,7 +19,7 @@
                 }
             },
             function (cb) {
-                userService.getByValue('name', fieldVal, req.body._id, function (err, user) {
+                userService_1.default.getByValue('name', fieldVal, req.body._id, function (err, user) {
                     if (err) {
                         return handleError(res, err);
                     }
@@ -40,9 +39,9 @@
                 cbResult(null, { field: 'name', msg: err });
             }
         });
-    };
+    },
     // optionalAndUniqueEmail
-    userValidator.email = function (req, res, cbResult) {
+    email: function (req, res, cbResult) {
         var fieldVal = req.body.email;
         async.series([
             function (cb) {
@@ -61,7 +60,7 @@
             },
             function (cb) {
                 if (fieldVal) {
-                    userService.getByValue('email', fieldVal, req.body._id, function (err, user) {
+                    userService_1.default.getByValue('email', fieldVal, req.body._id, function (err, user) {
                         if (err) {
                             return handleError(res, err);
                         }
@@ -85,9 +84,9 @@
                 cbResult(null, { field: 'email', msg: err });
             }
         });
-    };
+    },
     // all validations
-    userValidator.all = function (req, res, cbResult) {
+    all: function (req, res, cbResult) {
         async.parallel([
             function (cb) {
                 userValidator.name(req, res, cb);
@@ -102,9 +101,13 @@
             } // return null if no errors
             cbResult(results);
         });
-    };
-    function handleError(res, err) {
-        return res.status(500).send(err);
     }
-    ;
-})(module.exports);
+};
+function handleError(res, err) {
+    return res.status(500).send(err);
+}
+;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = userValidator;
+
+//# sourceMappingURL=userValidator.js.map
