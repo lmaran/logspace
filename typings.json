@@ -1,5 +1,7 @@
 {
   "globalDependencies": {
+    "custom": "file:custom_typings/custom.d.ts",
+
     "async": "registry:dt/async#1.4.2+20160602152629",
     "body-parser": "registry:dt/body-parser#0.0.0+20160317120654",
     "cookie": "registry:dt/cookie#0.1.2+20160316155526",
@@ -12,6 +14,7 @@
     "mongodb": "registry:dt/mongodb#2.1.0+20160602142941",
     "node": "registry:dt/node#6.0.0+20160613154055",
     "serve-favicon": "registry:dt/serve-favicon#0.0.0+20160316155526",
-    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157"
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "winston": "registry:dt/winston#0.0.0+20160417152829"
   }
 }

@@ -1,0 +1,8 @@
+first, search if the package exists in repo: https://github.com/DefinitelyTyped/DefinitelyTyped
+
+install:
+    npm run typings -- install dt~lodash --save --global
+
+import:
+    import * as _ from 'lodash';
+    import * as winston from 'winston';

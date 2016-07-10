@@ -1,6 +1,7 @@
 import config from '../config/environment';
+import * as winston from 'winston';
+import RollbarLogger from './rollbarTransport';
 
-const winston = require('winston');
 const chalk = require('chalk');
 require('./rollbarTransport'); // init Rollbar transport for Winston
 // require('winston-loggly'); // init Loggly transport for Winston
@@ -8,11 +9,12 @@ require('./rollbarTransport'); // init Rollbar transport for Winston
 const logger = new winston.Logger();
 const scrubFields = ['password', 'oldPassword', 'newPassword', 'hashedPassword', 'salt'];
 
+
 // Winston && Rollbar: debug > info > warning > error
 // E.g. 'info' level catches also 'warning' or 'error' but not 'debug'
-
 if (config.env === 'production' || config.env === 'staging') {
-    logger.add(winston.transports.RollbarLogger, {
+    // logger.add(winston.transports.RollbarLogger, {
+    logger.add(RollbarLogger, {
         level: 'warn',  // catches just errors and warnings      
         rollbarAccessToken: config.rollbarToken,
         rollbarConfig: {
@@ -89,4 +91,4 @@ function getColorStatus(status) {
     return chalk[statusColor](status);
 }
 
-module.exports = logger;
+export default logger;

@@ -1,6 +1,7 @@
 "use strict";
 var environment_1 = require('../config/environment');
 var winston = require('winston');
+var rollbarTransport_1 = require('./rollbarTransport');
 var chalk = require('chalk');
 require('./rollbarTransport'); // init Rollbar transport for Winston
 // require('winston-loggly'); // init Loggly transport for Winston
@@ -9,7 +10,8 @@ var scrubFields = ['password', 'oldPassword', 'newPassword', 'hashedPassword', '
 // Winston && Rollbar: debug > info > warning > error
 // E.g. 'info' level catches also 'warning' or 'error' but not 'debug'
 if (environment_1.default.env === 'production' || environment_1.default.env === 'staging') {
-    logger.add(winston.transports.RollbarLogger, {
+    // logger.add(winston.transports.RollbarLogger, {
+    logger.add(rollbarTransport_1.default, {
         level: 'warn',
         rollbarAccessToken: environment_1.default.rollbarToken,
         rollbarConfig: {
@@ -63,6 +65,7 @@ function getColorStatus(status) {
     }
     return chalk[statusColor](status);
 }
-module.exports = logger;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = logger;
 
 //# sourceMappingURL=logger.js.map

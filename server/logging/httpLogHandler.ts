@@ -4,9 +4,8 @@
 // this middleware act as a replacement for Morgan
 // Morgan does not let you log req/res body: http://stackoverflow.com/a/30227670
 
-
-const logger = require('./logger');
-const reqHelper = require('./reqHelper');
+import reqHelper from './reqHelper';
+import logger from './logger';
 
 function httpLogHandler() {
 

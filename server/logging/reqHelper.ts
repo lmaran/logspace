@@ -1,32 +1,34 @@
-function getShortReq(req) {
-    // keep in mind that some request fields could be updated later, by code: E.g.:
-    //      "body" - as in 'orderController'
-    //      "user" - added by Passport
-    // so, use a clone of them if you want to keep the original 
+const getShortReq = {
+    getShortReq: function (req) {
+        // keep in mind that some request fields could be updated later, by code: E.g.:
+        //      "body" - as in 'orderController'
+        //      "user" - added by Passport
+        // so, use a clone of them if you want to keep the original 
 
-    // available fields: https://github.com/rollbar/node_rollbar#the-request-object
-    let newReq = {
-        headers: req.headers,
-        protocol: req.protocol,
-        url: req.originalUrl || req.url,
-        method: req.method,
-        body: req.body,
-        route: req.route,
-        ip: getIp(req),
-        user: undefined
-    };
-
-    if (req.user) {
-        // available fields: https://github.com/rollbar/node_rollbar#person-tracking
-        newReq.user = {
-            id: req.user._id,
-            username: req.user.name,
-            email: req.user.email
+        // available fields: https://github.com/rollbar/node_rollbar#the-request-object
+        let newReq = {
+            headers: req.headers,
+            protocol: req.protocol,
+            url: req.originalUrl || req.url,
+            method: req.method,
+            body: req.body,
+            route: req.route,
+            ip: getIp(req),
+            user: undefined
         };
-    }
 
-    return newReq;
-}
+        if (req.user) {
+            // available fields: https://github.com/rollbar/node_rollbar#person-tracking
+            newReq.user = {
+                id: req.user._id,
+                username: req.user.name,
+                email: req.user.email
+            };
+        }
+
+        return newReq;
+    }
+};
 
 // https://github.com/expressjs/morgan/blob/master/index.js
 function getIp(req) {
@@ -43,4 +45,5 @@ function getIp(req) {
     } else { return ''; }
 }
 
-module.exports.getShortReq = getShortReq;
+export default getShortReq;
+

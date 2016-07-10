@@ -1,4 +1,3 @@
-'use strict';
 
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -6,14 +5,13 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 import * as express from 'express';
 import config from './config/environment';
 import router from './routes';
+import logger from './logging/logger';
 
-const logger = require('./logging/logger');
 const errorLogHandler = require('./logging/errorLogHandler');
 const app: express.Application = express();
 
 require('./config/express')(app);
 
-// require('./routes')(app);
 app.use('/', router);
 
 // catch 404 and 500

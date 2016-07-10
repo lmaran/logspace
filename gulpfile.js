@@ -77,7 +77,7 @@ gulp.task('watch-server', function() {
 
         if(file.type === 'changed'){
             doTslint(file.path, 'server');
-            doTsc([file.path, "typings/**/**.d.ts"], path.parse(file.path).dir, 'server');                                               
+            doTsc([file.path, "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], path.parse(file.path).dir, 'server');                                               
         };   
     });
 
@@ -103,7 +103,7 @@ gulp.task('watch-client', function() { // using the native "gulp.watch" plugin
 
         if(file.type === 'changed'){
             doTslint(file.path, 'client');
-            doTsc([file.path, "typings/**/**.d.ts"], path.parse(file.path).dir, 'client');                                               
+            doTsc([file.path, "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], path.parse(file.path).dir, 'client');                                               
         };   
     });
 
@@ -123,11 +123,11 @@ gulp.task('tslint-server', function() {
 });
 
 gulp.task("tsc-client", function () {
-    return doTsc(["client/app**/*.ts", "typings/**/**.d.ts"], "client", "client");
+    return doTsc(["client/app**/*.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "client", "client");
 });
 
 gulp.task("tsc-server", function () {
-    return doTsc(["server/**/*.ts", "typings/**/**.d.ts"], "server", "server");
+    return doTsc(["server/**/*.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
 });
 
 

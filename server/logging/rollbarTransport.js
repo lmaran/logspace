@@ -1,8 +1,8 @@
 // https://github.com/Ideame/winston-rollbar/blob/master/lib/winston-rollbar.js
 // https://github.com/winstonjs/winston#adding-custom-transports
-// import {config} from '../config/environment';
-var util = require('util');
+"use strict";
 var winston = require('winston');
+var util = require('util');
 var rollbar = require('rollbar');
 // ## Rollbar transport for Winston
 var RollbarLogger = winston.transports.RollbarLogger = function (options) {
@@ -36,5 +36,7 @@ RollbarLogger.prototype.log = function (level, msg, meta, callback) {
     }
     callback(null, true);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = RollbarLogger;
 
 //# sourceMappingURL=rollbarTransport.js.map

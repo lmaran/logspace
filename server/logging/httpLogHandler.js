@@ -1,9 +1,10 @@
 // http://stackoverflow.com/a/31296619
 // https://github.com/bithavoc/express-winston/blob/master/index.js
+"use strict";
 // this middleware act as a replacement for Morgan
 // Morgan does not let you log req/res body: http://stackoverflow.com/a/30227670
-var logger = require('./logger');
-var reqHelper = require('./reqHelper');
+var reqHelper_1 = require('./reqHelper');
+var logger_1 = require('./logger');
 function httpLogHandler() {
     return function httpLog(req, res, next) {
         req._startTime = new Date();
@@ -25,9 +26,9 @@ function httpLogHandler() {
             // 
             //     newRes.body = isJson ? JSON.parse(chunk) : chunk.toString();
             // }
-            var newRec = reqHelper.getShortReq(req);
+            var newRec = reqHelper_1.default.getShortReq(req);
             var meta = { req: newRec, res: newRes };
-            logger.info('http logger', meta);
+            logger_1.default.info('http logger', meta);
         };
         next();
     };

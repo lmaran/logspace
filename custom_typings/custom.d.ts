@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 // for logoutController
 declare module 'express-serve-static-core' {
     import * as http from 'http';
@@ -5,4 +7,15 @@ declare module 'express-serve-static-core' {
         header(field: string, value?: string[]): Response;
     }
 
+}
+
+declare module 'winston' {
+    // let x: Transports;
+    
+
+    interface Transports {
+        RollbarLogger: any;
+    }
+
+    let config: any;
 }
