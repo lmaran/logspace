@@ -1,6 +1,6 @@
 {
   "globalDependencies": {
-    "custom": "file:custom_typings/custom.d.ts",
+    // "custom": "file:custom_typings/custom.d.ts",
 
     "async": "registry:dt/async#1.4.2+20160602152629",
     "body-parser": "registry:dt/body-parser#0.0.0+20160317120654",
