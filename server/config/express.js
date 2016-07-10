@@ -2,15 +2,14 @@
 var environment_1 = require("./environment");
 var path = require("path");
 var loginService_1 = require("../api/user/login/loginService");
+var httpLogHandler_1 = require("../logging/httpLogHandler"); // custom error handler
 var express = require("express");
 var favicon = require("serve-favicon");
 var bodyParser = require("body-parser");
 var passport = require("passport");
 var cookieParser = require("cookie-parser");
-// const auth = require("../api/user/login/loginService");
-var httpLogHandler = require("../logging/httpLogHandler"); // custom error handler
 var exphbs = require("express-handlebars");
-module.exports = function (app) {
+var expressConfig = function (app) {
     var env = app.get("env");
     app.set("views", environment_1.default.root + "/server/views");
     app.engine(".hbs", exphbs({
@@ -59,7 +58,7 @@ module.exports = function (app) {
         app.use("/node_modules", express.static(path.join(environment_1.default.root, "node_modules"))); // to serve node_modules
     }
     // log all http requests (like morgan)
-    app.use(httpLogHandler());
+    app.use(httpLogHandler_1.default());
     // add a second static source for static files: 
     // http://stackoverflow.com/questions/5973432/setting-up-two-different-static-directories-in-node-js-express-framework
     app.use("/public", express.static(path.join(environment_1.default.root, "server/public")));
@@ -67,5 +66,7 @@ module.exports = function (app) {
     app.use("/views", express.static(path.join(environment_1.default.root, "server/views")));
     app.use(loginService_1.default.addUserIfExist());
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = expressConfig;
 
 //# sourceMappingURL=express.js.map

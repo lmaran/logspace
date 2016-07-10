@@ -7,7 +7,7 @@
 import reqHelper from "./reqHelper";
 import logger from "./logger";
 
-function httpLogHandler() {
+const httpLogHandler = function () {
 
     return function httpLog(req, res, next) {
         req._startTime = new Date();
@@ -42,6 +42,6 @@ function httpLogHandler() {
         next();
     };
 
-}
+};
 
-module.exports = httpLogHandler;
+export default httpLogHandler;

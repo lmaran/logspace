@@ -5,7 +5,7 @@
 // Morgan does not let you log req/res body: http://stackoverflow.com/a/30227670
 var reqHelper_1 = require("./reqHelper");
 var logger_1 = require("./logger");
-function httpLogHandler() {
+var httpLogHandler = function () {
     return function httpLog(req, res, next) {
         req._startTime = new Date();
         // Manage to get information from the response too, just like Connect.logger does:
@@ -32,7 +32,8 @@ function httpLogHandler() {
         };
         next();
     };
-}
-module.exports = httpLogHandler;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = httpLogHandler;
 
 //# sourceMappingURL=httpLogHandler.js.map

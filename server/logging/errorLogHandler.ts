@@ -1,6 +1,6 @@
 import config from "./../config/environment";
-const logger = require("./logger");
-const reqHelper = require("./reqHelper");
+import logger from "./logger";
+import reqHelper from "./reqHelper";
 
 function errorLogHandler() {
 
@@ -19,5 +19,5 @@ function errorLogHandler() {
 
 }
 
-module.exports = errorLogHandler;
+export default errorLogHandler;
 

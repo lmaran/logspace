@@ -6,11 +6,12 @@ import * as express from "express";
 import config from "./config/environment";
 import router from "./routes";
 import logger from "./logging/logger";
+import errorLogHandler from "./logging/errorLogHandler";
+import expressConfig from "./config/express";
 
-const errorLogHandler = require("./logging/errorLogHandler");
 const app: express.Application = express();
 
-require("./config/express")(app);
+expressConfig(app);
 
 app.use("/", router);
 
@@ -25,6 +26,4 @@ app.listen(config.port, function () {
     logger.warn("Express server listening on %d in %s mode", config.port, config.env);
 });
 
-// Expose app
-// exports = module.exports = app;
-export { app }
+export default app;

@@ -1,6 +1,7 @@
 import config from "./environment";
 import * as path from "path";
 import auth from "../api/user/login/loginService";
+import httpLogHandler from "../logging/httpLogHandler"; // custom error handler
 
 const express = require("express");
 const favicon = require("serve-favicon");
@@ -9,13 +10,12 @@ const bodyParser = require("body-parser");
 
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
-// const auth = require("../api/user/login/loginService");
-const httpLogHandler = require("../logging/httpLogHandler"); // custom error handler
+
 const exphbs = require("express-handlebars");
 
 
 
-module.exports = function(app) {
+const expressConfig = function(app) {
     let env = app.get("env");
 
     app.set("views", config.root + "/server/views");
@@ -92,3 +92,6 @@ module.exports = function(app) {
 
     app.use(auth.addUserIfExist());
 };
+
+export default expressConfig;
+
