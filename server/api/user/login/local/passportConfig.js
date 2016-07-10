@@ -1,8 +1,8 @@
 "use strict";
 var userService_1 = require("../../userService");
-var LocalStrategy = require("passport-local").Strategy;
+var passport_local_1 = require("passport-local");
 var passport = require("passport");
-passport.use(new LocalStrategy({
+passport.use(new passport_local_1.Strategy({
     usernameField: "email",
     passwordField: "password"
 }, function (email, password, done) {

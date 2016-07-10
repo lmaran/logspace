@@ -1,9 +1,8 @@
 "use strict";
 var userController_1 = require("./userController");
 var loginService_1 = require("./login/loginService");
-var express = require("express");
-// const auth = require("./login/loginService");
-var router = express.Router();
+var express_1 = require("express");
+var router = express_1.Router();
 router.get("/", userController_1.default.getAll);
 router.post("/", userController_1.default.create);
 router.post("/createpublicuser", userController_1.default.createPublicUser);

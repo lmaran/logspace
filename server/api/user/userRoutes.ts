@@ -1,10 +1,8 @@
 import controller from "./userController";
 import auth from "./login/loginService";
+import { Router } from "express";
 
-const express = require("express");
-// const auth = require("./login/loginService");
-
-const router = express.Router();
+const router = Router();
 
 router.get("/", controller.getAll);
 router.post("/", controller.create);

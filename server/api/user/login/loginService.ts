@@ -1,11 +1,11 @@
 import config from "../../../config/environment";
 import userService from "../userService";
+import * as jwt from "jsonwebtoken";
+import * as expressJwt from "express-jwt"; // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware
+import * as cookie from "cookie";
 
-const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt"); // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware
 const compose = require("composable-middleware"); // Treat a sequence of middleware as middleware.
 const validateJwt = expressJwt({ secret: config.secrets.session });
-const cookie = require("cookie");
 
 const loginService = {
     /**

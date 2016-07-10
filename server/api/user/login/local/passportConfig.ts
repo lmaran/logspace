@@ -1,7 +1,6 @@
 import userService from "../../userService";
-
-const LocalStrategy = require("passport-local").Strategy;
-const passport: any = require("passport");
+import { Strategy as LocalStrategy } from "passport-local";
+import * as passport from "passport";
 
 passport.use(new LocalStrategy(
     {

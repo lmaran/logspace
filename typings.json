@@ -1,18 +1,21 @@
 {
   "globalDependencies": {
-    // "custom": "file:custom_typings/custom.d.ts",
-
     "async": "registry:dt/async#1.4.2+20160602152629",
     "body-parser": "registry:dt/body-parser#0.0.0+20160317120654",
     "cookie": "registry:dt/cookie#0.1.2+20160316155526",
     "core-js": "registry:dt/core-js#0.0.0+20160317120654",
     "express": "registry:dt/express#4.0.0+20160317120654",
+    "express-jwt": "registry:dt/express-jwt#0.0.0+20160629014920",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160602151406",
+    "express-unless": "registry:dt/express-unless#0.0.0+20160317120654",
     "jquery": "registry:dt/jquery#1.10.0+20160417213236",
+    "jsonwebtoken": "registry:dt/jsonwebtoken#0.0.0+20160627133958",
     "lodash": "registry:dt/lodash#3.10.0+20160330154726",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "mongodb": "registry:dt/mongodb#2.1.0+20160602142941",
     "node": "registry:dt/node#6.0.0+20160613154055",
+    "passport": "registry:dt/passport#0.2.0+20160317120654",
+    "passport-local": "registry:dt/passport-local#0.0.0+20160316155526",
     "serve-favicon": "registry:dt/serve-favicon#0.0.0+20160316155526",
     "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
     "winston": "registry:dt/winston#0.0.0+20160417152829"

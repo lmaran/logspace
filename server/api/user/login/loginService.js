@@ -3,9 +3,9 @@ var environment_1 = require("../../../config/environment");
 var userService_1 = require("../userService");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt"); // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware
+var cookie = require("cookie");
 var compose = require("composable-middleware"); // Treat a sequence of middleware as middleware.
 var validateJwt = expressJwt({ secret: environment_1.default.secrets.session });
-var cookie = require("cookie");
 var loginService = {
     /**
      * Attaches the user object to the request if authenticated
