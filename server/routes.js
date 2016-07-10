@@ -3,6 +3,7 @@ var express_1 = require("express");
 var environment_1 = require("./config/environment");
 var userController_1 = require("./api/user/userController");
 var logoutController_1 = require("./api/user/logout/logoutController");
+var loginLocalController_1 = require("./api/user/login/local/loginLocalController");
 var path = require("path");
 var userRoutes_1 = require("./api/user/userRoutes");
 var loginService_1 = require("./api/user/login/loginService");
@@ -14,7 +15,7 @@ var router = express_1.Router();
 router.get("/api/users/checkEmail/:email", userController_1.default.checkEmail);
 router.use("/api/users", userRoutes_1.default);
 // RPC routes
-router.post("/login/", require("./api/user/login/local/loginLocalController").authenticate);
+router.post("/login/", loginLocalController_1.default.authenticate);
 router.get("/logout", loginService_1.default.isAuthenticated(), logoutController_1.default.logout);
 // router.get("/me", auth.isAuthenticated(), require("./api/user/userController").me);
 router.post("/me/changepassword", loginService_1.default.isAuthenticated(), userController_1.default.changePassword);

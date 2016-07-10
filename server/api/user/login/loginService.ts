@@ -100,26 +100,4 @@ const loginService = {
     }
 };
 
-
-// /**
-//  * Set token cookie directly for oAuth strategies; used by Social login controllers
-//  */
-// function setTokenCookie(req, res) {
-//     if (!req.user) return res.status(404).json({ message: "Something went wrong, please try again." });
-//     let token = signToken(req.user._id, req.user.role);
-//     res.cookie("token", JSON.stringify(token));
-//     res.redirect("/");
-// }
-
-
-
-// module.exports = {
-//     isAuthenticated: isAuthenticated,
-//     hasRole: hasRole,
-//     signToken: signToken,
-//     // setTokenCookie: setTokenCookie,
-//     setCookies: setCookies,
-//     addUserIfExist: addUserIfExist
-// };
-
 export default loginService;

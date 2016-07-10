@@ -1,11 +1,8 @@
-
 import { Request, Response }  from "express";
 import userService  from "./userService";
 import userValidator from "./userValidator";
-// import * as uuid from "node-uuid";
-const uuid = require("node-uuid");
-const auth = require("./login/loginService");
-
+import * as uuid from "node-uuid";
+import * as auth from "./login/loginService";
 
 const userController = {
     getAll: function (req: Request, res) {

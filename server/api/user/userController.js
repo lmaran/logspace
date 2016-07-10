@@ -1,7 +1,6 @@
 "use strict";
 var userService_1 = require("./userService");
 var userValidator_1 = require("./userValidator");
-// import * as uuid from "node-uuid";
 var uuid = require("node-uuid");
 var auth = require("./login/loginService");
 var userController = {
