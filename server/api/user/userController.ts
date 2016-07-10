@@ -2,7 +2,7 @@ import { Request, Response }  from "express";
 import userService  from "./userService";
 import userValidator from "./userValidator";
 import * as uuid from "node-uuid";
-import * as auth from "./login/loginService";
+import auth from "./login/loginService";
 
 const userController = {
     getAll: function (req: Request, res) {
@@ -80,7 +80,8 @@ const userController = {
             if (err2) { return handleError(res, err2); }
 
             // keep user as authenticated    
-            let token = auth.signToken(user._id, user.role);
+            // let token = auth.signToken(user._id, user.role);
+            let token = auth.signToken(user._id);
 
             let userProfile = { // exclude sensitive info
                 name: user.name,
@@ -186,7 +187,8 @@ const userController = {
                 if (err2) { return validationError(res, err2); }
 
                 // keep user as authenticated    
-                let token = auth.signToken(user._id, user.role);
+                // let token = auth.signToken(user._id, user.role);
+                let token = auth.signToken(user._id);
 
                 let userProfile = { // exclude sensitive info
                     name: user.name,

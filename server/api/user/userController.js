@@ -2,7 +2,7 @@
 var userService_1 = require("./userService");
 var userValidator_1 = require("./userValidator");
 var uuid = require("node-uuid");
-var auth = require("./login/loginService");
+var loginService_1 = require("./login/loginService");
 var userController = {
     getAll: function (req, res) {
         var odataQuery = req.query;
@@ -71,13 +71,14 @@ var userController = {
                 return handleError(res, err2);
             }
             // keep user as authenticated    
-            var token = auth.signToken(user._id, user.role);
+            // let token = auth.signToken(user._id, user.role);
+            var token = loginService_1.default.signToken(user._id);
             var userProfile = {
                 name: user.name,
                 email: user.email,
                 role: user.role
             };
-            auth.setCookies(req, res, token, userProfile);
+            loginService_1.default.setCookies(req, res, token, userProfile);
             res.redirect("/");
         });
     },
@@ -174,13 +175,14 @@ var userController = {
                     return validationError(res, err2);
                 }
                 // keep user as authenticated    
-                var token = auth.signToken(user._id, user.role);
+                // let token = auth.signToken(user._id, user.role);
+                var token = loginService_1.default.signToken(user._id);
                 var userProfile = {
                     name: user.name,
                     email: user.email,
                     role: user.role
                 };
-                auth.setCookies(req, res, token, userProfile);
+                loginService_1.default.setCookies(req, res, token, userProfile);
                 res.redirect("/");
             });
         });
