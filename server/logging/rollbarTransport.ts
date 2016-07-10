@@ -1,6 +1,5 @@
 // https://github.com/Ideame/winston-rollbar/blob/master/lib/winston-rollbar.js
 // https://github.com/winstonjs/winston#adding-custom-transports
-
 import * as winston from 'winston';
 import * as util from 'util';
 const rollbar = require('rollbar');

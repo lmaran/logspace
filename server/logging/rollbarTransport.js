@@ -1,6 +1,6 @@
+"use strict";
 // https://github.com/Ideame/winston-rollbar/blob/master/lib/winston-rollbar.js
 // https://github.com/winstonjs/winston#adding-custom-transports
-"use strict";
 var winston = require('winston');
 var util = require('util');
 var rollbar = require('rollbar');
