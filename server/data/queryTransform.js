@@ -47,25 +47,25 @@ function Node2(type, left, right, func, args) {
 }
 Node2.prototype.transform = function () {
     var result = {};
-    if (this.type === "eq" && this.right.type === 'literal') {
+    if (this.type === "eq" && this.right.type === "literal") {
         //result[this.left.name] = this.right.value;
         //lm:
-        // $filter=fullName eq 'Lucian Maran' --> true
-        // $filter=fullName eq 'lucian maran' --> false
+        // $filter=fullName eq "Lucian Maran" --> true
+        // $filter=fullName eq "lucian maran" --> false
         if (this.left.type === "property")
             result[this.left.name] = this.right.value;
-        // $filter=tolower(fullName) eq 'Lucian Maran' --> true
-        // $filter=tolower(fullName) eq 'lucian maran' --> false
+        // $filter=tolower(fullName) eq "Lucian Maran" --> true
+        // $filter=tolower(fullName) eq "lucian maran" --> false
         if (this.left.type === "functioncall" && this.left.func === "tolower") {
             // we use "tolowwer" OData key as a hack for "case insensitive" search
             var newProp = this.left.args[0];
-            result[newProp.name] = new RegExp('^' + this.right.value + '$', "i"); //http://stackoverflow.com/a/1863452
+            result[newProp.name] = new RegExp("^" + this.right.value + "$", "i"); //http://stackoverflow.com/a/1863452
         }
     }
-    if (this.type === "lt" && this.right.type === 'literal') {
+    if (this.type === "lt" && this.right.type === "literal") {
         result[this.left.name] = { "$lt": this.right.value };
     }
-    if (this.type === "gt" && this.right.type === 'literal') {
+    if (this.type === "gt" && this.right.type === "literal") {
         result[this.left.name] = { "$gt": this.right.value };
     }
     if (this.type === "and") {

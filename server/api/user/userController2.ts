@@ -1,13 +1,13 @@
 // https://github.com/moizKachwala/Angular2-Typescript-MongoDb-ExpressJs-NodeJs/blob/master/server/src/controllers/HeroController.ts
-// const userService = require('./userService');
-import { Request, Response }  from 'express';
-import userService2  from './userService';
+// const userService = require("./userService");
+import { Request, Response }  from "express";
+import userService2  from "./userService";
 
 class UserController {
 
     getAll(req: Request, res: Response) {
         let odataQuery = req.query;
-        odataQuery.hasCountSegment = req.url.indexOf('/$count') !== -1; // check for $count as a url segment
+        odataQuery.hasCountSegment = req.url.indexOf("/$count") !== -1; // check for $count as a url segment
 
         userService2.getAll(odataQuery, function (err, users) {
             let that: UserController = this;

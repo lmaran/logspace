@@ -1,9 +1,9 @@
-﻿import * as _ from 'lodash'; // or import { extend } from 'lodash';
-import mongoHelper from '../../data/mongoHelper';
-import mongoService from '../../data/mongoService';
-import * as crypto from 'crypto';
+﻿import * as _ from "lodash"; // or import { extend } from "lodash";
+import mongoHelper from "../../data/mongoHelper";
+import mongoService from "../../data/mongoService";
+import * as crypto from "crypto";
 
-const collection = 'users';
+const collection = "users";
 
 const userService = {
 
@@ -14,7 +14,7 @@ const userService = {
 
         query.$select = query.$select || {};
 
-        _.extend(query.$select, { salt: 0, hashedPassword: 0 }); // exclude 'salt' and 'psw'     
+        _.extend(query.$select, { salt: 0, hashedPassword: 0 }); // exclude "salt" and "psw"     
 
         mongoService.getAll(collection, query, next);
     },
@@ -49,8 +49,8 @@ const userService = {
     getByEmail: function (email, next) {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
-            // db.collection('users').findOne({ email: email.toLowerCase() }, {salt:0, hashedPassword:0}, next);
-            db.collection('users').findOne({ email: email.toLowerCase() }, next);  // exclude 'salt' and 'psw'                   
+            // db.collection("users").findOne({ email: email.toLowerCase() }, {salt:0, hashedPassword:0}, next);
+            db.collection("users").findOne({ email: email.toLowerCase() }, next);  // exclude "salt" and "psw"                   
         });
     },
 
@@ -58,18 +58,18 @@ const userService = {
         mongoHelper.getDb(function (err, db) {
             if (err) { return next(err, null); }
             id = mongoHelper.normalizedId(id);
-            db.collection('users').findOne({ _id: id }, { salt: 0, hashedPassword: 0 }, next);  // exclude 'salt' and 'psw'
+            db.collection("users").findOne({ _id: id }, { salt: 0, hashedPassword: 0 }, next);  // exclude "salt" and "psw"
         });
     },
 
     makeSalt: function () {
-        return crypto.randomBytes(16).toString('base64');
+        return crypto.randomBytes(16).toString("base64");
     },
 
     encryptPassword: function (password, salt) {
-        if (!password || !salt) { return ''; }
-        let newSalt = new Buffer(salt, 'base64');
-        return crypto.pbkdf2Sync(password, newSalt, 10000, 64).toString('base64');
+        if (!password || !salt) { return ""; }
+        let newSalt = new Buffer(salt, "base64");
+        return crypto.pbkdf2Sync(password, newSalt, 10000, 64).toString("base64");
     },
 
     authenticate: function (plainText, hashedPassword, salt) {

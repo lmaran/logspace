@@ -1,8 +1,8 @@
 "use strict";
-var mongoHelper_1 = require('./mongoHelper');
-var querystring = require('querystring');
-var queryTransform_1 = require('./queryTransform');
-var parser = require('odata-parser');
+var mongoHelper_1 = require("./mongoHelper");
+var querystring = require("querystring");
+var queryTransform_1 = require("./queryTransform");
+var parser = require("odata-parser");
 var mongoService = {
     getQuery: function (odataQuery) {
         var queryOptions = { $filter: {} };
@@ -41,25 +41,25 @@ var mongoService = {
                 queryOptions = queryTransform_1.default(parser.parse(encodedQS));
             }
         }
-        // count inline with '...&$inlinecount=allvalues' (odata V2) or '...&$count=true (odata V4)
-        // added later because 'parse' does not recognize them
+        // count inline with "...&$inlinecount=allvalues" (odata V2) or "...&$count=true (odata V4)
+        // added later because "parse" does not recognize them
         if (odataQuery.$count) {
             queryOptions.$inlinecount = true;
         }
         if (odataQuery.hasCountSegment) {
             queryOptions.hasCountSegment = true;
         }
-        // console.log('-----------------------------------------------------------------Initial query');
+        // console.log("-----------------------------------------------------------------Initial query");
         // console.log(query);
-        // console.log('-----------------------------------------------------------------Initial');
+        // console.log("-----------------------------------------------------------------Initial");
         // console.log(fixedQS);
-        // console.log('-----------------------------------------------------------------Stringify');
+        // console.log("-----------------------------------------------------------------Stringify");
         // console.log(querystring.stringify(fixedQS));
-        // console.log('-----------------------------------------------------------------Decoded');
+        // console.log("-----------------------------------------------------------------Decoded");
         // console.log(encodedQS);
-        // console.log('-----------------------------------------------------------------Parsed');
+        // console.log("-----------------------------------------------------------------Parsed");
         // console.log(JSON.stringify(parser.parse(encodedQS), null, 4));
-        // console.log('-----------------------------------------------------------------Transformed');
+        // console.log("-----------------------------------------------------------------Transformed");
         // console.log(queryOptions.$filter);
         return queryOptions;
     },
@@ -79,7 +79,7 @@ var mongoService = {
             if (query.$limit) {
                 qr = qr.limit(query.$limit);
             }
-            // count (by '/$count' url segment)     -> returns a Number
+            // count (by "/$count" url segment)     -> returns a Number
             if (query.hasCountSegment) {
                 return qr.count(next);
             }
@@ -113,14 +113,14 @@ var mongoService = {
             var query = {};
             // escape special ch.: http://stackoverflow.com/a/8882749/2726725
             // add an "\" in front of each special ch. E.g.: . ? * + ^ $ ( ) [ ] | -         
-            value = value.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+            value = value.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
             // search case insensitive: https://xuguoming.wordpress.com/2015/02/11/using-variable-regex-with-mongodb-query-in-node-js/
             // the "start with" (^) character is important in order to hit the index"
-            query[field] = new RegExp('^' + value + '$', 'i');
+            query[field] = new RegExp("^" + value + "$", "i");
             // for update we have to exclude the existing document
             if (id) {
                 query._id = { $ne: mongoHelper_1.default.normalizedId(id) };
-            } // {name: /^John$/i, _id: {$ne:'93874502347652345'}}  
+            } // {name: /^John$/i, _id: {$ne:"93874502347652345"}}  
             db.collection(collection).findOne(query, next);
         });
     },

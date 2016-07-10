@@ -1,33 +1,33 @@
 "use strict";
-var userService_1 = require('./userService');
-var _ = require('lodash');
-var async = require('async');
-var validator = require('validator');
+var userService_1 = require("./userService");
+var _ = require("lodash");
+var async = require("async");
+var validator = require("validator");
 var userValidator = {
     name: function (req, res, cbResult) {
         var fieldVal = req.body.name;
         async.series([
             function (cb) {
-                if (fieldVal === undefined || fieldVal === '') {
-                    cb('Acest camp este obligatoriu.');
+                if (fieldVal === undefined || fieldVal === "") {
+                    cb("Acest camp este obligatoriu.");
                 }
                 else if (fieldVal && fieldVal.length > 50) {
-                    cb('Maxim 50 caractere.');
+                    cb("Maxim 50 caractere.");
                 }
                 else {
-                    cb(null, 'checkNext');
+                    cb(null, "checkNext");
                 }
             },
             function (cb) {
-                userService_1.default.getByValue('name', fieldVal, req.body._id, function (err, user) {
+                userService_1.default.getByValue("name", fieldVal, req.body._id, function (err, user) {
                     if (err) {
                         return handleError(res, err);
                     }
                     if (user) {
-                        cb('Exista deja o inregistrare cu aceasta valoare.');
+                        cb("Exista deja o inregistrare cu aceasta valoare.");
                     }
                     else {
-                        cb(null, 'checkNext');
+                        cb(null, "checkNext");
                     }
                 });
             }
@@ -36,7 +36,7 @@ var userValidator = {
                 cbResult(null, null); // return null if no error
             }
             else {
-                cbResult(null, { field: 'name', msg: err });
+                cbResult(null, { field: "name", msg: err });
             }
         });
     },
@@ -45,35 +45,35 @@ var userValidator = {
         var fieldVal = req.body.email;
         async.series([
             function (cb) {
-                if (fieldVal === undefined || fieldVal === '') {
-                    cb('Acest camp este obligatoriu.');
+                if (fieldVal === undefined || fieldVal === "") {
+                    cb("Acest camp este obligatoriu.");
                 }
                 else if (fieldVal && fieldVal.length > 50) {
-                    cb('Maxim 50 caractere.');
+                    cb("Maxim 50 caractere.");
                 }
                 else if (fieldVal && !validator.isEmail(fieldVal)) {
-                    cb('Adresa de email invalida.');
+                    cb("Adresa de email invalida.");
                 }
                 else {
-                    cb(null, 'checkNext');
+                    cb(null, "checkNext");
                 }
             },
             function (cb) {
                 if (fieldVal) {
-                    userService_1.default.getByValue('email', fieldVal, req.body._id, function (err, user) {
+                    userService_1.default.getByValue("email", fieldVal, req.body._id, function (err, user) {
                         if (err) {
                             return handleError(res, err);
                         }
                         if (user) {
-                            cb('Exista deja o inregistrare cu aceasta valoare.');
+                            cb("Exista deja o inregistrare cu aceasta valoare.");
                         }
                         else {
-                            cb(null, 'checkNext');
+                            cb(null, "checkNext");
                         }
                     });
                 }
                 else {
-                    cb(null, 'checkNext');
+                    cb(null, "checkNext");
                 }
             }
         ], function (err, results) {
@@ -81,7 +81,7 @@ var userValidator = {
                 cbResult(null, null);
             }
             else {
-                cbResult(null, { field: 'email', msg: err });
+                cbResult(null, { field: "email", msg: err });
             }
         });
     },

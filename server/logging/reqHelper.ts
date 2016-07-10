@@ -1,7 +1,7 @@
 const getShortReq = {
     getShortReq: function (req) {
         // keep in mind that some request fields could be updated later, by code: E.g.:
-        //      "body" - as in 'orderController'
+        //      "body" - as in "orderController"
         //      "user" - added by Passport
         // so, use a clone of them if you want to keep the original 
 
@@ -38,11 +38,11 @@ function getIp(req) {
         || undefined;
 
     if (ip) {
-        let parts = ip.split(':');
+        let parts = ip.split(":");
 
         // IPv6 -> IPv4 ("::ffff:127.0.0.1" -> "127.0.0.1")    
         return parts[parts.length - 1];
-    } else { return ''; }
+    } else { return ""; }
 }
 
 export default getShortReq;

@@ -1,5 +1,5 @@
-﻿import config from './../config/environment';
-import { MongoClient, ObjectID } from 'mongodb';
+﻿import config from "./../config/environment";
+import { MongoClient, ObjectID } from "mongodb";
 
 let theDb = null; // this will be re-used so the db is only created once (on first request).
 

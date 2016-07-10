@@ -1,8 +1,8 @@
-import mongoHelper from './mongoHelper';
-import * as querystring from 'querystring';
-import queryTransform from './queryTransform';
+import mongoHelper from "./mongoHelper";
+import * as querystring from "querystring";
+import queryTransform from "./queryTransform";
 
-const parser = require('odata-parser');
+const parser = require("odata-parser");
 
 const mongoService = {
     getQuery: function (odataQuery: any) {
@@ -27,22 +27,22 @@ const mongoService = {
             }
         }
 
-        // count inline with '...&$inlinecount=allvalues' (odata V2) or '...&$count=true (odata V4)
-        // added later because 'parse' does not recognize them
+        // count inline with "...&$inlinecount=allvalues" (odata V2) or "...&$count=true (odata V4)
+        // added later because "parse" does not recognize them
         if (odataQuery.$count) { queryOptions.$inlinecount = true; }
         if (odataQuery.hasCountSegment) { queryOptions.hasCountSegment = true; }
 
-        // console.log('-----------------------------------------------------------------Initial query');
+        // console.log("-----------------------------------------------------------------Initial query");
         // console.log(query);
-        // console.log('-----------------------------------------------------------------Initial');
+        // console.log("-----------------------------------------------------------------Initial");
         // console.log(fixedQS);
-        // console.log('-----------------------------------------------------------------Stringify');
+        // console.log("-----------------------------------------------------------------Stringify");
         // console.log(querystring.stringify(fixedQS));
-        // console.log('-----------------------------------------------------------------Decoded');
+        // console.log("-----------------------------------------------------------------Decoded");
         // console.log(encodedQS);
-        // console.log('-----------------------------------------------------------------Parsed');
+        // console.log("-----------------------------------------------------------------Parsed");
         // console.log(JSON.stringify(parser.parse(encodedQS), null, 4));
-        // console.log('-----------------------------------------------------------------Transformed');
+        // console.log("-----------------------------------------------------------------Transformed");
         // console.log(queryOptions.$filter);
 
         return queryOptions;
@@ -65,7 +65,7 @@ const mongoService = {
                 qr = qr.limit(query.$limit);
             }
 
-            // count (by '/$count' url segment)     -> returns a Number
+            // count (by "/$count" url segment)     -> returns a Number
             if (query.hasCountSegment) {
                 return qr.count(next);
             }
@@ -100,14 +100,14 @@ const mongoService = {
 
             // escape special ch.: http://stackoverflow.com/a/8882749/2726725
             // add an "\" in front of each special ch. E.g.: . ? * + ^ $ ( ) [ ] | -         
-            value = value.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+            value = value.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
 
             // search case insensitive: https://xuguoming.wordpress.com/2015/02/11/using-variable-regex-with-mongodb-query-in-node-js/
             // the "start with" (^) character is important in order to hit the index"
-            query[field] = new RegExp('^' + value + '$', 'i');
+            query[field] = new RegExp("^" + value + "$", "i");
 
             // for update we have to exclude the existing document
-            if (id) { query._id = { $ne: mongoHelper.normalizedId(id) }; } // {name: /^John$/i, _id: {$ne:'93874502347652345'}}  
+            if (id) { query._id = { $ne: mongoHelper.normalizedId(id) }; } // {name: /^John$/i, _id: {$ne:"93874502347652345"}}  
 
             db.collection(collection).findOne(query, next);
         });

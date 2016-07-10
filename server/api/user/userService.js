@@ -1,9 +1,9 @@
 "use strict";
-var _ = require('lodash'); // or import { extend } from 'lodash';
-var mongoHelper_1 = require('../../data/mongoHelper');
-var mongoService_1 = require('../../data/mongoService');
-var crypto = require('crypto');
-var collection = 'users';
+var _ = require("lodash"); // or import { extend } from "lodash";
+var mongoHelper_1 = require("../../data/mongoHelper");
+var mongoService_1 = require("../../data/mongoService");
+var crypto = require("crypto");
+var collection = "users";
 var userService = {
     // ---------- OData ----------
     getAll: function (odataQuery, next) {
@@ -12,7 +12,7 @@ var userService = {
             query.$sort = { name: 1 };
         } // sort by name (asc)
         query.$select = query.$select || {};
-        _.extend(query.$select, { salt: 0, hashedPassword: 0 }); // exclude 'salt' and 'psw'     
+        _.extend(query.$select, { salt: 0, hashedPassword: 0 }); // exclude "salt" and "psw"     
         mongoService_1.default.getAll(collection, query, next);
     },
     // ---------- CRUD ----------
@@ -40,8 +40,8 @@ var userService = {
             if (err) {
                 return next(err, null);
             }
-            // db.collection('users').findOne({ email: email.toLowerCase() }, {salt:0, hashedPassword:0}, next);
-            db.collection('users').findOne({ email: email.toLowerCase() }, next); // exclude 'salt' and 'psw'                   
+            // db.collection("users").findOne({ email: email.toLowerCase() }, {salt:0, hashedPassword:0}, next);
+            db.collection("users").findOne({ email: email.toLowerCase() }, next); // exclude "salt" and "psw"                   
         });
     },
     getByIdWithoutPsw: function (id, next) {
@@ -50,18 +50,18 @@ var userService = {
                 return next(err, null);
             }
             id = mongoHelper_1.default.normalizedId(id);
-            db.collection('users').findOne({ _id: id }, { salt: 0, hashedPassword: 0 }, next); // exclude 'salt' and 'psw'
+            db.collection("users").findOne({ _id: id }, { salt: 0, hashedPassword: 0 }, next); // exclude "salt" and "psw"
         });
     },
     makeSalt: function () {
-        return crypto.randomBytes(16).toString('base64');
+        return crypto.randomBytes(16).toString("base64");
     },
     encryptPassword: function (password, salt) {
         if (!password || !salt) {
-            return '';
+            return "";
         }
-        var newSalt = new Buffer(salt, 'base64');
-        return crypto.pbkdf2Sync(password, newSalt, 10000, 64).toString('base64');
+        var newSalt = new Buffer(salt, "base64");
+        return crypto.pbkdf2Sync(password, newSalt, 10000, 64).toString("base64");
     },
     authenticate: function (plainText, hashedPassword, salt) {
         return this.encryptPassword(plainText, salt) === hashedPassword;

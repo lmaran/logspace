@@ -4,8 +4,8 @@
 // this middleware act as a replacement for Morgan
 // Morgan does not let you log req/res body: http://stackoverflow.com/a/30227670
 
-import reqHelper from './reqHelper';
-import logger from './logger';
+import reqHelper from "./reqHelper";
+import logger from "./logger";
 
 function httpLogHandler() {
 
@@ -27,8 +27,8 @@ function httpLogHandler() {
             // ---- Uncomment if you need to log the res.body ----
             // 
             // if (chunk) {
-            //     let isJson = (res._headers && res._headers['content-type']
-            //         && res._headers['content-type'].indexOf('json') >= 0);
+            //     let isJson = (res._headers && res._headers["content-type"]
+            //         && res._headers["content-type"].indexOf("json") >= 0);
             // 
             //     newRes.body = isJson ? JSON.parse(chunk) : chunk.toString();
             // }
@@ -36,7 +36,7 @@ function httpLogHandler() {
             let newRec = reqHelper.getShortReq(req);
             let meta = {req: newRec, res: newRes};
 
-            logger.info('http logger', meta);
+            logger.info("http logger", meta);
         };
 
         next();

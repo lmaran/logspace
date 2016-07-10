@@ -1,6 +1,6 @@
-import config from './../config/environment';
-const logger = require('./logger');
-const reqHelper = require('./reqHelper');
+import config from "./../config/environment";
+const logger = require("./logger");
+const reqHelper = require("./reqHelper");
 
 function errorLogHandler() {
 
@@ -8,9 +8,9 @@ function errorLogHandler() {
         let newReq = reqHelper.getShortReq(req);
         let meta = { req: newReq, err: err };
 
-        logger.error('error logger', meta);
+        logger.error("error logger", meta);
 
-        if (config.env === 'development') {
+        if (config.env === "development") {
             next(err); // retuns errors (and stack trace) in the browser
         } else {
             next();

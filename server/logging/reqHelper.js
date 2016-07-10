@@ -2,7 +2,7 @@
 var getShortReq = {
     getShortReq: function (req) {
         // keep in mind that some request fields could be updated later, by code: E.g.:
-        //      "body" - as in 'orderController'
+        //      "body" - as in "orderController"
         //      "user" - added by Passport
         // so, use a clone of them if you want to keep the original 
         // available fields: https://github.com/rollbar/node_rollbar#the-request-object
@@ -34,12 +34,12 @@ function getIp(req) {
         || (req.connection && req.connection.remoteAddress)
         || undefined;
     if (ip) {
-        var parts = ip.split(':');
+        var parts = ip.split(":");
         // IPv6 -> IPv4 ("::ffff:127.0.0.1" -> "127.0.0.1")    
         return parts[parts.length - 1];
     }
     else {
-        return '';
+        return "";
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });

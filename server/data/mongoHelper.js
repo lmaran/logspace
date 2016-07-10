@@ -1,6 +1,6 @@
 "use strict";
-var environment_1 = require('./../config/environment');
-var mongodb_1 = require('mongodb');
+var environment_1 = require("./../config/environment");
+var mongodb_1 = require("mongodb");
 var theDb = null; // this will be re-used so the db is only created once (on first request).
 var mongoHelper = {
     getDb: function (next) {

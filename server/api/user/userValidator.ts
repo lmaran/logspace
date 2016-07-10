@@ -1,30 +1,30 @@
 
-import userService  from './userService';
-import * as _ from 'lodash';
-import * as async from 'async';
+import userService  from "./userService";
+import * as _ from "lodash";
+import * as async from "async";
 
-const validator = require('validator');
+const validator = require("validator");
 
 const userValidator = {
     name: function (req, res, cbResult) {
         let fieldVal = req.body.name;
         async.series([
             function (cb: any) {
-                if (fieldVal === undefined || fieldVal === '') {
-                    cb('Acest camp este obligatoriu.');
+                if (fieldVal === undefined || fieldVal === "") {
+                    cb("Acest camp este obligatoriu.");
                 }
                 else if (fieldVal && fieldVal.length > 50) {
-                    cb('Maxim 50 caractere.');
+                    cb("Maxim 50 caractere.");
                 }
-                else { cb(null, 'checkNext'); }
+                else { cb(null, "checkNext"); }
             },
             function (cb: any) {
-                userService.getByValue('name', fieldVal, req.body._id, function (err, user) {
+                userService.getByValue("name", fieldVal, req.body._id, function (err, user) {
                     if (err) { return handleError(res, err); }
                     if (user) {
-                        cb('Exista deja o inregistrare cu aceasta valoare.');
+                        cb("Exista deja o inregistrare cu aceasta valoare.");
                     }
-                    else { cb(null, 'checkNext'); }
+                    else { cb(null, "checkNext"); }
                 });
             }
         ],
@@ -32,7 +32,7 @@ const userValidator = {
                 if (err == null) {
                     cbResult(null, null); // return null if no error
                 } else {
-                    cbResult(null, { field: 'name', msg: err });
+                    cbResult(null, { field: "name", msg: err });
                 }
             });
     },
@@ -42,35 +42,35 @@ const userValidator = {
         let fieldVal = req.body.email;
         async.series([
             function (cb: any) {
-                if (fieldVal === undefined || fieldVal === '') {
-                    cb('Acest camp este obligatoriu.');
+                if (fieldVal === undefined || fieldVal === "") {
+                    cb("Acest camp este obligatoriu.");
                 }
                 else if (fieldVal && fieldVal.length > 50) {
-                    cb('Maxim 50 caractere.');
+                    cb("Maxim 50 caractere.");
                 }
                 else if (fieldVal && !validator.isEmail(fieldVal)) {
-                    cb('Adresa de email invalida.');
+                    cb("Adresa de email invalida.");
                 }
-                else { cb(null, 'checkNext'); }
+                else { cb(null, "checkNext"); }
             },
             function (cb: any) {
                 if (fieldVal) {
-                    userService.getByValue('email', fieldVal, req.body._id, function (err, user) {
+                    userService.getByValue("email", fieldVal, req.body._id, function (err, user) {
                         if (err) { return handleError(res, err); }
                         if (user) {
-                            cb('Exista deja o inregistrare cu aceasta valoare.');
+                            cb("Exista deja o inregistrare cu aceasta valoare.");
                         }
-                        else { cb(null, 'checkNext'); }
+                        else { cb(null, "checkNext"); }
                     });
                 }
-                else { cb(null, 'checkNext'); }
+                else { cb(null, "checkNext"); }
             }
         ],
             function (err, results) {
                 if (err == null) { // no validation errors
                     cbResult(null, null);
                 } else {
-                    cbResult(null, { field: 'email', msg: err });
+                    cbResult(null, { field: "email", msg: err });
                 }
             });
     },

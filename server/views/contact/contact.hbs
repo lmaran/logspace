@@ -13,7 +13,7 @@
     function initMap() {
         var myLatLng = {lat: 47.781271, lng: 22.882320};
 
-        var map = new google.maps.Map(document.getElementById('mapCT'), {
+        var map = new google.maps.Map(document.getElementById("mapCT"), {
             center: myLatLng,
             scrollwheel: false,
             zoom: 16
@@ -22,9 +22,9 @@
         var marker = new google.maps.Marker({
             map: map,
             position: myLatLng,
-            title: 'Celebrate Taste'
+            title: "Celebrate Taste"
         });
     }
 </script>
     
-<script src='//maps.googleapis.com/maps/api/js?sensor=false&language=en&callback=initMap',async, defer></script>
+<script src="//maps.googleapis.com/maps/api/js?sensor=false&language=en&callback=initMap",async, defer></script>

@@ -1,16 +1,16 @@
 
-import { Request, Response }  from 'express';
-import userService  from './userService';
-import userValidator from './userValidator';
-// import * as uuid from 'node-uuid';
-const uuid = require('node-uuid');
-const auth = require('./login/loginService');
+import { Request, Response }  from "express";
+import userService  from "./userService";
+import userValidator from "./userValidator";
+// import * as uuid from "node-uuid";
+const uuid = require("node-uuid");
+const auth = require("./login/loginService");
 
 
 const userController = {
     getAll: function (req: Request, res) {
         let odataQuery = req.query;
-        odataQuery.hasCountSegment = req.url.indexOf('/$count') !== -1; // check for $count as a url segment
+        odataQuery.hasCountSegment = req.url.indexOf("/$count") !== -1; // check for $count as a url segment
 
         userService.getAll(odataQuery, function (err, users) {
             if (err) { return handleError(res, err); }
@@ -27,12 +27,12 @@ const userController = {
                 let user = req.body;
 
                 user.isActive = true;
-                user.provider = 'local';
-                user.role = 'admin';
+                user.provider = "local";
+                user.role = "admin";
                 user.createdBy = req.user.name;
                 user.createdOn = new Date();
                 user.activationToken = uuid.v4();
-                // user.status = 'waitingToBeActivated';
+                // user.status = "waitingToBeActivated";
 
                 userService.create(user, function (err, response) {
                     if (err) { return handleError(res, err); }
@@ -40,15 +40,15 @@ const userController = {
 
                     // // send an email with an activationLink
                     // let from = user.email;
-                    // let subject = 'Activare cont';
+                    // let subject = "Activare cont";
 
-                    // let tpl = '';
-                    //     tpl += '<p style="margin-bottom:30px;">Buna <strong>' + user.name + '</strong>,</p>';
-                    //     tpl += user.createdBy + ' ti-a creat un cont de acces in aplicatie. ';
-                    //     tpl += 'Pentru activarea acestuia, te rog sa folosesti link-ul de mai jos:';
-                    //     tpl += '<p><a href="' + config.externalUrl + '/activate/' 
-                    // + user._id + '?activationToken=' + user.activationToken + '">Activare cont</a></p>';
-                    //     tpl += '<p style="margin-top:30px">Acest email a fost generat automat.</p>';
+                    // let tpl = "";
+                    //     tpl += "<p style="margin-bottom:30px;">Buna <strong>" + user.name + "</strong>,</p>";
+                    //     tpl += user.createdBy + " ti-a creat un cont de acces in aplicatie. ";
+                    //     tpl += "Pentru activarea acestuia, te rog sa folosesti link-ul de mai jos:";
+                    //     tpl += "<p><a href="" + config.externalUrl + "/activate/" 
+                    // + user._id + "?activationToken=" + user.activationToken + "">Activare cont</a></p>";
+                    //     tpl += "<p style="margin-top:30px">Acest email a fost generat automat.</p>";
 
                     //     emailService.sendEmail(from, subject, tpl).then(function (result) {
                     //         console.log(result);
@@ -66,17 +66,17 @@ const userController = {
     createPublicUser: function (req: Request, res: Response, next) {
         let data = req.body;
         let user: any = {};
-        user.name = 'aaa';
+        user.name = "aaa";
         user.email = data.email;
 
         user.salt = userService.makeSalt();
         user.hashedPassword = userService.encryptPassword(data.password, user.salt);
 
-        user.provider = 'local';
-        user.role = 'user';
+        user.provider = "local";
+        user.role = "user";
 
         user.isActive = true;
-        user.createdBy = 'External user';
+        user.createdBy = "External user";
         user.createdOn = new Date();
 
         userService.create(user, function (err2, response) {
@@ -93,7 +93,7 @@ const userController = {
 
             auth.setCookies(req, res, token, userProfile);
 
-            res.redirect('/');
+            res.redirect("/");
 
         });
     },
@@ -103,7 +103,7 @@ const userController = {
 
         userService.getByIdWithoutPsw(userId, function (err, user) {
             if (err) { return next(err); }
-            if (!user) { return res.status(401).send('Unauthorized'); }
+            if (!user) { return res.status(401).send("Unauthorized"); }
             res.json(user);
         });
     },
@@ -133,7 +133,7 @@ const userController = {
     },
 
     changePassword: function (req: Request, res: Response, next) {
-        let userId = String(req.user._id); // without 'String' the result is an Object
+        let userId = String(req.user._id); // without "String" the result is an Object
         let oldPass = String(req.body.oldPassword);
         let newPass = String(req.body.newPassword);
 
@@ -146,15 +146,15 @@ const userController = {
                 userService.update(user, function (err2, response) {
                     if (err2) { return validationError(res, err2); }
 
-                    if (req.is('json')) { // http://expressjs.com/api.html#req.is 
+                    if (req.is("json")) { // http://expressjs.com/api.html#req.is 
                         res.json({}); // for requests that come from client-side (Angular)
                     }
-                    else { res.redirect('/'); } // for requests that come from server-side (Jade)
+                    else { res.redirect("/"); } // for requests that come from server-side (Jade)
 
-                    // res.status(200).send('OK');
+                    // res.status(200).send("OK");
                 });
             } else {
-                res.status(403).send('Forbidden');
+                res.status(403).send("Forbidden");
             }
         });
     },
@@ -162,15 +162,15 @@ const userController = {
 
     me: function (req: Request, res: Response, next) {
         let userId = req.user._id.toString();
-        userService.getByIdWithoutPsw(userId, function (err, user) { // don't ever give out the password or salt
+        userService.getByIdWithoutPsw(userId, function (err, user) { // don"t ever give out the password or salt
             if (err) { return next(err); }
-            if (!user) { return res.status(401).send('Unauthorized'); }
+            if (!user) { return res.status(401).send("Unauthorized"); }
             res.json(user);
         });
     },
 
     authCallback: function (req: Request, res: Response, next) {
-        res.redirect('/');
+        res.redirect("/");
     },
 
     saveActivationData: function (req: Request, res: Response, next) {
@@ -199,7 +199,7 @@ const userController = {
 
                 auth.setCookies(req, res, token, userProfile);
 
-                res.redirect('/');
+                res.redirect("/");
             });
         });
     },
@@ -210,20 +210,20 @@ const userController = {
 
         userService.getByIdWithoutPsw(userId, function (err, user) {
             if (err) { return next(err); }
-            if (!user) { return res.status(400).send('Link incorect sau expirat (utilizator negasit).'); }
-            if (user.activationToken !== activationToken) { return res.status(400).send('Acest cont a fost deja activat.'); }
+            if (!user) { return res.status(400).send("Link incorect sau expirat (utilizator negasit)."); }
+            if (user.activationToken !== activationToken) { return res.status(400).send("Acest cont a fost deja activat."); }
 
             let context = {
                 user: user,
             };
-            res.render('user/activate', context);
+            res.render("user/activate", context);
         });
     },
 
     checkEmail: function (req: Request, res) {
         let email = req.params.email;
 
-        userService.getByValue('email', email, null, function (err, user) {
+        userService.getByValue("email", email, null, function (err, user) {
             if (err) { return handleError(res, err); }
             if (user) {
                 res.send(true);

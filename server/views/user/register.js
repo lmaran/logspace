@@ -9,11 +9,11 @@
         // def
         formEl = $("form");
         
-        emailEl = $("[name='email']");
+        emailEl = $("[name="email"]");
         emailFg = $("#emailFg");
         emailErr = $("#emailErr");
         
-        pswEl = $("[name='password']")  
+        pswEl = $("[name="password"]")  
         pswFg = $("#pswFg");
         pswErr = $("#pswErr");        
               
@@ -34,7 +34,7 @@
     }
     
     function saveUser(){
-        var url = '/api/users/createpublicuser';
+        var url = "/api/users/createpublicuser";
         
         var data = {
             email: emailEl.val(),
@@ -43,7 +43,7 @@
         
         $.post(url, data)
             .done(function(){
-                //alert('ok');
+                //alert("ok");
                 document.location.href="/"; // redirect to homepage
             })
             .fail(function(err){
@@ -137,20 +137,20 @@
     
 //     // DOM ready
 //     document.addEventListener("DOMContentLoaded", function(event) {
-//         emailEl = document.getElementById('email');
+//         emailEl = document.getElementById("email");
 //         emailEl.addEventListener("change", onChangeEmail);
 
-//         emailGlyphOkEl = document.getElementById('emailGlyphOk');
+//         emailGlyphOkEl = document.getElementById("emailGlyphOk");
 //         emailGlyphOkEl.style.visibility="hidden";
         
-//         emailGlyphWarnEl = document.getElementById('emailGlyphWarn');
+//         emailGlyphWarnEl = document.getElementById("emailGlyphWarn");
 //         emailGlyphWarnEl.style.visibility="hidden";
 //     });
 
 
 //     function onChangeEmail() {
 //         checkEmail(emailEl.value, function(result){
-//             if(result === 'true'){ // email is present in DB
+//             if(result === "true"){ // email is present in DB
 //                 emailGlyphOkEl.style.visibility="visible";
 //                 emailGlyphWarnEl.style.visibility="hidden";
 //             } else{

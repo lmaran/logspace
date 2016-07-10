@@ -1,11 +1,11 @@
-import config from '../../../config/environment';
-import userService from '../userService';
+import config from "../../../config/environment";
+import userService from "../userService";
 
-const jwt = require('jsonwebtoken');
-const expressJwt = require('express-jwt'); // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware
-const compose = require('composable-middleware'); // Treat a sequence of middleware as middleware.
+const jwt = require("jsonwebtoken");
+const expressJwt = require("express-jwt"); // Middleware that validates JsonWebTokens and sets req.user to be used by later middleware
+const compose = require("composable-middleware"); // Treat a sequence of middleware as middleware.
 const validateJwt = expressJwt({ secret: config.secrets.session });
-const cookie = require('cookie');
+const cookie = require("cookie");
 
 const loginService = {
     /**
@@ -13,12 +13,12 @@ const loginService = {
      * Otherwise returns 403
      */
     isAuthenticated: function () {
-        // the logic that adds the user to the reques was moved to 'addUserIfExist' middleware
+        // the logic that adds the user to the reques was moved to "addUserIfExist" middleware
         return function (req, res, next) {
             if (req.user) {
                 next();
             } else {
-                return res.status(401).send('Unauthorized');
+                return res.status(401).send("Unauthorized");
             }
         };
     },
@@ -27,7 +27,7 @@ const loginService = {
      * Checks if the user role meets the minimum requirements of the route
      */
     hasRole: function (roleRequired) {
-        if (!roleRequired) { throw new Error('Required role needs to be set'); }
+        if (!roleRequired) { throw new Error("Required role needs to be set"); }
 
         return compose()
             .use(this.isAuthenticated())
@@ -35,7 +35,7 @@ const loginService = {
                 if (config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
                     next();
                 } else {
-                    res.status(403).send('Forbidden');
+                    res.status(403).send("Forbidden");
                 }
             });
     },
@@ -50,19 +50,19 @@ const loginService = {
     // used by loginLocalController
     setCookies: function (req, res, token, userProfile) {
         let milliseconds = 1000 * 60 * 60 * 24 * 365;  // (1000 = 1 sec) http://stackoverflow.com/a/9718416/2726725
-        let isSecure = process.env.NODE_ENV === 'production'; // in production the coockie is sent only over https
+        let isSecure = process.env.NODE_ENV === "production"; // in production the coockie is sent only over https
 
-        // res.cookie('TOKEN', 'cookievalue', { maxAge:milliseconds, httpOnly: true, secure:isSecure });
+        // res.cookie("TOKEN", "cookievalue", { maxAge:milliseconds, httpOnly: true, secure:isSecure });
 
-        let c1 = cookie.serialize('access_token', token, { path: '/', maxAge: milliseconds, httpOnly: true, secure: isSecure });
+        let c1 = cookie.serialize("access_token", token, { path: "/", maxAge: milliseconds, httpOnly: true, secure: isSecure });
 
-        // 'XSRF-TOKEN' is the default name in Anguler for CSRF token     
-        let c2 = cookie.serialize('XSRF-TOKEN', token, { path: '/', maxAge: milliseconds });
+        // "XSRF-TOKEN" is the default name in Anguler for CSRF token     
+        let c2 = cookie.serialize("XSRF-TOKEN", token, { path: "/", maxAge: milliseconds });
 
-        let c3 = cookie.serialize('user', JSON.stringify(userProfile), { path: '/', maxAge: milliseconds });
+        let c3 = cookie.serialize("user", JSON.stringify(userProfile), { path: "/", maxAge: milliseconds });
 
         // http://www.connecto.io/blog/nodejs-express-how-to-set-multiple-cookies-in-the-same-response-object/
-        res.header('Set-Cookie', [c1, c2, c3]); // array of cookies http://expressjs.com/api.html#res.set
+        res.header("Set-Cookie", [c1, c2, c3]); // array of cookies http://expressjs.com/api.html#res.set
     },
 
     addUserIfExist: function () {
@@ -70,12 +70,12 @@ const loginService = {
             // Validate jwt
             .use(function (req, res, next) {
                 // allow access_token to be passed through query parameter as well
-                // if (req.query && req.query.hasOwnProperty('access_token')) {
-                //     req.headers.authorization = 'Bearer ' + req.query.access_token;
+                // if (req.query && req.query.hasOwnProperty("access_token")) {
+                //     req.headers.authorization = "Bearer " + req.query.access_token;
                 // };
 
                 if (req.cookies && req.cookies.access_token) {
-                    req.headers.authorization = 'Bearer ' + req.cookies.access_token;
+                    req.headers.authorization = "Bearer " + req.cookies.access_token;
                     validateJwt(req, res, next);
                 } else {
                     next();
@@ -87,8 +87,8 @@ const loginService = {
                     userService.getByIdWithoutPsw(req.user._id, function (err, user) {
                         if (err) { return next(err); }
                         if (user) {
-                            if (user.role.indexOf('admin') > -1) { user.isAdmin = true; } // add this property for navbar
-                            if (user.role.indexOf('partner') > -1) { user.isPartner = true; } // add this property for navbar
+                            if (user.role.indexOf("admin") > -1) { user.isAdmin = true; } // add this property for navbar
+                            if (user.role.indexOf("partner") > -1) { user.isPartner = true; } // add this property for navbar
                             req.user = user;
                         }
                         next();
@@ -105,10 +105,10 @@ const loginService = {
 //  * Set token cookie directly for oAuth strategies; used by Social login controllers
 //  */
 // function setTokenCookie(req, res) {
-//     if (!req.user) return res.status(404).json({ message: 'Something went wrong, please try again.' });
+//     if (!req.user) return res.status(404).json({ message: "Something went wrong, please try again." });
 //     let token = signToken(req.user._id, req.user.role);
-//     res.cookie('token', JSON.stringify(token));
-//     res.redirect('/');
+//     res.cookie("token", JSON.stringify(token));
+//     res.redirect("/");
 // }
 
 
