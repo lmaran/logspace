@@ -8,7 +8,8 @@
         "**/*.js": {
             "when": "$(basename).ts"
         }
-    }
+    },
+    "files.trimTrailingWhitespace": true
     // "tslint.configFile": "tslint.json",
     // "tslint.ignoreDefinitionFiles": true,
     // "tslint.exclude": ["custom_typings/custom.d.ts"]

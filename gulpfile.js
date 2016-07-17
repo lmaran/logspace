@@ -1,5 +1,5 @@
 /* global process */
-/* aside notes: 
+/* aside notes:
     - "livereload" works in conjunction with a node.js middleware (connect-nodemon). Alternatively, you can use a browser plugin
     - in Chrome, changes in "less" files are visible only after you move the mouse over the browser. Works fine in IE and FF.
         * seems to be a browser problem: https://github.com/livereload/livereload-extensions/issues/26#issuecomment-96439256
@@ -8,7 +8,7 @@
     - sometimes, renaming a file requires a full page reload. That is because renaming a file invokes two events: "deleted" and "renamed" - https://github.com/gulpjs/gulp/issues/917
 */
 var gulp = require("gulp"), // task runner
-    //bowerFiles = require("main-bower-files"), // get all bower files (js and css) based on bower.json 
+    //bowerFiles = require("main-bower-files"), // get all bower files (js and css) based on bower.json
     inject = require("gulp-inject"), // inject a string into placeholders in html files
     livereload = require("gulp-livereload"), // automatically refresh the browser; requires a browser plugin OR a node.js middleware
     nodemon = require("gulp-nodemon"), // monitor for changes in node.js files and restart your app
@@ -16,17 +16,17 @@ var gulp = require("gulp"), // task runner
     //jshint = require("gulp-jshint"), // a js code quality tool
     //stylish = require("jshint-stylish"), // another reporter for jshint
     runSequence = require("run-sequence"), // a cool way of choosing what must run sequentially, and what in parallel
-    //del = require("del"), // delete files/folders  
-    concat = require("gulp-concat"), // concatenate files    
-    
+    //del = require("del"), // delete files/folders
+    concat = require("gulp-concat"), // concatenate files
+
     uglify = require("gulp-uglify"), // js minification
     //minifyCSS = require("gulp-minify-css"), // css minification
     //rev = require("gulp-rev"), // add a unique id at the end of app.js (ex: app-f4446a9c.js) to prevent browser caching
-    //filter = require("gulp-filter"), // filter files in a stream  
-      
+    //filter = require("gulp-filter"), // filter files in a stream
+
     gutil = require("gulp-util"), // colorful logs and ather stuff
     path = require("path"); // handling file path
-    
+
     //var mocha = require("gulp-mocha");
     var through = require("through2");
     //var ghPages = require("gulp-gh-pages");
@@ -34,11 +34,16 @@ var gulp = require("gulp"), // task runner
     //var file = require("gulp-file"); // create a file from string
     var ts = require("gulp-typescript");
     var tslint = require("gulp-tslint");
-    
+
     var Builder = require("systemjs-builder");
     var sourcemaps = require("gulp-sourcemaps");
+
+    var mocha = require("gulp-mocha");
+    var istanbul = require("gulp-istanbul");
+    var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+
 /*  usage:
-    
+
     "gulp" - an alias for "gulp dev:watch"
     "gulp dev:watch" - build and livereload for dev
     "gulp dev" - build for dev
@@ -62,7 +67,7 @@ gulp.task("dev", function(cb) {
 
         ["tslint-client", "tslint-server"],
         ["tsc-client", "tsc-server"],
-        // "jshint",        
+        // "jshint",
         // "build-dev-html",
     cb);
 });
@@ -71,14 +76,14 @@ gulp.task("watch-server", function() {
     livereload.listen({port:35729}); // listen for changes
 
     gulp.watch("server/**/*.ts").on("change", function(file) { // no "./" in front of glob
-        var fileName = path.basename(file.path); // ex: test.css    
+        var fileName = path.basename(file.path); // ex: test.css
 
-        gutil.log(gutil.colors.cyan("watch-all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);            
+        gutil.log(gutil.colors.cyan("watch-all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);
 
         if(file.type === "changed"){
             doTslint(file.path, "server");
-            doTsc([file.path, "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], path.parse(file.path).dir, "server");                                               
-        };   
+            doTsc([file.path, "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], path.parse(file.path).dir, "server");
+        };
     });
 
 	nodemon({ // nodemon config - http://jpsierens.com/tutorial-livereload-nodemon-gulp/
@@ -88,7 +93,7 @@ gulp.task("watch-server", function() {
     		ext: "js hbs html",
             ignore: ["node_modules/", "client", "gulpfile.js"]
         })
-	   .on("restart", function(){                 
+	   .on("restart", function(){
             gulp.src("./server/app.js", {read:false})
                 .pipe(livereload({port:35729}));
         });
@@ -97,14 +102,14 @@ gulp.task("watch-server", function() {
 gulp.task("watch-client", function() { // using the native "gulp.watch" plugin
 
     gulp.watch("client/app/**/*.ts").on("change", function(file) { // no "./" in front of glob
-        var fileName = path.basename(file.path); // ex: test.css    
+        var fileName = path.basename(file.path); // ex: test.css
 
-        gutil.log(gutil.colors.cyan("watch-all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);            
+        gutil.log(gutil.colors.cyan("watch-all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);
 
         if(file.type === "changed"){
             doTslint(file.path, "client");
-            doTsc([file.path, "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], path.parse(file.path).dir, "client");                                               
-        };   
+            doTsc([file.path, "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], path.parse(file.path).dir, "client");
+        };
     });
 
 });
@@ -114,12 +119,12 @@ gulp.task("watch-client", function() { // using the native "gulp.watch" plugin
 
 // 1. development task definitions ============================================================
 
-gulp.task("tslint-client", function() { 
-    return doTslint("client/app/**/*.ts", "client");             
+gulp.task("tslint-client", function() {
+    return doTslint("client/app/**/*.ts", "client");
 });
 
-gulp.task("tslint-server", function() { 
-    return doTslint("server/**/*.ts", "server");             
+gulp.task("tslint-server", function() {
+    return doTslint("server/**/*.ts", "server");
 });
 
 gulp.task("tsc-client", function () {
@@ -130,6 +135,65 @@ gulp.task("tsc-server", function () {
     return doTsc(["server/**/*.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
 });
 
+gulp.task("tsc-server-test", function () {
+    return doTsc(["server/**/*.test.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
+});
+
+gulp.task("pre-test", function() {
+    return gulp.src(["server/**/*.js", "!server/**/*.test.js"])
+        // optionally load existing source maps
+        // .pipe(sourcemaps.init())
+        // Covering files
+        .pipe(istanbul())
+        // .pipe(sourcemaps.write('.'))
+        // Force `require` to return covered files
+        .pipe(istanbul.hookRequire());
+});
+
+gulp.task("server-test", ["pre-test"], function() {
+    return gulp.src('server/**/*.test.js')
+        .pipe(mocha({ui: 'bdd'}))
+        .pipe(istanbul.writeReports());
+});
+
+gulp.task('remap-istanbul', function () {
+    return gulp.src('coverage/coverage-final.json')
+        .pipe(remapIstanbul(
+            {
+                basePath: './server',
+                reports: {
+                    'json': 'coverage2/coverage.json',
+                    'html': 'coverage2/html',
+                    'text': null,
+                    'text-summary': null
+                }
+            }
+        ));
+        //.pipe(gulp.dest('coverage2'));
+
+        // var loadCoverage = require('remap-istanbul/lib/loadCoverage');
+        // var remap = require('remap-istanbul/lib/remap');
+        // var writeReport = require('remap-istanbul/lib/writeReport');
+
+        // var coverage = loadCoverage('coverage/coverage-final.json');
+        // var collector = remap(coverage, {
+        //     basePath: './server'
+        // });
+        // writeReport(collector, 'json', {}, 'coverage-ts/coverage-final.json').then(function () {
+        //     /* do something else now */
+        // });
+        // writeReport(collector, 'html', {}, 'coverage/lcov-report').then(function () {
+        //     /* do something else now */
+        // });
+        // writeReport(collector, 'text', null).then(function () {
+        //     /* do something else now */
+        // });
+        // writeReport(collector, 'text-summary', null).then(function () {
+        //     /* do something else now */
+        // });
+
+
+});
 
 
 // Copy dependencies
@@ -194,16 +258,16 @@ function doTslint(src, clientOrServer){
     var err = false;
     return gulp.src([src])
         .pipe(tslint())
-        .pipe(tslint.report("prose"))                  
+        .pipe(tslint.report("prose"))
         .on("error", function(error){
             err = true;
             gutil.log(gutil.colors.red("TSLINT-" + clientOrServer + " failed!"));
             this.emit("end"); // end the current task
-        })                                   
+        })
         .on("end", function(){
             if(!err)
                 gutil.log(gutil.colors.green("TSLINT-" + clientOrServer + " passed!"));
-        }); 
+        });
 }
 
 function doTsc(src, dest, clientOrServer){
@@ -212,8 +276,8 @@ function doTsc(src, dest, clientOrServer){
     // https://github.com/ivogabe/gulp-typescript/issues/322
     var tsProject = ts.createProject("tsconfig.json");
     return gulp.src(src)
-        .pipe(sourcemaps.init()) // This means sourcemaps will be generated 
-        .pipe(ts(tsProject))        
+        .pipe(sourcemaps.init()) // This means sourcemaps will be generated
+        .pipe(ts(tsProject))
         .js
         .pipe(sourcemaps.write(".", {includeContent: false})) // Now the sourcemaps are added to the .js file
         .pipe(gulp.dest(dest))
@@ -221,9 +285,9 @@ function doTsc(src, dest, clientOrServer){
             err = true;
             gutil.log(gutil.colors.red("TSC-" + clientOrServer + " failed!"));
             this.emit("end"); // end the current task
-        })                                   
+        })
         .on("end", function(){
             if(!err)
                 gutil.log(gutil.colors.green("TSC-" + clientOrServer + " passed!"));
-        });         
+        });
 }

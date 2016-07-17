@@ -1,10 +1,10 @@
 "use strict";
-var getShortReq = {
+var result = {
     getShortReq: function (req) {
         // keep in mind that some request fields could be updated later, by code: E.g.:
         //      "body" - as in "orderController"
         //      "user" - added by Passport
-        // so, use a clone of them if you want to keep the original 
+        // so, use a clone of them if you want to keep the original
         // available fields: https://github.com/rollbar/node_rollbar#the-request-object
         var newReq = {
             headers: req.headers,
@@ -25,7 +25,9 @@ var getShortReq = {
             };
         }
         return newReq;
-    }
+    },
+    // expose private functions if you have to test it
+    _getIp: getIp
 };
 // https://github.com/expressjs/morgan/blob/master/index.js
 function getIp(req) {
@@ -35,7 +37,7 @@ function getIp(req) {
         || undefined;
     if (ip) {
         var parts = ip.split(":");
-        // IPv6 -> IPv4 ("::ffff:127.0.0.1" -> "127.0.0.1")    
+        // IPv6 -> IPv4 ("::ffff:127.0.0.1" -> "127.0.0.1")
         return parts[parts.length - 1];
     }
     else {
@@ -43,6 +45,6 @@ function getIp(req) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = getShortReq;
+exports.default = result;
 
 //# sourceMappingURL=reqHelper.js.map

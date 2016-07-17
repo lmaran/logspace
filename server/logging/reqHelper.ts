@@ -1,9 +1,9 @@
-const getShortReq = {
+const result = {
     getShortReq: function (req) {
         // keep in mind that some request fields could be updated later, by code: E.g.:
         //      "body" - as in "orderController"
         //      "user" - added by Passport
-        // so, use a clone of them if you want to keep the original 
+        // so, use a clone of them if you want to keep the original
 
         // available fields: https://github.com/rollbar/node_rollbar#the-request-object
         let newReq = {
@@ -27,7 +27,10 @@ const getShortReq = {
         }
 
         return newReq;
-    }
+    },
+
+    // expose private functions if you have to test it
+    _getIp: getIp
 };
 
 // https://github.com/expressjs/morgan/blob/master/index.js
@@ -40,10 +43,10 @@ function getIp(req) {
     if (ip) {
         let parts = ip.split(":");
 
-        // IPv6 -> IPv4 ("::ffff:127.0.0.1" -> "127.0.0.1")    
+        // IPv6 -> IPv4 ("::ffff:127.0.0.1" -> "127.0.0.1")
         return parts[parts.length - 1];
     } else { return ""; }
 }
 
-export default getShortReq;
+export default result;
 

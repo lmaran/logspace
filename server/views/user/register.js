@@ -9,11 +9,11 @@
         // def
         formEl = $("form");
         
-        emailEl = $("[name="email"]");
+        emailEl = $("[name='email']");
         emailFg = $("#emailFg");
         emailErr = $("#emailErr");
         
-        pswEl = $("[name="password"]")  
+        pswEl = $("[name='password']")  
         pswFg = $("#pswFg");
         pswErr = $("#pswErr");        
               
@@ -123,7 +123,7 @@
    
     function isEmail(email) {
         // http://stackoverflow.com/a/46181/2726725
-        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         return re.test(email);
     } 
     
