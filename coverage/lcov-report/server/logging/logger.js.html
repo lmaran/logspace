@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server\logging\logger.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">server/logging/</a> logger.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5.56% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>2/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/32</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5.56% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>2/36</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+<span class="cstat-no" title="statement not covered" >var environment_1 = require("../config/environment");</span>
+<span class="cstat-no" title="statement not covered" >var winston = require("winston");</span>
+<span class="cstat-no" title="statement not covered" >var rollbarTransport_1 = require("./rollbarTransport");</span>
+<span class="cstat-no" title="statement not covered" >var chalk = require("chalk");</span>
+<span class="cstat-no" title="statement not covered" >require("./rollbarTransport"); </span>// init Rollbar transport for Winston
+// require("winston-loggly"); // init Loggly transport for Winston
+<span class="cstat-no" title="statement not covered" >var logger = new winston.Logger();</span>
+<span class="cstat-no" title="statement not covered" >var scrubFields = ["password", "oldPassword", "newPassword", "hashedPassword", "salt"];</span>
+// Winston &amp;&amp; Rollbar: debug &gt; info &gt; warning &gt; error
+// E.g. "info" level catches also "warning" or "error" but not "debug"
+<span class="cstat-no" title="statement not covered" >if (environment_1.default.env === "production" || environment_1.default.env === "staging") {</span>
+    // logger.add(winston.transports.RollbarLogger, {
+<span class="cstat-no" title="statement not covered" >    logger.add(rollbarTransport_1.default, {</span>
+        level: "warn",
+        rollbarAccessToken: environment_1.default.rollbarToken,
+        rollbarConfig: {
+            environment: environment_1.default.env,
+            scrubFields: scrubFields
+        }
+    });
+}
+else {
+<span class="cstat-no" title="statement not covered" >    logger.add(winston.transports.Console, {</span>
+        level: "debug",
+        formatter: formatterFunc
+    });
+}
+<span class="fstat-no" title="function not covered" >function formatterFunc(options) {</span>
+    // Return string will be passed to logger.
+<span class="cstat-no" title="statement not covered" >    var meta = options.meta;</span>
+<span class="cstat-no" title="statement not covered" >    var msg = "";</span>
+<span class="cstat-no" title="statement not covered" >    if (options.level === "info" || options.level === "warn") {</span>
+<span class="cstat-no" title="statement not covered" >        if (meta &amp;&amp; meta.hasOwnProperty("req")) {</span>
+<span class="cstat-no" title="statement not covered" >            msg = msg + meta.req.method + " " + meta.req.url;</span>
+<span class="cstat-no" title="statement not covered" >            if (meta.res) {</span>
+<span class="cstat-no" title="statement not covered" >                msg = msg + " " + getColorStatus(meta.res.statusCode) + " - " + meta.res.responseTime + " ms "; </span>// + meta.res.responseTime2;
+            }
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            msg = msg + (undefined !== options.message ? options.message : "");</span>
+<span class="cstat-no" title="statement not covered" >            if (meta &amp;&amp; Object.keys(meta).length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                msg = msg + "\n" + JSON.stringify(meta, null, 4);</span>
+            }
+        }
+    }
+    else <span class="cstat-no" title="statement not covered" >if (options.level === "error") {</span>
+<span class="cstat-no" title="statement not covered" >        if (meta &amp;&amp; meta.req) {</span>
+<span class="cstat-no" title="statement not covered" >            msg = msg + meta.req.method + " " + meta.req.url;</span>
+        }
+    }
+<span class="cstat-no" title="statement not covered" >    return winston.config.colorize(options.level) + " " + msg;</span>
+}
+;
+<span class="fstat-no" title="function not covered" >function getColorStatus(status) {</span>
+<span class="cstat-no" title="statement not covered" >    var statusColor = "green";</span>
+<span class="cstat-no" title="statement not covered" >    if (status &gt;= 500) {</span>
+<span class="cstat-no" title="statement not covered" >        statusColor = "red";</span>
+    }
+    else <span class="cstat-no" title="statement not covered" >if (status &gt;= 400) {</span>
+<span class="cstat-no" title="statement not covered" >        statusColor = "yellow";</span>
+    }
+    else <span class="cstat-no" title="statement not covered" >if (status &gt;= 300) {</span>
+<span class="cstat-no" title="statement not covered" >        statusColor = "cyan";</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return chalk[statusColor](status);</span>
+}
+<span class="cstat-no" title="statement not covered" >Object.defineProperty(exports, "__esModule", { value: true });</span>
+<span class="cstat-no" title="statement not covered" >exports.default = logger;</span>
+&nbsp;
+//# sourceMappingURL=logger.js.map
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jul 18 2016 10:04:28 GMT+0300 (GTB Daylight Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

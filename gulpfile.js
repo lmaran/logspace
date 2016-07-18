@@ -139,21 +139,48 @@ gulp.task("tsc-server-test", function () {
     return doTsc(["server/**/*.test.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
 });
 
+
+// http://stackoverflow.com/questions/38339067/typescript-code-coverage-with-mocha
 gulp.task("pre-test", function() {
     return gulp.src(["server/**/*.js", "!server/**/*.test.js"])
         // optionally load existing source maps
         // .pipe(sourcemaps.init())
         // Covering files
-        .pipe(istanbul())
+        .pipe(istanbul({
+            // includeUntested: true,
+            // instrumenter: isparta.Instrumenter
+        }))
         // .pipe(sourcemaps.write('.'))
         // Force `require` to return covered files
         .pipe(istanbul.hookRequire());
 });
 
+
+
 gulp.task("server-test", ["pre-test"], function() {
     return gulp.src('server/**/*.test.js')
-        .pipe(mocha({ui: 'bdd'}))
-        .pipe(istanbul.writeReports());
+        //.pipe(mocha({ui: 'bdd'}))
+        .pipe(mocha())
+        // Creating the reports after tests ran
+        .pipe(istanbul.writeReports(
+            // {
+            // dir: './coverage',
+            // reporters: [ 'lcovonly', 'json', 'text', 'text-summary' ],
+            // reportOpts: {
+            //     lcov: {dir: 'lcovonly', file: 'lcov.info'},
+            //     json: {dir: 'json', file: 'converage.json'}
+            // },
+            //     coverageVariable: 'someVariable'
+            // }
+        ))
+        .once('error', () => {
+            process.exit(1);
+        })
+        .once('exit', () => {
+            process.exit();
+        })
+        .on('error', gutil.log)
+        ;
 });
 
 gulp.task('remap-istanbul', function () {
