@@ -143,36 +143,23 @@ gulp.task("tsc-server-test", function () {
 // http://stackoverflow.com/questions/38339067/typescript-code-coverage-with-mocha
 gulp.task("pre-test", function() {
     return gulp.src(["server/**/*.js", "!server/**/*.test.js"])
-        // optionally load existing source maps
-        // .pipe(sourcemaps.init())
-        // Covering files
         .pipe(istanbul({
             includeUntested: true,
-            // instrumenter: isparta.Instrumenter
         }))
-        // .pipe(sourcemaps.write('.'))
-        // Force `require` to return covered files
         .pipe(istanbul.hookRequire());
 });
 
 
 
-gulp.task("server-test", ["pre-test"], function() {
+gulp.task("test-server-js", ["pre-test"], function() {
     return gulp.src('server/**/*.test.js')
-        //.pipe(mocha({ui: 'bdd'}))
         .pipe(mocha())
         // Creating the reports after tests ran
         .pipe(istanbul.writeReports(
             {
-                // dir: './coverage4',
-                // reporters: ['html', 'lcovonly', 'json', 'text', 'text-summary' ],
-                reporters: [ 'lcov', 'json', 'text', 'text-summary' ],
-                reportOpts: {
-                    dir: './coverage/js'
-                    // lcov: {dir: './coverage/js', file: 'lcov.info'},
-                    // json: {dir: './coverage/js', file: 'converage.json'}
-                }
-                // coverageVariable: 'someVariable'
+                dir: './coverage/js',
+                // don't need all kind o reports: [ 'lcov', 'json', 'text', 'text-summary' ],
+                reporters: ["json"] // it produce 'coverage-final.json'
             }
         ))
         .once('error', () => {
@@ -185,43 +172,20 @@ gulp.task("server-test", ["pre-test"], function() {
         ;
 });
 
-gulp.task('remap-istanbul', function () {
+gulp.task('test-server', ["test-server-js"], function () {
+    // 'remap-istanbul' use the output from 'istanbul' to create a ts-related code coverage
     return gulp.src('coverage/js/coverage-final.json')
         .pipe(remapIstanbul(
             {
                 basePath: './server',
                 reports: {
-                    'html': 'coverage/ts/lcov-report',
-                    'json': 'coverage/ts/coverage.json',
-                    'text': null,
-                    'text-summary': null
+                    'html': 'coverage/ts/html', // html version of code coverage
+                    'json': 'coverage/ts/coverage.json', // not so usefull for now
+                    'text': null, // console version (with details / file)
+                    'text-summary': null // console version (final summary)
                 }
             }
         ));
-        //.pipe(gulp.dest('coverage2'));
-
-        // var loadCoverage = require('remap-istanbul/lib/loadCoverage');
-        // var remap = require('remap-istanbul/lib/remap');
-        // var writeReport = require('remap-istanbul/lib/writeReport');
-
-        // var coverage = loadCoverage('coverage/coverage-final.json');
-        // var collector = remap(coverage, {
-        //     basePath: './server'
-        // });
-        // writeReport(collector, 'json', {}, 'coverage-ts/coverage-final.json').then(function () {
-        //     /* do something else now */
-        // });
-        // writeReport(collector, 'html', {}, 'coverage/lcov-report').then(function () {
-        //     /* do something else now */
-        // });
-        // writeReport(collector, 'text', null).then(function () {
-        //     /* do something else now */
-        // });
-        // writeReport(collector, 'text-summary', null).then(function () {
-        //     /* do something else now */
-        // });
-
-
 });
 
 
