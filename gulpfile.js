@@ -147,7 +147,7 @@ gulp.task("pre-test", function() {
         // .pipe(sourcemaps.init())
         // Covering files
         .pipe(istanbul({
-            // includeUntested: true,
+            includeUntested: true,
             // instrumenter: isparta.Instrumenter
         }))
         // .pipe(sourcemaps.write('.'))
@@ -163,15 +163,17 @@ gulp.task("server-test", ["pre-test"], function() {
         .pipe(mocha())
         // Creating the reports after tests ran
         .pipe(istanbul.writeReports(
-            // {
-            // dir: './coverage',
-            // reporters: [ 'lcovonly', 'json', 'text', 'text-summary' ],
-            // reportOpts: {
-            //     lcov: {dir: 'lcovonly', file: 'lcov.info'},
-            //     json: {dir: 'json', file: 'converage.json'}
-            // },
-            //     coverageVariable: 'someVariable'
-            // }
+            {
+                // dir: './coverage4',
+                // reporters: ['html', 'lcovonly', 'json', 'text', 'text-summary' ],
+                reporters: [ 'lcov', 'json', 'text', 'text-summary' ],
+                reportOpts: {
+                    dir: './coverage/js'
+                    // lcov: {dir: './coverage/js', file: 'lcov.info'},
+                    // json: {dir: './coverage/js', file: 'converage.json'}
+                }
+                // coverageVariable: 'someVariable'
+            }
         ))
         .once('error', () => {
             process.exit(1);
@@ -184,13 +186,13 @@ gulp.task("server-test", ["pre-test"], function() {
 });
 
 gulp.task('remap-istanbul', function () {
-    return gulp.src('coverage/coverage-final.json')
+    return gulp.src('coverage/js/coverage-final.json')
         .pipe(remapIstanbul(
             {
                 basePath: './server',
                 reports: {
-                    'json': 'coverage2/coverage.json',
-                    'html': 'coverage2/html',
+                    'html': 'coverage/ts/lcov-report',
+                    'json': 'coverage/ts/coverage.json',
                     'text': null,
                     'text-summary': null
                 }

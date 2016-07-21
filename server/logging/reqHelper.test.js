@@ -6,6 +6,7 @@ describe("reqHelper", function () {
         var req = {};
         req.ip = "::ffff:127.0.0.1";
         console.log(reqHelper_1.default._getIp(req));
+        console.log("test-123");
         chai_1.expect(reqHelper_1.default._getIp(req)).equal("127.0.0.1");
     });
     it("Should return an empty string from a request with no IP", function () {
