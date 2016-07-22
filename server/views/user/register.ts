@@ -1,6 +1,10 @@
 let formEl;
-let emailEl, emailFg, emailErr;
-let pswEl, pswFg, pswErr;
+let emailEl;
+let emailFg;
+let emailErr;
+let pswEl;
+let pswFg;
+let pswErr;
 
 
 // DOM ready

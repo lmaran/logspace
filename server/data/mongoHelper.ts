@@ -15,13 +15,14 @@ const mongoHelper  = {
                 }
             });
         } else { // db already exists...
-            next(null, theDb); // no error              
+            next(null, theDb); // no error
         }
     },
 
     normalizedId: function (id) {
-        if (ObjectID.isValid(id)) { return new ObjectID(id); }
-        else { return id; }
+        if (ObjectID.isValid(id)) {
+            return new ObjectID(id);
+        } else { return id; }
     }
 };
 

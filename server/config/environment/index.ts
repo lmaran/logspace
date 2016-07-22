@@ -16,7 +16,7 @@ interface IConfig {
     externalUrl: string;
 }
 
-const common = <IConfig>{
+const common = <IConfig> {
     env: process.env.NODE_ENV as string,
 
     // Root path of server

@@ -5,7 +5,7 @@ import userService2  from "./userService";
 
 class UserController {
 
-    getAll(req: Request, res: Response) {
+    public getAll(req: Request, res: Response) {
         let odataQuery = req.query;
         odataQuery.hasCountSegment = req.url.indexOf("/$count") !== -1; // check for $count as a url segment
 
