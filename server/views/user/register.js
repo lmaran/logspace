@@ -1,6 +1,10 @@
 var formEl;
-var emailEl, emailFg, emailErr;
-var pswEl, pswFg, pswErr;
+var emailEl;
+var emailFg;
+var emailErr;
+var pswEl;
+var pswFg;
+var pswErr;
 // DOM ready
 $(function () {
     // def

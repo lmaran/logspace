@@ -16,7 +16,7 @@ var mongoHelper = {
             });
         }
         else {
-            next(null, theDb); // no error              
+            next(null, theDb); // no error
         }
     },
     normalizedId: function (id) {
