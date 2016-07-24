@@ -3,6 +3,7 @@
 	"rules": {
 		"no-consecutive-blank-lines": false,
 		"no-var-requires": false,
+		"no-console": [false],
 		"one-line": [
 			true,
 			"check-open-brace",

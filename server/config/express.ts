@@ -57,10 +57,10 @@ const expressConfig = function(app) {
 
         // app.use(morgan("tiny", { // like "dev" but no colors
         //     //skip: function(req, res) { return res.statusCode < 400 },
-        //     stream: logger.stream })); 
+        //     stream: logger.stream }));
 
     } else { // development
-        app.use(favicon(path.join(config.root, "client", "favicon.ico")));
+        // app.use(favicon(path.join(config.root, "client", "favicon.ico")));
 
         // if you are happy with a browser plugin, then you don"t need this middleware
         // live-reload corrupts pdf files: http://stackoverflow.com/a/28091651/2726725
@@ -69,21 +69,21 @@ const expressConfig = function(app) {
             ignore: [/print/]  // all that contains "print": https://github.com/intesso/connect-livereload#options
         }));
 
-        // without last argument express serves index.html even when my routing is to a different file: 
+        // without last argument express serves index.html even when my routing is to a different file:
         // http://stackoverflow.com/a/25167332/2726725
-        // It is also recommended to put static middleware first: http://stackoverflow.com/a/28143812/2726725 
+        // It is also recommended to put static middleware first: http://stackoverflow.com/a/28143812/2726725
         // Have this pb. only when I try to serve another jade page as homepage
         app.use("/", express.static(path.join(config.root, "client"), { index: "_"} ));
         app.use("/node_modules", express.static(path.join(config.root, "node_modules"))); // to serve node_modules
 
-        // app.use(morgan("dev", { stream: logger.stream })); 
+        // app.use(morgan("dev", { stream: logger.stream }));
         // app.use(morgan("dev"));
     }
 
     // log all http requests (like morgan)
     app.use(httpLogHandler());
 
-    // add a second static source for static files: 
+    // add a second static source for static files:
     // http://stackoverflow.com/questions/5973432/setting-up-two-different-static-directories-in-node-js-express-framework
     app.use("/public", express.static(path.join(config.root, "server/public")));
 

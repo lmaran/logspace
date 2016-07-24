@@ -17,7 +17,7 @@ interface IConfig {
 }
 
 const common = <IConfig> {
-    env: process.env.NODE_ENV as string,
+    env: process.env.NODE_ENV || "development",
 
     // Root path of server
     root: path.normalize(__dirname + "/../../.."), // 3 folders back from the current folder
