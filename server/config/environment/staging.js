@@ -1,6 +1,5 @@
 "use strict";
 var settings = {
-    port: process.env.PORT || 1410,
     mongo: {
         uri: process.env.MONGO_URI || "mongodb://localhost/celebrate-taste-dev"
     },

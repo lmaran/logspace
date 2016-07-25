@@ -1,12 +1,12 @@
 import { expect } from "chai";
-import app from "./app";
+import app from "./serverApp";
 
 describe("server", () => {
     let server;
 
     before((done) => {
         server = app.listen(9877, (err, result) => {
-            if (err) { return done(err); }
+            // if (err) { return done(err); }
             done();
         });
     });

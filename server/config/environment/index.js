@@ -3,6 +3,7 @@ var path = require("path");
 var _ = require("lodash");
 var common = {
     env: process.env.NODE_ENV || "development",
+    port: process.env.PORT || 1410,
     // Root path of server
     root: path.normalize(__dirname + "/../../.."),
     // Secret for session, you will want to change this and make it an environment variable

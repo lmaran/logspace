@@ -1,6 +1,5 @@
 "use strict";
 var settings = {
-    port: process.env.PORT,
     mongo: {
         uri: process.env.MONGO_URI
     },
