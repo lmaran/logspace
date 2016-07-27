@@ -1,9 +1,12 @@
 "use strict";
-var serverApp_1 = require("./serverApp");
-var logger_1 = require("./logging/logger");
-var environment_1 = require("./config/environment");
-var server = serverApp_1.default.listen(environment_1.default.port, function () {
-    logger_1.default.warn("Express server listening on %d in %s mode", server.address().port, environment_1.default.env);
+var express = require("express");
+// import { Application } from "express";
+var app = express();
+app.get("/user", function (req, res) {
+    res.status(200);
+    res.json({ name: "lm" });
 });
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = app;
 
 //# sourceMappingURL=app.js.map
