@@ -1,12 +1,11 @@
 "use strict";
-var express = require("express");
-// import { Application } from "express";
-var app = express();
-app.get("/user", function (req, res) {
-    res.status(200);
-    res.json({ name: "lm" });
+var server_1 = require("./server");
+var server;
+exports.server = server;
+// if (!module.parent) {
+server = server_1.app.listen(1410, function () {
+    console.log("Express server listening on port 1410");
 });
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = app;
+// }
 
 //# sourceMappingURL=app.js.map

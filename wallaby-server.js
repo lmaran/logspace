@@ -3,7 +3,9 @@ module.exports = function (w) {
   return {
     files: [
       'server/**/*.ts',
-      '!server/**/*.test.ts'
+      '!server/**/*.test.ts',
+      '!server/app.ts'
+      // { pattern: 'server/app.ts', instrument: false, load: false, ignore: true }
     ],
 
     tests: [

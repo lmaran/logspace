@@ -135,14 +135,14 @@ gulp.task("tsc-server", function () {
     return doTsc(["server/**/*.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
 });
 
-gulp.task("tsc-server-test", function () {
-    return doTsc(["server/**/*.test.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
-});
+// gulp.task("tsc-server-test", function () {
+//     return doTsc(["server/**/*.test.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
+// });
 
 
 // http://stackoverflow.com/questions/38339067/typescript-code-coverage-with-mocha
 gulp.task("pre-test", ["tsc-server"], function() {
-    return gulp.src(["server/**/*.js", "!server/**/*.test.js"])
+    return gulp.src(["server/**/*.js", "!server/**/*.test.js", "!server/**/app.js"])
         .pipe(istanbul({
             includeUntested: true,
         }))
