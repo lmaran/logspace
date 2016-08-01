@@ -16,7 +16,7 @@ interface IConfig {
     externalUrl: string;
 }
 
-const common = <IConfig> {
+let common = <IConfig> {
     env: process.env.NODE_ENV || "development",
     port: process.env.PORT || 1410,
 
@@ -39,9 +39,11 @@ const common = <IConfig> {
     rollbarToken: "c40dd41c292340419923230eed1d0d61",
 };
 
+console.log(common.env);
 
-import * as envs from "./development";
-
+// import * as envs from "./" + process.env.NODE_ENV;
+let envs = require("./" + common.env + ".js");
+console.log(envs);
 const config = _.merge(
     common,
     envs.settings);
