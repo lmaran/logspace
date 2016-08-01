@@ -1,11 +1,11 @@
 import {IConfig} from "./";
 
-const settings = <IConfig> {
+const stagingConfig = <IConfig> {
     mongo: {
-        uri: process.env.MONGO_URI || "mongodb://localhost/celebrate-taste-dev"
+        uri: process.env.MONGO_URI || "bbb"
     },
     gaCode: "UA-72165579-2",
     externalUrl: "https://stg.logspace.net"
 };
 
-export { settings };
+export default stagingConfig;

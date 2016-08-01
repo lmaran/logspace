@@ -1,5 +1,17 @@
+// process.env.NODE_ENV = process.env.NODE_ENV || "development";
+
 import * as path from "path";
 import * as _ from "lodash";
+
+import developmentConfig from "./development";
+import stagingConfig from "./staging";
+import productionConfig from "./production";
+
+let envConfig = {
+    development: developmentConfig,
+    staging: stagingConfig,
+    production: productionConfig
+};
 
 // All configurations will extend these options
 // ============================================
@@ -16,8 +28,12 @@ interface IConfig {
     externalUrl: string;
 }
 
+// process.env.NODE_ENV = false;
+
+// console.log(process.env.NODE_ENV);
 let common = <IConfig> {
     env: process.env.NODE_ENV || "development",
+    // env: process.env.NODE_ENV,
     port: process.env.PORT || 1410,
 
     // Root path of server
@@ -39,14 +55,9 @@ let common = <IConfig> {
     rollbarToken: "c40dd41c292340419923230eed1d0d61",
 };
 
-console.log(common.env);
-
-// import * as envs from "./" + process.env.NODE_ENV;
-let envs = require("./" + common.env + ".js");
-console.log(envs);
 const config = _.merge(
     common,
-    envs.settings);
+    envConfig[common.env]);
 
 export { IConfig };
 export default config;

@@ -1,6 +1,6 @@
 import {IConfig} from "./";
 
-const settings = <IConfig> {
+const productionConfig = <IConfig> {
     mongo: {
         uri: process.env.MONGO_URI || "aaa"
     },
@@ -8,4 +8,4 @@ const settings = <IConfig> {
     externalUrl: "https://logspace.net"
 };
 
-export { settings };
+export default productionConfig;

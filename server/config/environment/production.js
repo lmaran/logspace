@@ -1,11 +1,12 @@
 "use strict";
-var settings = {
+var productionConfig = {
     mongo: {
-        uri: process.env.MONGO_URI
+        uri: process.env.MONGO_URI || "aaa"
     },
     gaCode: "UA-72165579-3",
     externalUrl: "https://logspace.net"
 };
-exports.settings = settings;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = productionConfig;
 
 //# sourceMappingURL=production.js.map

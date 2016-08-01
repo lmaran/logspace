@@ -7,6 +7,7 @@ controller.getAll = function (req, res) {
         // if(err) { return handleError(res, err); }
         res.status(200).json(users);
     });
+    // res.status(200).json([{}]);
 };
 
 //# sourceMappingURL=user.controller.js.map

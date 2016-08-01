@@ -1,9 +1,9 @@
 import {IConfig} from "./";
 
-const settings = <IConfig> {
+const config = <IConfig> {
     mongo: {
         uri: "mongodb://localhost/logspace-dev"
     }
 };
 
-export { settings };
+export default config;

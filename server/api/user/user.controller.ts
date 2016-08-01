@@ -8,6 +8,7 @@ controller.getAll = function(req: Request, res: Response) {
     // if(err) { return handleError(res, err); }
     res.status(200).json(users);
   });
+  // res.status(200).json([{}]);
 };
 
 export { controller as userController };
