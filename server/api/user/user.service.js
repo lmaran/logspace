@@ -1,19 +1,20 @@
 "use strict";
-var mongoHelper_1 = require("../../util/mongoHelper");
-var service = {};
-exports.userService = service;
+var mongoService_1 = require("../../util/mongoService");
 var collection = "users";
-service.getAll = function (next) {
-    mongoHelper_1.default.getDb(function (err, db) {
-        // if (err) { return next(err, null); }
-        db.collection(collection).find().toArray(function (err2, docs) {
-            next(null, docs);
+var service = {
+    getAll: function (next) {
+        mongoService_1.mongoService.getDb(function (err, db) {
+            // if (err) { return next(err, null); }
+            db.collection(collection).find().toArray(function (err2, docs) {
+                next(null, docs);
+            });
         });
-    });
-    // let users = [{
-    //     name: "lm"
-    // }];
-    // next(null, users);
+    },
+    // ---------- CRUD ----------
+    getById: function (id, next) {
+        mongoService_1.mongoService.getById(collection, id, next);
+    },
 };
+exports.userService = service;
 
 //# sourceMappingURL=user.service.js.map

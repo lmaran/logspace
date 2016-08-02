@@ -28,22 +28,10 @@ interface IConfig {
     externalUrl: string;
 }
 
-// process.env.NODE_ENV = false;
-
-// console.log(process.env.NODE_ENV);
 let common = <IConfig> {
     env: process.env.NODE_ENV || "development",
-    // env: process.env.NODE_ENV,
     port: process.env.PORT || 1410,
-
-    // Root path of server
     root: path.normalize(__dirname + "/../../.."), // 3 folders back from the current folder
-
-    // Secret for session, you will want to change this and make it an environment variable
-    secrets: {
-        session: "node-fullstack-secret"
-    },
-
     mongo: {
         options: {
             db: {

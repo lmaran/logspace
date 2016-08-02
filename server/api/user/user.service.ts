@@ -1,23 +1,23 @@
-import mongoHelper from "../../util/mongoHelper";
-let service: any = {};
+import { mongoService } from "../../util/mongoService";
 const collection = "users";
 
-service.getAll = function (next) {
-    mongoHelper.getDb(function (err, db) {
-        // if (err) { return next(err, null); }
+const service = {
 
-        db.collection(collection).find().toArray(function(err2, docs) {
-            next(null, docs);
+    getAll: function (next) {
+        mongoService.getDb(function (err, db) {
+            // if (err) { return next(err, null); }
+
+            db.collection(collection).find().toArray(function(err2, docs) {
+                next(null, docs);
+            });
+
         });
+    },
 
-    });
-
-
-    // let users = [{
-    //     name: "lm"
-    // }];
-
-    // next(null, users);
+    // ---------- CRUD ----------
+    getById: function (id, next) {
+        mongoService.getById(collection, id, next);
+    },
 };
 
 export { service as userService };

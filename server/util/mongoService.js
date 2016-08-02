@@ -1,11 +1,12 @@
 "use strict";
 var environment_1 = require("./../config/environment");
-// import { MongoClient, ObjectID } from "mongodb";
 var mongodb_1 = require("mongodb");
+// import { MongoClient } from "mongodb";
 var theDb = null; // this will be re-used so the db is only created once (on first request).
-var mongoHelper = {
+var service = {
     getDb: function (next) {
         if (!theDb) {
+            // console.log(1);
             mongodb_1.MongoClient.connect(environment_1.default.mongo.uri, environment_1.default.mongo.options, function (err, db) {
                 // if (err) {
                 //     next(err, null);
@@ -19,11 +20,25 @@ var mongoHelper = {
             });
         }
         else {
+            // console.log(2);
             next(null, theDb); // no error
         }
-    }
+    },
+    normalizedId: function (id) {
+        // if (ObjectID.isValid(id)) {
+        return new mongodb_1.ObjectID(id);
+        // }
+        // else { return id; }
+    },
+    // read
+    getById: function (collection, id, next) {
+        this.getDb(function (err, db) {
+            // if (err) { return next(err, null); }
+            id = service.normalizedId(id);
+            db.collection(collection).findOne({ _id: id }, next);
+        });
+    },
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = mongoHelper;
+exports.mongoService = service;
 
-//# sourceMappingURL=mongoHelper.js.map
+//# sourceMappingURL=mongoService.js.map

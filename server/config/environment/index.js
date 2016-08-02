@@ -10,18 +10,10 @@ var envConfig = {
     staging: staging_1.default,
     production: production_1.default
 };
-// process.env.NODE_ENV = false;
-// console.log(process.env.NODE_ENV);
 var common = {
     env: process.env.NODE_ENV || "development",
-    // env: process.env.NODE_ENV,
     port: process.env.PORT || 1410,
-    // Root path of server
     root: path.normalize(__dirname + "/../../.."),
-    // Secret for session, you will want to change this and make it an environment variable
-    secrets: {
-        session: "node-fullstack-secret"
-    },
     mongo: {
         options: {
             db: {}
