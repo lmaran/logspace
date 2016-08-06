@@ -1,6 +1,5 @@
 import * as path from "path";
-import * as chai from "chai";
-let expect = chai.expect;
+import { expect } from "chai";
 
 describe("config file has correct settings for", function () {
 
