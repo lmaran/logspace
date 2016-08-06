@@ -1,4 +1,7 @@
-import { mongoService } from "../../util/mongoService";
+// import { mongoService } from "../../util/mongo.service";
+let mongoService2 = require("../../util/mongo.service");
+let mongoService = mongoService2.mongoService;
+
 const collection = "users";
 
 const service = {

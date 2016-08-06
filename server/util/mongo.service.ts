@@ -1,25 +1,19 @@
 ﻿import config from "./../config/environment";
+// let config = require("./../config/environment").default;
 import { MongoClient, ObjectID } from "mongodb";
-// import { MongoClient } from "mongodb";
 
 let theDb = null; // this will be re-used so the db is only created once (on first request).
 
 const service  = {
     getDb: function (next) {
         if (!theDb) {
-            // console.log(1);
             MongoClient.connect(config.mongo.uri, config.mongo.options, function (err, db) {
-                // if (err) {
-                //     next(err, null);
-                // } else {
-                //     theDb = db;
-                //     next(null, db);
-                // }
-
-                // TODO: replace with above and coverages
-                theDb = db;
-                next(null, db);
-
+                if (err) {
+                    next(err, null);
+                } else {
+                    theDb = db;
+                    next(null, db);
+                }
             });
         } else { // db already exists...
             // console.log(2);
@@ -41,7 +35,9 @@ const service  = {
             id = service.normalizedId(id);
             db.collection(collection).findOne({ _id: id }, next);
         });
-    },
+    }
+
+    // config: config
 
 };
 

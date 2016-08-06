@@ -6,11 +6,13 @@ import * as _ from "lodash";
 import developmentConfig from "./development";
 import stagingConfig from "./staging";
 import productionConfig from "./production";
+import testConfig from "./test";
 
 let envConfig = {
     development: developmentConfig,
     staging: stagingConfig,
-    production: productionConfig
+    production: productionConfig,
+    test: testConfig
 };
 
 // All configurations will extend these options

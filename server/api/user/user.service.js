@@ -1,9 +1,11 @@
 "use strict";
-var mongoService_1 = require("../../util/mongoService");
+// import { mongoService } from "../../util/mongo.service";
+var mongoService2 = require("../../util/mongo.service");
+var mongoService = mongoService2.mongoService;
 var collection = "users";
 var service = {
     getAll: function (next) {
-        mongoService_1.mongoService.getDb(function (err, db) {
+        mongoService.getDb(function (err, db) {
             // if (err) { return next(err, null); }
             db.collection(collection).find().toArray(function (err2, docs) {
                 next(null, docs);
@@ -12,7 +14,7 @@ var service = {
     },
     // ---------- CRUD ----------
     getById: function (id, next) {
-        mongoService_1.mongoService.getById(collection, id, next);
+        mongoService.getById(collection, id, next);
     },
 };
 exports.userService = service;

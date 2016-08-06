@@ -1,22 +1,19 @@
 "use strict";
 var environment_1 = require("./../config/environment");
+// let config = require("./../config/environment").default;
 var mongodb_1 = require("mongodb");
-// import { MongoClient } from "mongodb";
 var theDb = null; // this will be re-used so the db is only created once (on first request).
 var service = {
     getDb: function (next) {
         if (!theDb) {
-            // console.log(1);
             mongodb_1.MongoClient.connect(environment_1.default.mongo.uri, environment_1.default.mongo.options, function (err, db) {
-                // if (err) {
-                //     next(err, null);
-                // } else {
-                //     theDb = db;
-                //     next(null, db);
-                // }
-                // TODO: replace with above and coverages
-                theDb = db;
-                next(null, db);
+                if (err) {
+                    next(err, null);
+                }
+                else {
+                    theDb = db;
+                    next(null, db);
+                }
             });
         }
         else {
@@ -37,8 +34,8 @@ var service = {
             id = service.normalizedId(id);
             db.collection(collection).findOne({ _id: id }, next);
         });
-    },
+    }
 };
 exports.mongoService = service;
 
-//# sourceMappingURL=mongoService.js.map
+//# sourceMappingURL=mongo.service.js.map

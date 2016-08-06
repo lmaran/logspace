@@ -5,10 +5,12 @@ var _ = require("lodash");
 var development_1 = require("./development");
 var staging_1 = require("./staging");
 var production_1 = require("./production");
+var test_1 = require("./test");
 var envConfig = {
     development: development_1.default,
     staging: staging_1.default,
-    production: production_1.default
+    production: production_1.default,
+    test: test_1.default
 };
 var common = {
     env: process.env.NODE_ENV || "development",
