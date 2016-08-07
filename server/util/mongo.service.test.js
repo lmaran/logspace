@@ -1,6 +1,7 @@
 "use strict";
 var chai_1 = require("chai");
 var proxyquire = require("proxyquire");
+var mongodb_1 = require("mongodb");
 describe("Mongo service", function () {
     it("should respond with an error object (for incorrect uri)", function (done) {
         var configStubErr = {
@@ -36,6 +37,13 @@ describe("Mongo service", function () {
                 done();
             });
         });
+    });
+    it("should return a correct normalized value", function () {
+        var mongoService = proxyquire("./mongo.service", { "./../config/environment": {} }).mongoService;
+        // check for valid ObjectID
+        chai_1.expect(mongoService.normalizedId("5780eb7c9b711a3e2c1bc2d5")).deep.equal(new mongodb_1.ObjectID("5780eb7c9b711a3e2c1bc2d5"));
+        // check for invalid ObjectID
+        chai_1.expect(mongoService.normalizedId("aaa")).equal("aaa");
     });
 });
 

@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import * as proxyquire from "proxyquire";
+import { ObjectID } from "mongodb";
 
 describe("Mongo service", function () {
     it("should respond with an error object (for incorrect uri)", function (done) {
@@ -43,7 +44,16 @@ describe("Mongo service", function () {
             });
 
         });
+    });
 
+    it("should return a correct normalized value", function(){
+        let mongoService = proxyquire("./mongo.service", { "./../config/environment": {} }).mongoService;
+
+        // check for valid ObjectID
+        expect(mongoService.normalizedId("5780eb7c9b711a3e2c1bc2d5")).deep.equal(new ObjectID("5780eb7c9b711a3e2c1bc2d5"));
+
+         // check for invalid ObjectID
+        expect(mongoService.normalizedId("aaa")).equal("aaa");
     });
 
 });

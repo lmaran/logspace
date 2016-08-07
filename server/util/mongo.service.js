@@ -17,20 +17,23 @@ var service = {
             });
         }
         else {
-            // console.log(2);
             next(null, theDb); // no error
         }
     },
     normalizedId: function (id) {
-        // if (ObjectID.isValid(id)) {
-        return new mongodb_1.ObjectID(id);
-        // }
-        // else { return id; }
+        if (mongodb_1.ObjectID.isValid(id)) {
+            return new mongodb_1.ObjectID(id);
+        }
+        else {
+            return id;
+        }
     },
     // read
     getById: function (collection, id, next) {
         this.getDb(function (err, db) {
-            // if (err) { return next(err, null); }
+            if (err) {
+                return next(err, null);
+            }
             id = service.normalizedId(id);
             db.collection(collection).findOne({ _id: id }, next);
         });
