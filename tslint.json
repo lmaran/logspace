@@ -16,8 +16,7 @@
 		"object-literal-sort-keys": false,
 		"eofline": false,
 		"triple-equals": false,
-		"max-line-length": [
-			false
-		]
+		"max-line-length": [false],
+		"one-variable-per-declaration": false
 	}
 }

@@ -7,15 +7,16 @@ describe("Mongo service", function () {
         var configStubErr = {
             default: {
                 mongo: {
-                    uri: "mongodb://fakehost"
+                    uri: "mongodb://127.0.0.2"
                 }
             }
         };
-        var mongoService = proxyquire("./mongo.service", { "./../config/environment": configStubErr }).mongoService;
+        var mongoService = proxyquire("./mongo.service", { "./../config/environment/index": configStubErr }).mongoService;
         mongoService.getDb(function (err, db) {
             chai_1.expect(err).to.be.not.null;
+            chai_1.expect(err).to.be.not.null;
             chai_1.expect(err.name).equal("MongoError");
-            chai_1.expect(err.message).equal("getaddrinfo ENOTFOUND fakehost fakehost:27017");
+            chai_1.expect(err.message).equal("connect ECONNREFUSED 127.0.0.2:27017");
             done();
         });
     });
@@ -27,7 +28,7 @@ describe("Mongo service", function () {
                 }
             }
         };
-        var mongoService = proxyquire("./mongo.service", { "./../config/environment": configStubOk }).mongoService;
+        var mongoService = proxyquire("./mongo.service", { "./../config/environment/index": configStubOk }).mongoService;
         mongoService.getDb(function (err, db1) {
             chai_1.expect(err).to.be.null;
             chai_1.expect(db1.databaseName).equal("logspace-dev");

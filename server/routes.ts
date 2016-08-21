@@ -1,8 +1,7 @@
-import { Router } from "express";
-import { userRouter } from "./api/user/user.routes";
+import { userRoutes } from "./api/user/user.routes";
 
-let router = Router();
+let allRoutes = function(app) {
+    userRoutes(app);
+};
 
-router.use("/api/user", userRouter);
-
-export default router;
+export { allRoutes }

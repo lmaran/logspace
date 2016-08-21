@@ -14,6 +14,7 @@ var service = {
     // },
     // ---------- CRUD ----------
     getById: function (id, next) {
+        // console.log(555);
         mongo_service_1.mongoService.getById(collection, id, next);
     },
 };

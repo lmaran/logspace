@@ -40,6 +40,10 @@ describe("config file has correct settings for", function () {
         var config = require("./index").default;
         chai_1.expect(config.env).equal("development");
     });
+    after(function () {
+        process.env.NODE_ENV = "development";
+        process.env.PORT = 1410;
+    });
 });
 
 //# sourceMappingURL=index.test.js.map

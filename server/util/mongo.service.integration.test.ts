@@ -8,13 +8,13 @@ import * as proxyquire from "proxyquire";
 let configStubErr = {
     default: {
         mongo: {
-            uri: "mongodb://localhost2/logspace-dev"
+            uri: "mongodb://127.0.0.2"
         }
     }
 };
-let mongoServiceErr = proxyquire("./mongo.service", { "./../config/environment": configStubErr }).mongoService;
+let mongoServiceErr = proxyquire("./mongo.service", { "./../config/environment/index": configStubErr }).mongoService;
 
-describe("Mongo service", function () {
+describe("Mongo service22", function () {
     it("should getById", function (done) {
 
         mongoService.getById("users", "5780eb7c9b711a3e2c1bc2d5", function(err, data){
