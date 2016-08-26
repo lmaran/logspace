@@ -10,7 +10,7 @@ var user_controller_1 = require("./user.controller");
 var userRoutes = function (app) {
     var route = express_1.Router();
     app.use("/api/user", route);
-    console.log(user_controller_1.userController.getById);
+    route.get("/", user_controller_1.userController.getAll);
     route.get("/:id", user_controller_1.userController.getById);
 };
 exports.userRoutes = userRoutes;
