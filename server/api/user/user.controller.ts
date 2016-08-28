@@ -15,7 +15,7 @@ const controller = {
 
     getById: function (req: Request, res: Response, next) {
         let userId = req.params.id;
-        console.log(userId);
+        // console.log(userId);
 
         userService.getById(userId, function (err, user) {
             // if (err) { return next(err); }

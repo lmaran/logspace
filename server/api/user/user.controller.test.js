@@ -78,6 +78,30 @@ describe("User Controller", function () {
         //     });
         // });
     });
+    describe("getAll", function () {
+        it("should be defined", function () {
+            chai_1.expect(userController.getAll).to.be.a("function");
+        });
+        it("should send json on successful retrieve", function (done) {
+            userController.getAll(req, res);
+            // // use it if userServiceStub returns data async
+            // res.on("end", function () {
+            //     let data = JSON.parse( res._getData() );
+            //     expect(data).deep.equal({id: 1, name: "aaa"});
+            //     done();
+            // });
+            var data = JSON.parse(res._getData());
+            chai_1.expect(data).deep.equal([{ name: "aaa" }]);
+            chai_1.expect(res.json).calledOnce;
+            chai_1.expect(res.statusCode).equal(200);
+            done();
+        });
+        // it("should send json on successful retrieve", function() {
+        //     userController.getById(req, res, function(err, user) {
+        //         console.log(user);
+        //     });
+        // });
+    });
 });
 
 //# sourceMappingURL=user.controller.test.js.map

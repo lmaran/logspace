@@ -12,7 +12,7 @@ var controller = {
     },
     getById: function (req, res, next) {
         var userId = req.params.id;
-        console.log(userId);
+        // console.log(userId);
         user_service_1.userService.getById(userId, function (err, user) {
             // if (err) { return next(err); }
             // if (!user) { return res.status(401).send("Unauthorized"); }
