@@ -1,10 +1,8 @@
 import { mongoService } from "../../util/mongo.service";
-// let mongoService2 = require("../../util/mongo.service");
-// let mongoService = mongoService2.mongoService;
 
 const collection = "users";
 
-const service = {
+const userService = {
 
     getAll: function (next) {
         mongoService.getDb(function (err, db) {
@@ -24,4 +22,4 @@ const service = {
     },
 };
 
-export { service as userService };
+export default userService;

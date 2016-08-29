@@ -50,7 +50,7 @@ describe("User Controller", function(){
         // });
 
         userServiceStub = {
-            userService: {
+            default: {
                 getById: function (id, cb) {
                     cb(null, { name: "aaa_" + id });
 

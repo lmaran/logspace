@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userService } from "./user.service";
+import userService from "./user.service";
 
 const userController = {
 
@@ -13,7 +13,6 @@ const userController = {
 
     getById: function (req: Request, res: Response, next) {
         let userId = req.params.id;
-        // console.log(userId);
 
         userService.getById(userId, function (err, user) {
             // if (err) { return next(err); }

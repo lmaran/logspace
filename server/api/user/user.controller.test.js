@@ -37,7 +37,7 @@ describe("User Controller", function () {
         //     eventEmitter: require("events").EventEmitter
         // });
         userServiceStub = {
-            userService: {
+            default: {
                 getById: function (id, cb) {
                     cb(null, { name: "aaa_" + id });
                     // // if you want to simulate an async mode

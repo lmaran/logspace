@@ -19,7 +19,7 @@ var configStub = {
 //         }
 //     }
 // };
-var userService = proxyquire("./user.service", { "./../config/environment": configStub }).userService;
+var userService = proxyquire("./user.service", { "./../config/environment": configStub }).default;
 // let userServiceErr = proxyquire("./user.service", { "./../config/environment": configStubErr }).userService;
 describe("User Service2", function () {
     it("should getById", function (done) {
