@@ -1,18 +1,10 @@
-// import { Router } from "express";
-// import { userController } from "./user.controller";
 "use strict";
-// let router = Router();
-// // router.get("/", userController.getAll);
-// router.get("/:id", userController.getById);
-// export { router as userRouter} ;
-var express_1 = require("express");
 var user_controller_1 = require("./user.controller");
 var userRoutes = function (app) {
-    var route = express_1.Router();
-    app.use("/api/user", route);
-    route.get("/", user_controller_1.userController.getAll);
-    route.get("/:id", user_controller_1.userController.getById);
+    app.get("/api/user", user_controller_1.default.getAll);
+    app.get("/api/user/:id", user_controller_1.default.getById);
 };
-exports.userRoutes = userRoutes;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = userRoutes;
 
 //# sourceMappingURL=user.routes.js.map

@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { userService } from "./user.service";
-// let userService2 = require("./user.service");
-// let userService = userService2.userService;
 
 const userController = {
 

@@ -1,14 +1,12 @@
 "use strict";
 var user_service_1 = require("./user.service");
-// let userService2 = require("./user.service");
-// let userService = userService2.userService;
-var controller = {
+var userController = {
     getAll: function (req, res, next) {
-        // return userService.getAll(function (err, users) {
-        //     // if(err) { return handleError(res, err); }
-        //     res.status(200).json(users);
-        // });
-        res.json([{ name: "aaa" }]);
+        return user_service_1.userService.getAll(function (err, users) {
+            // if(err) { return handleError(res, err); }
+            res.status(200).json(users);
+        });
+        // res.json([{name: "aaa"}]);
     },
     getById: function (req, res, next) {
         var userId = req.params.id;
@@ -21,6 +19,7 @@ var controller = {
         // res.json({name: "aaa"});
     }
 };
-exports.userController = controller;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = userController;
 
 //# sourceMappingURL=user.controller.js.map

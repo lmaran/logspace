@@ -1,39 +1,22 @@
 "use strict";
-var proxyquire = require("proxyquire");
-var supertest = require("supertest");
-var express = require("express");
-// import * as sinon from "sinon";
-// import { expect } from "chai";
-describe("GET /api/user", function () {
-    var app, userControllerStub, request, route;
+var user_routes_1 = require("./user.routes");
+var chai_1 = require("chai");
+var sinon = require("sinon");
+var user_controller_1 = require("./user.controller");
+describe("User routes", function () {
+    var app = {
+        get: sinon.spy(),
+        post: sinon.spy(),
+        delete: sinon.spy()
+    };
     beforeEach(function () {
-        userControllerStub = {
-            userController: {
-                getById: function (req, res) { return res.send("getById"); },
-                getAll: function (req, res) { return res.send("getAll"); }
-            }
-        };
-        route = proxyquire("./user.routes", {
-            "./user.controller": userControllerStub
-        }).userRoutes;
-        app = express();
-        route(app);
-        request = supertest(app);
+        user_routes_1.default(app);
     });
-    it("/api/user/:id", function (done) {
-        request
-            .get("/api/user/123")
-            .expect(200, "getById", done);
-        // ok, use it if need more details
-        // .expect(200, function (err, res) {
-        //     expect(res.text).to.equal("getById");
-        //     done();
-        // });
+    it("/api/user/:id", function () {
+        chai_1.expect(app.get.calledWith("/api/user/:id", user_controller_1.default.getById)).to.be.true;
     });
-    it("/api/user", function (done) {
-        request
-            .get("/api/user")
-            .expect(200, "getAll", done);
+    it("/api/user", function () {
+        chai_1.expect(app.get.calledWith("/api/user", user_controller_1.default.getAll)).to.be.true;
     });
 });
 

@@ -1,6 +1,5 @@
 import * as express from "express";
-// import router from "./routes";
-import { allRoutes } from "./routes";
+import allRoutes from "./routes";
 
 let app: express.Application = express();
 

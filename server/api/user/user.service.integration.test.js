@@ -29,6 +29,13 @@ describe("User Service2", function () {
             done();
         });
     });
+    it("should getAll", function (done) {
+        userService.getAll(function (err, data) {
+            chai_1.expect(err).to.be.null;
+            chai_1.expect(data[0].name).equal("lm");
+            done();
+        });
+    });
 });
 
 //# sourceMappingURL=user.service.integration.test.js.map

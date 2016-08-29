@@ -1,7 +1,7 @@
-import { userRoutes } from "./api/user/user.routes";
+import userRoutes from "./api/user/user.routes";
 
 let allRoutes = function(app) {
     userRoutes(app);
 };
 
-export { allRoutes }
+export default allRoutes;
