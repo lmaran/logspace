@@ -1,7 +1,10 @@
 import * as proxyquire from "proxyquire";
 import * as supertest from "supertest";
 import * as express from "express";
-// import { expect } from "chai";
+import { expect } from "chai";
+import * as sinon from "sinon";
+
+import userController from "./user.controller";
 
 describe("GET /api/user", function () {
     let app, userControllerStub, request, route;
@@ -11,7 +14,8 @@ describe("GET /api/user", function () {
         userControllerStub = {
             default: {
                 getById: (req, res) => res.send("getById"),
-                getAll: (req, res) => res.send("getAll")
+                // getAll: (req, res) => res.send("getAll")
+                getAll: sinon.spy()
             }
         };
 
@@ -37,10 +41,16 @@ describe("GET /api/user", function () {
             // });
     });
 
+    // it("/api/user", function (done) {
+    //     request
+    //         .get("/api/user")
+    //         .expect(200, "getAll", done);
+    // });
+
     it("/api/user", function (done) {
-        request
-            .get("/api/user")
-            .expect(200, "getAll", done);
+            // expect(userControllerStub.default.getAll.calledWith("/", userController.getAll)).to.equal(true);
+            console.log(userControllerStub.default.getAll);
+            expect(userControllerStub.default.getAll.callCount).to.equal(true);
     });
 
 });
