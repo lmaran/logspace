@@ -32,4 +32,12 @@ describe("User Service2", function () {
         });
     });
 
+    it("should getAll", function (done) {
+        userService.getAll(function(err, data){
+            expect(err).to.be.null;
+            expect(data[0].name).equal("lm");
+            done();
+        });
+    });
+
 });

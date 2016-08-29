@@ -1,7 +1,6 @@
 import * as proxyquire from "proxyquire";
 import * as supertest from "supertest";
 import * as express from "express";
-// import * as sinon from "sinon";
 // import { expect } from "chai";
 
 describe("GET /api/user", function () {
@@ -10,7 +9,7 @@ describe("GET /api/user", function () {
     beforeEach(function () {
 
         userControllerStub = {
-            userController: {
+            default: {
                 getById: (req, res) => res.send("getById"),
                 getAll: (req, res) => res.send("getAll")
             }
@@ -31,7 +30,7 @@ describe("GET /api/user", function () {
             .get("/api/user/123")
             .expect(200, "getById", done);
 
-            // ok, use it if need more details
+            // also ok
             // .expect(200, function (err, res) {
             //     expect(res.text).to.equal("getById");
             //     done();
@@ -43,6 +42,5 @@ describe("GET /api/user", function () {
             .get("/api/user")
             .expect(200, "getAll", done);
     });
-
 
 });

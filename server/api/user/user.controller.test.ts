@@ -58,12 +58,20 @@ describe("User Controller", function(){
                     // setTimeout(function(){
                     //     cb(null, { id: id, name: "aaa" });
                     // }, 1000);
+                },
+                getAll: function (cb) {
+                    cb(null, [{ name: "aaa" }]);
+
+                    // // if you want to simulate an async mode
+                    // setTimeout(function(){
+                    //     cb(null, { id: id, name: "aaa" });
+                    // }, 1000);
                 }
             }
         };
         userController = proxyquire("./user.controller", {
             "./user.service": userServiceStub
-        }).userController;
+        }).default;
     });
 
     it("should exist", function() {
@@ -88,7 +96,6 @@ describe("User Controller", function(){
             let data = JSON.parse( res._getData() );
 
             expect(data).deep.equal({name: "aaa_123"});
-            expect(res.json).calledOnce;
             expect(res.statusCode).equal(200);
 
             done();
@@ -120,7 +127,6 @@ describe("User Controller", function(){
             let data = JSON.parse( res._getData() );
 
             expect(data).deep.equal([{name: "aaa"}]);
-            expect(res.json).calledOnce;
             expect(res.statusCode).equal(200);
 
             done();

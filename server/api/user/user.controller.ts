@@ -3,14 +3,14 @@ import { userService } from "./user.service";
 // let userService2 = require("./user.service");
 // let userService = userService2.userService;
 
-const controller = {
+const userController = {
 
     getAll: function (req: Request, res: Response, next) {
-        // return userService.getAll(function (err, users) {
-        //     // if(err) { return handleError(res, err); }
-        //     res.status(200).json(users);
-        // });
-        res.json([{name: "aaa"}]);
+        return userService.getAll(function (err, users) {
+            // if(err) { return handleError(res, err); }
+            res.status(200).json(users);
+        });
+        // res.json([{name: "aaa"}]);
     },
 
     getById: function (req: Request, res: Response, next) {
@@ -27,4 +27,4 @@ const controller = {
     }
 };
 
-export { controller as userController };
+export default userController;
