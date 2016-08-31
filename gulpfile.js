@@ -142,7 +142,8 @@ gulp.task("tsc-server", function () {
 
 // http://stackoverflow.com/questions/38339067/typescript-code-coverage-with-mocha
 gulp.task("pre-test", ["tsc-server"], function() {
-    return gulp.src(["server/**/*.js", "!server/**/*.test.js", "!server/**/app.js", "!server/**/server.js", "!server/**/routes.js"])
+    // return gulp.src(["server/**/*.js", "!server/**/*.test.js", "!server/**/app.js", "!server/**/server.js", "!server/**/routes.js"])
+    return gulp.src(["server/**/*.js", "!server/**/*.test.js"])
         .pipe(istanbul({
             includeUntested: true,
         }))

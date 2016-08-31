@@ -1,56 +1,60 @@
 "use strict";
 var sinon = require("sinon");
 var chai_1 = require("chai");
-var proxyquire, expressStub, configStub, mongooseStub, app;
+var proxyquire, expressStub, configStub, app, logSpy;
 var server = function () {
     proxyquire("./app", {
         "express": expressStub,
-        "./configure": { default: configStub }
+        "./initialize": { default: configStub }
     });
 };
-// let server = function() {
-//     //let xxx = require("./app");
-//     console.log("xxx");
-// };
 describe("Server", function () {
     beforeEach(function () {
         proxyquire = require("proxyquire");
         app = {
-            // set: sinon.spy(),
-            // get: sinon.stub().returns(3300),
+            set: sinon.spy(),
+            get: sinon.stub().returns(3300),
             listen: sinon.spy()
         };
         expressStub = sinon.stub().returns(app);
         configStub = sinon.stub().returns(app);
-        // configStub = sinon.spy;
-        // // configStub = {
-        // //     // default: sinon.stub().returns(app)
-        // //     default: sinon.spy()
-        // // };
         // delete process.env.PORT;
+    });
+    afterEach(function () {
+        // spy.restore();
     });
     describe("Bootstrapping", function () {
         it("should create the app", function () {
-            // server();
-            chai_1.expect(expressStub).to.be.called;
+            server();
+            // console.log(expressStub.callCount);
+            chai_1.expect(expressStub.called).to.be.true;
         });
         // it("should set the views", function(){
         //     server();
         //     expect(app.set.secondCall.args[0]).to.equal("views");
         // });
-        // it("should configure the app", function(){
-        //     server();
-        //     expect(configStub).to.be.calledWith(app);
-        // });
+        it("should configure the app", function () {
+            server();
+            // console.log(configStub.callCount);
+            chai_1.expect(configStub.calledWith(app)).to.be.true;
+        });
         // it("should connect with mongoose", function(){
         //     server();
         //     expect(mongooseStub.connect).to.be.calledWith(sinon.match.string);
         // });
-        // it("should launch the app", function(){
-        //     server();
-        //     expect(app.get).to.be.calledWith("port");
-        //     expect(app.listen).to.be.calledWith(3300, sinon.match.func);
-        // });
+        it("should launch the app", function () {
+            server();
+            // expect(app.get).to.be.calledWith("port");
+            console.log(app.listen.callCount);
+            chai_1.expect(app.listen.calledWith(1410, sinon.match.func)).to.be.true;
+        });
+        it("should call console.log", function () {
+            logSpy = sinon.spy(console, "log");
+            server();
+            var listedCallback = app.listen.firstCall.args[1];
+            listedCallback();
+            chai_1.expect(logSpy.called).to.be.true;
+        });
     });
     // describe("Port", function(){
     //     it("should be set", function() {

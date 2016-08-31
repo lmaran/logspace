@@ -1,19 +1,13 @@
 "use strict";
-// import config from "./config/environment";
-// import { app } from "./server";
-var configure_1 = require("./configure");
+var environment_1 = require("./config/environment");
+var initialize_1 = require("./initialize");
 var express = require("express");
-var xxx = require("./configure");
-var yyy = require("express");
-console.log(yyy);
 var app = express();
-app = configure_1.default(app);
-// let server = app.listen(config.port, function () {
-//     console.log(`Express server listening on port ${config.port} in ${config.env} mode`);
-// });
-var server = app.listen(1410, function () {
-    console.log("aaa");
+app = initialize_1.default(app);
+var server = app.listen(environment_1.default.port, function () {
+    console.log("Express server listening on port " + environment_1.default.port + " in " + environment_1.default.env + " mode");
 });
-// export { server } 
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = server;
 
 //# sourceMappingURL=app.js.map
