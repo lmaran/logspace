@@ -4,8 +4,8 @@ module.exports = function (w) {
     files: [
       'server/**/*.ts',
       '!server/**/*.test.ts',
-      '!server/app.ts',
-      '!server/server.ts',
+      // '!server/app.ts',
+      // '!server/server.ts',
       '!server/routes.ts'
       // { pattern: 'server/app.ts', instrument: false, load: false, ignore: true }
     ],
