@@ -1,7 +1,7 @@
 "use strict";
 var mongo_service_1 = require("../../util/mongo.service");
 var collection = "users";
-var userService = {
+var service = {
     getAll: function (next) {
         mongo_service_1.mongoService.getDb(function (err, db) {
             // if (err) { return next(err, null); }
@@ -17,6 +17,6 @@ var userService = {
     },
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = userService;
+exports.default = service;
 
 //# sourceMappingURL=user.service.js.map

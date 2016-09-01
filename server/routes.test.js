@@ -10,7 +10,9 @@ var getRoutesModule = function () {
 describe("Routes", function () {
     beforeEach(function () {
         proxyquire = require("proxyquire");
-        app = {};
+        app = {
+            get: sinon.spy()
+        };
         userRoutesStub = sinon.stub();
     });
     describe("Bootstrapping", function () {
@@ -18,6 +20,12 @@ describe("Routes", function () {
             getRoutesModule();
             routes.default(app); // a 'default' function is exported
             chai_1.expect(userRoutesStub.calledWith(app)).to.be.true;
+        });
+        it("should handle /", function () {
+            getRoutesModule();
+            routes.default(app); // a 'default' function is exported
+            // expect(userRoutesStub.calledWith(app)).to.be.true;
+            // expect(app.get).to.be.calledWith("/", home.index);
         });
     });
 });

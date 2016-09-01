@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import userService from "./user.service";
 
-const userController = {
+const controller = {
 
     getAll: function (req: Request, res: Response, next) {
         return userService.getAll(function (err, users) {
@@ -24,4 +24,4 @@ const userController = {
     }
 };
 
-export default userController;
+export default controller;

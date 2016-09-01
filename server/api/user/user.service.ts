@@ -2,7 +2,7 @@ import { mongoService } from "../../util/mongo.service";
 
 const collection = "users";
 
-const userService = {
+const service = {
 
     getAll: function (next) {
         mongoService.getDb(function (err, db) {
@@ -22,4 +22,4 @@ const userService = {
     },
 };
 
-export default userService;
+export default service;

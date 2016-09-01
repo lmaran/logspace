@@ -11,7 +11,10 @@ let proxyquire, routesStub, app, initialize;
 describe("Initialize", function() {
     beforeEach(function(){
         proxyquire = require("proxyquire");
-        app = {};
+        app = {
+            set: sinon.spy(),
+            engine: sinon.spy()
+        };
         routesStub = sinon.stub();
     });
 

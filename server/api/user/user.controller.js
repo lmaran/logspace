@@ -1,6 +1,6 @@
 "use strict";
 var user_service_1 = require("./user.service");
-var userController = {
+var controller = {
     getAll: function (req, res, next) {
         return user_service_1.default.getAll(function (err, users) {
             // if(err) { return handleError(res, err); }
@@ -19,6 +19,6 @@ var userController = {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = userController;
+exports.default = controller;
 
 //# sourceMappingURL=user.controller.js.map
