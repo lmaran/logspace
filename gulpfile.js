@@ -56,7 +56,7 @@ gulp.task("dev:watch", function(cb) {
     runSequence(
         "dev",
         //"watch-server",
-        ["watch-client", "watch-server"],
+        ["watch:client", "watch:server"],
     cb);
 });
 
@@ -65,20 +65,20 @@ gulp.task("dev", function(cb) {
         // "clean-css",
         // ["less", "less-srv"],
 
-        ["tslint-client", "tslint-server"],
-        ["tsc-client", "tsc-server"],
+        ["tslint:client", "tslint:server"],
+        ["tsc:client", "tsc:server"],
         // "jshint",
         // "build-dev-html",
     cb);
 });
 
-gulp.task("watch-server", function() {
+gulp.task("watch:server", function() {
     livereload.listen({port:35729}); // listen for changes
 
     gulp.watch("server/**/*.ts").on("change", function(file) { // no "./" in front of glob
         var fileName = path.basename(file.path); // ex: test.css
 
-        gutil.log(gutil.colors.cyan("watch-all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);
+        gutil.log(gutil.colors.cyan("watch:all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);
 
         if(file.type === "changed"){
             doTslint(file.path, "server");
@@ -99,12 +99,12 @@ gulp.task("watch-server", function() {
         });
 });
 
-gulp.task("watch-client", function() { // using the native "gulp.watch" plugin
+gulp.task("watch:client", function() { // using the native "gulp.watch" plugin
 
     gulp.watch("client/app/**/*.ts").on("change", function(file) { // no "./" in front of glob
         var fileName = path.basename(file.path); // ex: test.css
 
-        gutil.log(gutil.colors.cyan("watch-all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);
+        gutil.log(gutil.colors.cyan("watch:all"), "saw",  gutil.colors.magenta(fileName), "was " + file.type);
 
         if(file.type === "changed"){
             doTslint(file.path, "client");
@@ -119,19 +119,19 @@ gulp.task("watch-client", function() { // using the native "gulp.watch" plugin
 
 // 1. development task definitions ============================================================
 
-gulp.task("tslint-client", function() {
+gulp.task("tslint:client", function() {
     return doTslint("client/app/**/*.ts", "client");
 });
 
-gulp.task("tslint-server", function() {
+gulp.task("tslint:server", function() {
     return doTslint("server/**/*.ts", "server");
 });
 
-gulp.task("tsc-client", function () {
+gulp.task("tsc:client", function () {
     return doTsc(["client/app**/*.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "client", "client");
 });
 
-gulp.task("tsc-server", function () {
+gulp.task("tsc:server", function () {
     return doTsc(["server/**/*.ts", "typings/**/**.d.ts", "custom_typings/**/**.d.ts"], "server", "server");
 });
 
@@ -141,7 +141,7 @@ gulp.task("tsc-server", function () {
 
 
 // http://stackoverflow.com/questions/38339067/typescript-code-coverage-with-mocha
-gulp.task("pre-test", ["tsc-server"], function() {
+gulp.task("pre:test", ["tsc:server"], function() {
     // return gulp.src(["server/**/*.js", "!server/**/*.test.js", "!server/**/app.js", "!server/**/server.js", "!server/**/routes.js"])
     return gulp.src(["server/**/*.js", "!server/**/*.test.js"])
         .pipe(istanbul({
@@ -152,7 +152,7 @@ gulp.task("pre-test", ["tsc-server"], function() {
 
 
 
-gulp.task("test-server-js", ["pre-test"], function() {
+gulp.task("test:server:js", ["pre:test"], function() {
     return gulp.src('server/**/*.test.js')
         .pipe(mocha())
         // Creating the reports after tests ran
@@ -173,7 +173,7 @@ gulp.task("test-server-js", ["pre-test"], function() {
         ;
 });
 
-gulp.task('test-server', ["test-server-js"], function () {
+gulp.task('test:server', ["test:server:js"], function () {
     // 'remap-istanbul' use the output from 'istanbul' to create a ts-related code coverage
     return gulp.src('coverage/js/coverage-final.json')
         .pipe(remapIstanbul(
@@ -277,11 +277,11 @@ function doTsc(src, dest, clientOrServer){
         .pipe(gulp.dest(dest))
         .on("error", function(error){
             err = true;
-            gutil.log(gutil.colors.red("TSC-" + clientOrServer + " failed!"));
+            gutil.log(gutil.colors.red("TSC:" + clientOrServer + " failed!"));
             this.emit("end"); // end the current task
         })
         .on("end", function(){
             if(!err)
-                gutil.log(gutil.colors.green("TSC-" + clientOrServer + " passed!"));
+                gutil.log(gutil.colors.green("TSC:" + clientOrServer + " passed!"));
         });
 }
