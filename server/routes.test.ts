@@ -1,10 +1,11 @@
 import * as sinon from "sinon";
 import { expect } from "chai";
 
-let proxyquire, userRoutesStub, app, routes;
+let proxyquire, userRoutesStub, homeRoutesStub, app, routes;
     let getRoutesModule = function() {
         routes = proxyquire("./routes", {
-            "./api/user/user.routes": { default: userRoutesStub }
+            "./api/user/user.routes": { default: userRoutesStub },
+            "./api/home/home.routes": { default: homeRoutesStub }
         });
     };
 
@@ -15,22 +16,19 @@ describe("Routes", function() {
             get: sinon.spy()
         };
         userRoutesStub = sinon.stub();
+        homeRoutesStub = sinon.stub();
     });
 
-    describe("Bootstrapping", function(){
-        it("should call userRoutes", function(){
-            getRoutesModule();
-            routes.default(app); // a 'default' function is exported
-            expect(userRoutesStub.calledWith(app)).to.be.true;
-        });
+    it("should call userRoutes", function(){
+        getRoutesModule();
+        routes.default(app); // a 'default' function is exported
+        expect(userRoutesStub.calledWith(app)).to.be.true;
+    });
 
-        it("should handle /", function(){
-            getRoutesModule();
-            routes.default(app); // a 'default' function is exported
-            // expect(userRoutesStub.calledWith(app)).to.be.true;
-            // expect(app.get).to.be.calledWith("/", home.index);
-        });
-
+    it("should call homeRoutes", function(){
+        getRoutesModule();
+        routes.default(app); // a 'default' function is exported
+        expect(homeRoutesStub.calledWith(app)).to.be.true;
     });
 
 });

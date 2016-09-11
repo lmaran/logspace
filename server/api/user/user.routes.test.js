@@ -12,10 +12,10 @@ describe("User routes", function () {
     beforeEach(function () {
         user_routes_1.default(app);
     });
-    it("/api/user/:id", function () {
+    it("/api/user/:id - should call the correct method in controller", function () {
         chai_1.expect(app.get.calledWith("/api/user/:id", user_controller_1.default.getById)).to.be.true;
     });
-    it("/api/user", function () {
+    it("/api/user - should call the correct method in controller", function () {
         chai_1.expect(app.get.calledWith("/api/user", user_controller_1.default.getAll)).to.be.true;
     });
 });

@@ -21,7 +21,7 @@ var configStub = {
 // };
 var userService = proxyquire("./user.service", { "./../config/environment": configStub }).default;
 // let userServiceErr = proxyquire("./user.service", { "./../config/environment": configStubErr }).userService;
-describe("User Service2", function () {
+describe("User Service", function () {
     it("should getById", function (done) {
         userService.getById("5780eb7c9b711a3e2c1bc2d5", function (err, data) {
             chai_1.expect(err).to.be.null;

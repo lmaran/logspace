@@ -7,7 +7,7 @@ var getInitializeModule = function () {
         "./routes": { default: routesStub }
     });
 };
-describe("Initialize", function () {
+describe("Express app", function () {
     beforeEach(function () {
         proxyquire = require("proxyquire");
         app = {
@@ -16,12 +16,10 @@ describe("Initialize", function () {
         };
         routesStub = sinon.stub();
     });
-    describe("Bootstrapping", function () {
-        it("should call routes", function () {
-            getInitializeModule();
-            initialize.default(app); // a 'default' function is exported
-            chai_1.expect(routesStub.calledWith(app)).to.be.true;
-        });
+    it("should call routes", function () {
+        getInitializeModule();
+        initialize.default(app); // a 'default' function is exported
+        chai_1.expect(routesStub.calledWith(app)).to.be.true;
     });
 });
 

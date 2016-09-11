@@ -8,7 +8,7 @@ let proxyquire, routesStub, app, initialize;
         });
     };
 
-describe("Initialize", function() {
+describe("Express app", function() {
     beforeEach(function(){
         proxyquire = require("proxyquire");
         app = {
@@ -18,13 +18,10 @@ describe("Initialize", function() {
         routesStub = sinon.stub();
     });
 
-    describe("Bootstrapping", function(){
-        it("should call routes", function(){
-            getInitializeModule();
-            initialize.default(app); // a 'default' function is exported
-            expect(routesStub.calledWith(app)).to.be.true;
-        });
-
+    it("should call routes", function(){
+        getInitializeModule();
+        initialize.default(app); // a 'default' function is exported
+        expect(routesStub.calledWith(app)).to.be.true;
     });
 
 });

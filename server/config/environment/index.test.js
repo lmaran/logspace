@@ -1,7 +1,7 @@
 "use strict";
 var path = require("path");
 var chai_1 = require("chai");
-describe("config file has correct settings for", function () {
+describe("Config file has correct settings for", function () {
     beforeEach(function () {
         delete require.cache[require.resolve("./index")];
     });

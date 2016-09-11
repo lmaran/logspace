@@ -14,7 +14,7 @@ let configStubErr = {
 };
 let mongoServiceErr = proxyquire("./mongo.service", { "./../config/environment/index": configStubErr }).mongoService;
 
-describe("Mongo service22", function () {
+describe("Mongo service - integration", function () {
     it("should getById", function (done) {
 
         mongoService.getById("users", "5780eb7c9b711a3e2c1bc2d5", function(err, data){

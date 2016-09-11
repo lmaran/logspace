@@ -10,7 +10,7 @@ describe("Home routes", function () {
     beforeEach(function () {
         home_routes_1.default(app);
     });
-    it("/", function () {
+    it("/ -  should call the correct method in controller", function () {
         chai_1.expect(app.get.calledWith("/", home_controller_1.default.index)).to.be.true;
     });
 });

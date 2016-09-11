@@ -15,7 +15,7 @@ describe("Home routes", function () {
         homeRoutes(app);
     });
 
-    it("/", function () {
+    it("/ -  should call the correct method in controller", function () {
         expect(app.get.calledWith("/", homeController.index)).to.be.true;
     });
 

@@ -28,43 +28,41 @@ describe("Server", function() {
         // spy.restore();
     });
 
-    describe("Bootstrapping", function(){
-        it("should create the app", function(){
-            server();
-            // console.log(expressStub.callCount);
-            expect(expressStub.called).to.be.true;
-        });
-        // it("should set the views", function(){
-        //     server();
-        //     expect(app.set.secondCall.args[0]).to.equal("views");
-        // });
-        it("should configure the app", function(){
-            server();
-            // console.log(configStub.callCount);
-            expect(configStub.calledWith(app)).to.be.true;
-        });
-        // it("should connect with mongoose", function(){
-        //     server();
-        //     expect(mongooseStub.connect).to.be.calledWith(sinon.match.string);
-        // });
-        it("should launch the app", function(){
-            server();
-            // expect(app.get).to.be.calledWith("port");
-            console.log(app.listen.callCount);
-            // console.log(app.listen.firstCall.args);
-            // expect(app.listen.calledWith("1410", sinon.match.func)).to.be.true; // todo, "1410" is not the expected value
-        });
+    it("should create the app", function(){
+        server();
+        // console.log(expressStub.callCount);
+        expect(expressStub.called).to.be.true;
+    });
+    // it("should set the views", function(){
+    //     server();
+    //     expect(app.set.secondCall.args[0]).to.equal("views");
+    // });
+    it("should configure the app", function(){
+        server();
+        // console.log(configStub.callCount);
+        expect(configStub.calledWith(app)).to.be.true;
+    });
+    // it("should connect with mongoose", function(){
+    //     server();
+    //     expect(mongooseStub.connect).to.be.calledWith(sinon.match.string);
+    // });
+    it("should launch the app", function(){
+        server();
+        // expect(app.get).to.be.calledWith("port");
+        // console.log(app.listen.callCount);
+        // console.log(app.listen.firstCall.args);
+        expect(app.listen.calledWith(sinon.match.defined, sinon.match.func)).to.be.true; // todo, "1410" is not the expected value
+    });
 
-        it("should call console.log", function(){
-            logSpy = sinon.spy(console, "log");
-            server();
+    it("should call console.log", function(){
+        logSpy = sinon.spy(console, "log");
+        server();
 
-            let listedCallback = app.listen.firstCall.args[1];
+        let listedCallback = app.listen.firstCall.args[1];
 
-            listedCallback();
+        listedCallback();
 
-            expect(logSpy.called).to.be.true;
-        });
+        expect(logSpy.called).to.be.true;
     });
 
     // describe("Port", function(){

@@ -1,7 +1,7 @@
 import * as path from "path";
 import { expect } from "chai";
 
-describe("config file has correct settings for", function () {
+describe("Config file has correct settings for", function () {
 
     beforeEach(function(){
         delete require.cache[require.resolve("./index")];

@@ -15,11 +15,11 @@ describe("User routes", function () {
         userRoutes(app);
     });
 
-    it("/api/user/:id", function () {
+    it("/api/user/:id - should call the correct method in controller", function () {
         expect(app.get.calledWith("/api/user/:id", userController.getById)).to.be.true;
     });
 
-    it("/api/user", function () {
+    it("/api/user - should call the correct method in controller", function () {
         expect(app.get.calledWith("/api/user", userController.getAll)).to.be.true;
     });
 
