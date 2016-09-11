@@ -251,8 +251,10 @@ gulp.task("bundle", function() {
 function doTslint(src, clientOrServer){
     var err = false;
     return gulp.src([src])
-        .pipe(tslint())
-        .pipe(tslint.report("prose"))
+        .pipe(tslint({
+            formatter: "prose"
+        }))
+        .pipe(tslint.report())
         .on("error", function(error){
             err = true;
             gutil.log(gutil.colors.red("TSLINT-" + clientOrServer + " failed!"));

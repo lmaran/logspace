@@ -1,4 +1,4 @@
-import {Application, Request, Response} from "express";
+import { Application } from "express";
 import userRoutes from "./api/user/user.routes";
 import homeRoutes from "./api/home/home.routes";
 
