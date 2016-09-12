@@ -1,0 +1,4 @@
+istanbul cover -x "server/**/*.test.js" ./node_modules/mocha/bin/_mocha --report text -- server/**/*.test.js
+
+-x "server/**/*.test.js" -> do not coverage test files themselves
+-- server/**/*.test.js   -> files to be tested
