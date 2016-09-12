@@ -1,11 +1,13 @@
 import * as sinon from "sinon";
 import { expect } from "chai";
 
-let proxyquire, userRoutesStub, homeRoutesStub, app, routes;
+let proxyquire, app, routes;
+let userRoutesStub, homeRoutesStub, adminRoutesStub;
     let getRoutesModule = function() {
         routes = proxyquire("./routes", {
             "./api/user/user.routes": { default: userRoutesStub },
-            "./api/home/home.routes": { default: homeRoutesStub }
+            "./api/home/home.routes": { default: homeRoutesStub },
+            "./api/admin/admin.routes": { default: adminRoutesStub }
         });
     };
 
@@ -17,6 +19,7 @@ describe("Routes", function() {
         };
         userRoutesStub = sinon.stub();
         homeRoutesStub = sinon.stub();
+        adminRoutesStub = sinon.stub();
     });
 
     it("should call userRoutes", function(){
@@ -27,8 +30,14 @@ describe("Routes", function() {
 
     it("should call homeRoutes", function(){
         getRoutesModule();
-        routes.default(app); // a 'default' function is exported
+        routes.default(app);
         expect(homeRoutesStub.calledWith(app)).to.be.true;
+    });
+
+    it("should call adminRoutes", function(){
+        getRoutesModule();
+        routes.default(app);
+        expect(adminRoutesStub.calledWith(app)).to.be.true;
     });
 
 });

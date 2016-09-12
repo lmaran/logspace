@@ -13,7 +13,8 @@ describe("Express app", function() {
         proxyquire = require("proxyquire");
         app = {
             set: sinon.spy(),
-            engine: sinon.spy()
+            engine: sinon.spy(),
+            use: sinon.spy(),
         };
         routesStub = sinon.stub();
     });
